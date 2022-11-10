@@ -5,7 +5,7 @@ const mkdir = require('mkdir-p');
 import Client from 'ssh2-sftp-client';
 import { OP, Operation, Options, SFTPConfig } from './app-types';
 import { HEADER, HEADER0 } from './app-help';
-import * as ut from '../utils';
+import * as ut from '../utils/utils';
 
 /*
 //https://www.npmjs.com/package/ssh2-sftp-client#how-can-i-upload-files-without-having-to-specify-a-password
