@@ -15,6 +15,11 @@ export function printHeader(): void {
     console.log(HEADER);
 }
 
+export function printHeaderAndVersion(): void {
+    console.log(`${HEADER}\n  version 1.2.0\n`);
+    console.log(HEADER);
+}
+
 export const optionDefinitions = [
     {
         name: 'host',

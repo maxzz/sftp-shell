@@ -1,9 +1,9 @@
-import { HEADER } from './app/app-help';
-import { parse } from './optionsInit';
+import { printHeaderAndVersion } from './app/app-help';
+import { parse } from './app/app-arguments';
 import { processSftp } from './app/app';
 
 function main() {
-    console.log(`${HEADER}\n  version 1.2.0\n`);
+    printHeaderAndVersion();    
     const options = parse();
     processSftp(options);
  }

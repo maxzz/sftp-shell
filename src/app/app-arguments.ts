@@ -1,8 +1,8 @@
 import * as fs from 'fs';
-import { terminate } from './app/app-errors';
-import { help, optionDefinitions, printHeader } from './app/app-help';
-import { OP, Operation, Options } from './app/app-types';
-import * as ut from './utils';
+import { terminate } from './app-errors';
+import { help, optionDefinitions, printHeader } from './app-help';
+import { OP, Operation, Options } from './app-types';
+import * as ut from '../utils';
 
 //const commandLineUsage = require('command-line-usage');
 const commandLineArgs = require('command-line-args');
