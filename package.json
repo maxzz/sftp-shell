@@ -12,13 +12,13 @@
     },
     "dependencies": {
         "chalk": "^4.0.0",
-        "command-line-args": "^5.1.1",
-        "command-line-usage": "^6.1.0",
+        "command-line-args": "5.2.1",
+        "command-line-usage": "6.1.3",
         "mkdir-p": "^0.0.7",
         "ssh2-sftp-client": "^9.0.4"
     },
     "devDependencies": {
-        "@types/node": "^13.7.0",
+        "@types/node": "18.11.9",
         "@types/ssh2-sftp-client": "^9.0.0"
     }
 }
