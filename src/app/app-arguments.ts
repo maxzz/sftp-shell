@@ -90,7 +90,7 @@ function validate(options: Options) {
 
 }
 
-export function parse(): Options {
+export function getVerifiedArguments(): Options {
     let options = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true });
     validate(options);
     return options;
