@@ -1,16 +1,16 @@
-declare const enum OP {
+export const enum OP {
     upload = 'u',
     download = 'd',
     list = 'l',
 }
 
-type Operation = {
+export type Operation = {
     local: string,
     operation: OP,
     remote: string;
 }
 
-type Options = {
+export type Options = {
     host: string;
     port?: string;
     username: string;
@@ -27,7 +27,7 @@ type Options = {
     aliasPairs?: { [name: string]: string }; // generated from alias
 }
 
-type SFTPConfig = {
+export type SFTPConfig = {
     host: string;
     username: string;
     password?: string;

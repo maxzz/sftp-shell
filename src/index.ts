@@ -3,8 +3,10 @@ import  * as fs from 'fs';
 import * as chalk from 'chalk';
 const mkdir = require('mkdir-p');
 import * as Client from 'ssh2-sftp-client';
-import * as optionsInit from './optionsInit';
 import * as ut from './utils';
+import { OP, Operation, Options, SFTPConfig } from './app/app-types';
+import { HEADER, HEADER0 } from './app/app-help';
+import { parse } from './optionsInit';
 
 /*
 //https://www.npmjs.com/package/ssh2-sftp-client#how-can-i-upload-files-without-having-to-specify-a-password
@@ -92,21 +94,21 @@ async function processSftp(options: Options) {
         }//for async
 
         console.log(chalk.cyan(`  Completed ${options.filePairs.length} operation${plural(options.filePairs.length)}.`));
-        console.log(`${optionsInit.HEADER}`);
+        console.log(`${HEADER}`);
 
         await sftp.end();
     } catch(err) {
         console.log('\nSFTP error: ', chalk.redBright(err.message));
         console.log('\nSFTP stack: ', err.stack);
-        console.log(chalk.red(`${optionsInit.HEADER0}`));
+        console.log(chalk.red(`${HEADER0}`));
         await sftp.end();
         process.exit(-2);
     }
 }
 
 function main() {
-    console.log(`${optionsInit.HEADER}\n  version 1.2.0\n`);
-    const options = optionsInit.parse();
+    console.log(`${HEADER}\n  version 1.2.0\n`);
+    const options = parse();
     processSftp(options);
  }
 
