@@ -15,10 +15,9 @@
         "command-line-args": "^5.1.1",
         "command-line-usage": "^6.1.0",
         "mkdir-p": "^0.0.7",
-        "ssh2-sftp-client": "^5.0.2"
+        "ssh2-sftp-client": "^9.0.4"
     },
     "devDependencies": {
-        "@types/node": "^13.7.0",
-        "@types/ssh2-sftp-client": "^4.1.2"
+        "@types/node": "^13.7.0"
     }
 }
