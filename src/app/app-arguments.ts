@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import fs from 'fs';
 import { terminate } from './app-errors';
 import { help, optionDefinitions, printHeader } from './app-help';
 import { OP, Operation, Options } from './app-types';

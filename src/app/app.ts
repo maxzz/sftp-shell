@@ -1,8 +1,8 @@
-import * as path from 'path';
-import  * as fs from 'fs';
-import * as chalk from 'chalk';
+import path from 'path';
+import fs from 'fs';
+import chalk from 'chalk';
 const mkdir = require('mkdir-p');
-import * as Client from 'ssh2-sftp-client';
+import Client from 'ssh2-sftp-client';
 import { OP, Operation, Options, SFTPConfig } from './app-types';
 import { HEADER, HEADER0 } from './app-help';
 import * as ut from '../utils';
@@ -42,9 +42,9 @@ export async function processSftp(options: Options) {
         let config: SFTPConfig = {
             host: options.host,
             username: options.username,
-            ...(options.password && {password: options.password}),
-            ...(options.keyfile && {privateKey: options.keyfile}),
-            ...(options.port && {port: +options.port}),
+            ...(options.password && { password: options.password }),
+            ...(options.keyfile && { privateKey: options.keyfile }),
+            ...(options.port && { port: +options.port }),
         };
 
         sftp.on('close', () => {
@@ -77,18 +77,18 @@ export async function processSftp(options: Options) {
                 case OP.upload: {
                     await sftp.fastPut(item.local, item.remote);
                 }
-                break;
+                    break;
                 case OP.download: {
                     mkdir.sync(path.dirname(item.local));
                     await sftp.fastGet(item.remote, item.local);
                 }
-                break;
+                    break;
                 case OP.list: {
                     const list = await sftp.list(item.remote);
                     mkdir.sync(path.dirname(item.local));
                     fs.writeFileSync(item.local, JSON.stringify(list, null, 4));
                 }
-                break;
+                    break;
             }
         }//for async
 
@@ -96,7 +96,7 @@ export async function processSftp(options: Options) {
         console.log(`${HEADER}`);
 
         await sftp.end();
-    } catch(err) {
+    } catch (err) {
         console.log('\nSFTP error: ', chalk.redBright(err.message));
         console.log('\nSFTP stack: ', err.stack);
         console.log(chalk.red(`${HEADER0}`));

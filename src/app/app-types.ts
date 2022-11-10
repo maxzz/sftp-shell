@@ -8,7 +8,7 @@ export type Operation = {
     local: string,
     operation: OP,
     remote: string;
-}
+};
 
 export type Options = {
     host: string;
@@ -18,14 +18,14 @@ export type Options = {
     keyfile?: string;
     key?: string;
     help?: string;
-    
+
     _unknown: string[];
     ftp: string[];
     alias?: string[];
 
     filePairs: Operation[]; // generated from ftp
-    aliasPairs?: { [name: string]: string }; // generated from alias
-}
+    aliasPairs?: { [name: string]: string; }; // generated from alias
+};
 
 export type SFTPConfig = {
     host: string;
@@ -33,4 +33,4 @@ export type SFTPConfig = {
     password?: string;
     privateKey?: string;
     port?: number;
-}
+};
