@@ -2,10 +2,29 @@
 # yarn lockfile v1
 
 
+"@types/node@*":
+  version "18.11.9"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.9.tgz#02d013de7058cea16d36168ef2fc653464cfbad4"
+  integrity sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==
+
 "@types/node@^13.7.0":
   version "13.7.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.7.0.tgz#b417deda18cf8400f278733499ad5547ed1abec4"
   integrity sha512-GnZbirvmqZUzMgkFn70c74OQpTTUcCzlhQliTzYjQMqg+hVKcDnxdL19Ne3UdYzdMA/+W3eb646FWn/ZaT1NfQ==
+
+"@types/ssh2-sftp-client@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@types/ssh2-sftp-client/-/ssh2-sftp-client-9.0.0.tgz#2031e01ae7b4d68ab59c7c1ea7a781c551e30698"
+  integrity sha512-TLrSS/GoU9UwGx9WqTPY/1zQL0TITLw+lmjcT+xGHGjozT+dS/ptwhh/FF1+rY0XJ2P715WDkL/e8yEOnoCR/g==
+  dependencies:
+    "@types/ssh2" "*"
+
+"@types/ssh2@*":
+  version "1.11.6"
+  resolved "https://registry.yarnpkg.com/@types/ssh2/-/ssh2-1.11.6.tgz#c114d15a3cfd2ba2f7ef219a2020c44f0fb8a01b"
+  integrity sha512-8Mf6bhzYYBLEB/G6COux7DS/F5bCWwojv/qFo2yH/e4cLzAavJnxvFXrYW59iKfXdhG6OmzJcXDasgOb/s0rxw==
+  dependencies:
+    "@types/node" "*"
 
 ansi-styles@^3.2.1:
   version "3.2.1"
