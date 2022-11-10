@@ -1,9 +1,6 @@
-import chalk = require("chalk");
-import { help, printHeader } from "./app-help";
+import { printMessageBeforeExit } from "./app-help";
 
 export function terminate(msg) {
-    console.log(`${chalk.redBright('\nTerminated:')}\n    ${msg}`);
-    help();
-    printHeader();
+    printMessageBeforeExit(msg);
     process.exit(-1);
 }

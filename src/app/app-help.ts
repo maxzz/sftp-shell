@@ -3,8 +3,10 @@ import * as chalk from 'chalk';//const chalk = require('chalk'); //import chalk 
 const commandLineUsage = require('command-line-usage');
 //const commandLineArgs = require('command-line-args');
 
+export const { name: progrmaName } = require('package.json');
+
 export const HEADER0 =
-`  _   _   _   _  
+    `  _   _   _   _  
  / \\ / \\ / \\ / \\ 
 ( S . F . T . P )
  \\_/ \\_/ \\_/ \\_/`;
@@ -16,8 +18,14 @@ export function printHeader(): void {
 }
 
 export function printHeaderAndVersion(): void {
-    console.log(`${HEADER}\n  version 1.2.0\n`);
+    console.log(`${HEADER}\n  version ${progrmaName}\n`);
     console.log(HEADER);
+}
+
+export function printMessageBeforeExit(msg: string): void {
+    console.log(`${chalk.redBright('\nTerminated:')}\n    ${msg}`);
+    help();
+    printHeader();
 }
 
 export const optionDefinitions = [
@@ -58,8 +66,7 @@ export const optionDefinitions = [
         alias: 'f',
         type: String,
         multiple: true,
-        description:
-        `Every line must have: <local> = <oparation> = <remote>
+        description: `Every line must have: <local> = <oparation> = <remote>
             where opration is one of:
                 "u" - upload to ftp,
                 "d" - download from ftp,
