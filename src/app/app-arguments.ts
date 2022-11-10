@@ -87,7 +87,6 @@ function validate(options: Options) {
             return acc;
         }, {});
     }
-
 }
 
 export function getVerifiedArguments(): Options {
