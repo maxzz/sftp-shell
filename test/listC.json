@@ -1,0 +1,324 @@
+[
+    {
+        "type": "d",
+        "name": "var",
+        "size": 4096,
+        "modifyTime": 1566350928000,
+        "accessTime": 1580250384000,
+        "rights": {
+            "user": "rwx",
+            "group": "rx",
+            "other": "rx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "l",
+        "name": "bin",
+        "size": 7,
+        "modifyTime": 1408195884000,
+        "accessTime": 1580778801000,
+        "rights": {
+            "user": "rwx",
+            "group": "rwx",
+            "other": "rwx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "home",
+        "size": 4096,
+        "modifyTime": 1580317677000,
+        "accessTime": 1580250405000,
+        "rights": {
+            "user": "rwx",
+            "group": "rx",
+            "other": "rx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "proc",
+        "size": 0,
+        "modifyTime": 1571738840000,
+        "accessTime": 1571738840000,
+        "rights": {
+            "user": "rx",
+            "group": "rx",
+            "other": "rx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "tmp",
+        "size": 12288,
+        "modifyTime": 1580819405000,
+        "accessTime": 1580819306000,
+        "rights": {
+            "user": "rwx",
+            "group": "rwx",
+            "other": "rwt"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "run",
+        "size": 1060,
+        "modifyTime": 1580819240000,
+        "accessTime": 1579199965000,
+        "rights": {
+            "user": "rwx",
+            "group": "rx",
+            "other": "rx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "dev",
+        "size": 3200,
+        "modifyTime": 1580819240000,
+        "accessTime": 1579199966000,
+        "rights": {
+            "user": "rwx",
+            "group": "rx",
+            "other": "rx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "mnt",
+        "size": 4096,
+        "modifyTime": 1408195884000,
+        "accessTime": 1579199457000,
+        "rights": {
+            "user": "rwx",
+            "group": "rx",
+            "other": "rx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": ".gem",
+        "size": 4096,
+        "modifyTime": 1566350129000,
+        "accessTime": 1579199457000,
+        "rights": {
+            "user": "rwx",
+            "group": "rx",
+            "other": "rx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "lost+found",
+        "size": 16384,
+        "modifyTime": 1432252688000,
+        "accessTime": 1498259769000,
+        "rights": {
+            "user": "rwx",
+            "group": "",
+            "other": ""
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "media",
+        "size": 4096,
+        "modifyTime": 1408195884000,
+        "accessTime": 1579199457000,
+        "rights": {
+            "user": "rwx",
+            "group": "rx",
+            "other": "rx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "opt",
+        "size": 4096,
+        "modifyTime": 1568743784000,
+        "accessTime": 1580250378000,
+        "rights": {
+            "user": "rwx",
+            "group": "rx",
+            "other": "rx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "root",
+        "size": 4096,
+        "modifyTime": 1575908165000,
+        "accessTime": 1580752801000,
+        "rights": {
+            "user": "rx",
+            "group": "rx",
+            "other": ""
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "-",
+        "name": ".autorelabel",
+        "size": 0,
+        "modifyTime": 1528927658000,
+        "accessTime": 1528927658000,
+        "rights": {
+            "user": "rw",
+            "group": "r",
+            "other": "r"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "usr",
+        "size": 4096,
+        "modifyTime": 1494453042000,
+        "accessTime": 1579199459000,
+        "rights": {
+            "user": "rwx",
+            "group": "rx",
+            "other": "rx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "data",
+        "size": 4096,
+        "modifyTime": 1580819373000,
+        "accessTime": 1566350035000,
+        "rights": {
+            "user": "rwx",
+            "group": "rx",
+            "other": "rx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "l",
+        "name": "sbin",
+        "size": 8,
+        "modifyTime": 1408195884000,
+        "accessTime": 1580778942000,
+        "rights": {
+            "user": "rwx",
+            "group": "rwx",
+            "other": "rwx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "l",
+        "name": "lib64",
+        "size": 9,
+        "modifyTime": 1408195884000,
+        "accessTime": 1580778751000,
+        "rights": {
+            "user": "rwx",
+            "group": "rwx",
+            "other": "rwx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "srv",
+        "size": 4096,
+        "modifyTime": 1566351191000,
+        "accessTime": 1579199460000,
+        "rights": {
+            "user": "rwx",
+            "group": "rx",
+            "other": "rx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "etc",
+        "size": 12288,
+        "modifyTime": 1580819240000,
+        "accessTime": 1580789206000,
+        "rights": {
+            "user": "rwx",
+            "group": "rx",
+            "other": "rx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "sys",
+        "size": 0,
+        "modifyTime": 1571738855000,
+        "accessTime": 1571738855000,
+        "rights": {
+            "user": "rx",
+            "group": "rx",
+            "other": "rx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "l",
+        "name": "lib",
+        "size": 7,
+        "modifyTime": 1408195884000,
+        "accessTime": 1580780143000,
+        "rights": {
+            "user": "rwx",
+            "group": "rwx",
+            "other": "rwx"
+        },
+        "owner": 0,
+        "group": 0
+    },
+    {
+        "type": "d",
+        "name": "boot",
+        "size": 4096,
+        "modifyTime": 1566350019000,
+        "accessTime": 1579199467000,
+        "rights": {
+            "user": "rx",
+            "group": "rx",
+            "other": "rx"
+        },
+        "owner": 0,
+        "group": 0
+    }
+]

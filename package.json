@@ -1,0 +1,25 @@
+{
+    "name": "sftp-shell",
+    "description": "Transfer files to/from FTP server over SFTP protocol",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "build": "browserify --node build/index.js -o dist/sftp-shell.js",
+        "test": "node dist/sftp-shell.js",
+        "how": "browserify --node --full-paths build/index.js -o dist/how/sftp-shell.js && discify dist/how/sftp-shell.js > dist/how/index.html && start \"\" \"file://%cd:\\=/%/dist/how/index.html\"",
+        "help": ">node build/index.js --help"
+    },
+    "dependencies": {
+        "chalk": "^3.0.0",
+        "command-line-args": "^5.1.1",
+        "command-line-usage": "^6.1.0",
+        "mkdir-p": "^0.0.7",
+        "ssh2-sftp-client": "^5.0.2"
+    },
+    "devDependencies": {
+        "@types/chalk": "^2.2.0",
+        "@types/node": "^13.7.0",
+        "@types/ssh2-sftp-client": "^4.1.2"
+    }
+}
