@@ -4,7 +4,7 @@ import chalk from 'chalk';
 const mkdir = require('mkdir-p');
 import Client from 'ssh2-sftp-client';
 import { OP, Operation, Options, SFTPConfig } from './app-types';
-import { printErrorOnExit } from './app-help';
+import { printOnExit, printOnExitError } from './app-help';
 import * as ut from '../utils/utils';
 
 /*
@@ -92,12 +92,10 @@ export async function processSftp(options: Options) {
             }
         }//for async
 
-        console.log(chalk.cyan(`  Completed ${options.filePairs.length} operation${plural(options.filePairs.length)}.`));
-        console.log(`${HEADER}`);
-
+        printOnExit(chalk.cyan(`  Completed ${options.filePairs.length} operation${plural(options.filePairs.length)}.`))
         await sftp.end();
     } catch (error) {
-        printErrorOnExit(error);
+        printOnExitError(error);
         await sftp.end();
         process.exit(-2);
     }
