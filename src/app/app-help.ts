@@ -28,10 +28,15 @@ export function printMessageBeforeExit(msg: string): void {
     printHeader();
 }
 
-export function printErrorOnExit(error: Error): void {
+export function printOnExitError(error: Error): void {
     console.log('\nSFTP error: ', chalk.redBright(error.message));
     console.log('\nSFTP stack: ', error.stack);
     console.log(chalk.red(`${HEADER0}`));
+}
+
+export function printOnExit(msg: string): void {
+    console.log(msg);
+    console.log(`${HEADER}`);
 }
 
 export const optionDefinitions = [
