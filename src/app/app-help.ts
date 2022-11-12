@@ -11,7 +11,7 @@ export const HEADER0 =
 ( S . F . T . P )
  \\_/ \\_/ \\_/ \\_/`;
 
-export const HEADER = chalk.green(HEADER0);
+const HEADER = chalk.green(HEADER0);
 
 export function printHeader(): void {
     console.log(HEADER);
@@ -26,6 +26,12 @@ export function printMessageBeforeExit(msg: string): void {
     console.log(`${chalk.redBright('\nTerminated:')}\n    ${msg}`);
     help();
     printHeader();
+}
+
+export function printErrorOnExit(error: Error): void {
+    console.log('\nSFTP error: ', chalk.redBright(error.message));
+    console.log('\nSFTP stack: ', error.stack);
+    console.log(chalk.red(`${HEADER0}`));
 }
 
 export const optionDefinitions = [

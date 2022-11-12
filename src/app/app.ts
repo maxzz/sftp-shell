@@ -4,7 +4,7 @@ import chalk from 'chalk';
 const mkdir = require('mkdir-p');
 import Client from 'ssh2-sftp-client';
 import { OP, Operation, Options, SFTPConfig } from './app-types';
-import { HEADER, HEADER0 } from './app-help';
+import { printErrorOnExit } from './app-help';
 import * as ut from '../utils/utils';
 
 /*
@@ -96,10 +96,8 @@ export async function processSftp(options: Options) {
         console.log(`${HEADER}`);
 
         await sftp.end();
-    } catch (err) {
-        console.log('\nSFTP error: ', chalk.redBright(err.message));
-        console.log('\nSFTP stack: ', err.stack);
-        console.log(chalk.red(`${HEADER0}`));
+    } catch (error) {
+        printErrorOnExit(error);
         await sftp.end();
         process.exit(-2);
     }
