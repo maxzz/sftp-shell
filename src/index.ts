@@ -1,5 +1,5 @@
-import { printHeaderAndVersion } from './app/app-help';
 import { getVerifiedArguments } from './app/app-arguments';
+import { printHeaderAndVersion } from './app/app-messages';
 import { processSftp } from './app/app';
 
 function main() {

@@ -4,7 +4,7 @@ import chalk from 'chalk';
 const mkdir = require('mkdir-p');
 import Client from 'ssh2-sftp-client';
 import { OP, Operation, Options, SFTPConfig } from './app-types';
-import { printOnExit, printOnExitError } from './app-help';
+import { printOnExit, printOnExitError } from './app-messages';
 import * as ut from '../utils/utils';
 
 /*

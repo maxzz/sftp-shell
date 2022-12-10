@@ -2,8 +2,9 @@ import fs from 'fs';
 import { terminate } from './app-errors';
 import { OP, Operation, Options } from './app-types';
 import { optionDefinitions } from './app-options';
-import { help, printHeader } from './app-help';
+import { help } from './app-help';
 import commandLineArgs from 'command-line-args';
+import { printHeader } from './app-messages';
 import * as ut from '../utils/utils';
 
 function validate(options: Options) {
@@ -93,13 +94,3 @@ export function getVerifiedArguments(): Options {
     validate(options);
     return options;
 }
-
-/*
-interface IFilePairs {
-    local: string,
-    operation: 'u' | 'd' | 'l',
-    remote: string
-}
-
-options.filePairs: IFilePairs;
-*/

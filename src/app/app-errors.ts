@@ -1,4 +1,4 @@
-import { printMessageBeforeExit } from "./app-help";
+import { printMessageBeforeExit } from "./app-messages";
 
 export function terminate(msg) {
     printMessageBeforeExit(msg);
