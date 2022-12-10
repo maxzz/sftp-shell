@@ -16,11 +16,11 @@
                 "-u", "Max-AltusAddons",
                 "-p", "Zakharzhevskiy!",
 
-                // "-f", "E:/Y/W/2-web/0-dp/sftp-shell/test/listA.json = l = /AltusAddons/g01/current/",
-                // "-f", "E:/Y/W/2-web/0-dp/sftp-shell/test/listB.json = l = /AltusAddons/g01/current/",
-                // "-f", "E:/Y/W/2-web/0-dp/sftp-shell/test/listC.json = l = /AltusAddons/g01/current/",
-                "-f", "E:/Y/W/2-web/0-dp/sftp-shell/test/dppm-3.0.235_on_2018.07.11-r-chrome.zip = d = /AltusAddons/g01/current/dppm-3.0.235_on_2018.07.11-r-chrome.zip",
-                "-f", "E:/Y/W/2-web/0-dp/sftp-shell/test/dppm-3.0.235_on_2018.07.11-r-chrome.zip = u = /AltusAddons/g01/current/dppm-3.0.235_on_2018.07.11-r-chrome_2.zip",
+                // "-f", "C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/test/listA.json = l = /AltusAddons/g01/current/",
+                // "-f", "C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/test/listB.json = l = /AltusAddons/g01/current/",
+                // "-f", "C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/test/listC.json = l = /AltusAddons/g01/current/",
+                "-f", "C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/test/dppm-3.0.235_on_2018.07.11-r-chrome.zip = d = /AltusAddons/g01/current/dppm-3.0.235_on_2018.07.11-r-chrome.zip",
+                "-f", "C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/test/dppm-3.0.235_on_2018.07.11-r-chrome.zip = u = /AltusAddons/g01/current/dppm-3.0.235_on_2018.07.11-r-chrome_2.zip",
                 // "-f", "./test/dppm-3.0.235_on_2018.07.11-r-chrome.zip = z = /AltusAddons/g01/current/dppm-3.0.235_on_2018.07.11-r-chrome.zip",
                 // "-f", "./test/dppm-3.0.235_on_2018.07.11-r-chrome.zip = d = /AltusAddons/g01/current/dppm-3.0.235_on_2018.07.11-r-chrome.zip"
             ]
@@ -58,16 +58,18 @@
             "name": "Run w/ key",
             "program": "${workspaceFolder}\\build\\index.js",
             "console": "externalTerminal",
-                "args": [
+            "args": [
                 "--host", "appserver.live.b82019b8-481a-44c8-88da-be3d2af3cfbb.drush.in",
                 "--port", "2222",
                 "--username", "live.b82019b8-481a-44c8-88da-be3d2af3cfbb",
                 "--keyfile", "{USERPROFILE}/.ssh/id_rsa",
                 "--alias", "root = {start}/files/crossmatch",
                 "--alias", "g01 = {root}/AltusAddons/g01",
-                "--ftp", "E:/Y/W/2-web/0-dp/sftp-shell/test/listC.json = l = {start}/files/crossmatch/AltusAddons/g01",
-                "--ftp", "E:/Y/W/2-web/0-dp/sftp-shell/test/listD.json = l = {g01}/current",
+                "--ftp", "C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/test/listC.json = l = {start}/files/crossmatch/AltusAddons/g01",
+                "--ftp", "C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/test/listD.json = l = {g01}/current",
             ]
         }
     ]
 }
+
+//--host "appserver.live.b82019b8-481a-44c8-88da-be3d2af3cfbb.drush.in" --port "2222" --username "live.b82019b8-481a-44c8-88da-be3d2af3cfbb" --keyfile "{USERPROFILE}/.ssh/id_rsa" --alias "root = {start}/files/crossmatch" --alias "g01 = {root}/AltusAddons/g01" --ftp "C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/test/listC.json = l = {start}/files/crossmatch/AltusAddons/g01" --ftp "C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/test/listD.json = l = {g01}/current"
