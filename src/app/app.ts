@@ -2,9 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import Client from 'ssh2-sftp-client';
 import { OP, Operation, Options, SFTPConfig } from './app-types';
-import { printOnExit, printOnExitError } from './app-messages';
+import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionCloased } from './app-messages';
 import { formatDeep } from '../utils/utils';
-import chalk from 'chalk';
 const mkdir = require('mkdir-p');
 
 function getConnectConfig(o: Options): SFTPConfig {
@@ -17,26 +16,14 @@ function getConnectConfig(o: Options): SFTPConfig {
     };
 }
 
-const opName = (s: string) => s === 'u' ? 'Upload to FTP' : s === 'd' ? 'Download from FTP' : s === 'l' ? 'List folder content' : '?';
-const plural = (n: number) => n === 1 ? '' : 's';
-
-function printStart(sftpWorkingDir: string, o: Options) {
-    console.log(`  Remote root: ${sftpWorkingDir}`);
-    console.log(chalk.cyan(`\n  Stating ${o.filePairs.length} operation${plural(o.filePairs.length)}.`));
-}
-
-function printCurrentOperation(item: Operation) {
-    console.log(chalk.gray(`    Operation: ${opName(item.operation)}\n        Local: ${path.normalize(item.local)}\n       Remote: ${item.remote}`));
-}
-
 export async function processSftp(options: Options) {
     const sftp = new Client();
-    sftp.on('close', () => console.log(chalk.yellow(`Connection closed\n`)));
+    sftp.on('close', printOnConnectionCloased);
     try {
         await sftp.connect(getConnectConfig(options));
 
         let sftpWorkingDir = await sftp.cwd();
-        printStart(sftpWorkingDir, options);
+        printLoopStart(options, sftpWorkingDir);
 
         let resolveEnv = {
             start: sftpWorkingDir,
@@ -47,7 +34,7 @@ export async function processSftp(options: Options) {
             let item: Operation = options.filePairs[i];
 
             item.remote = formatDeep(item.remote, resolveEnv);
-            printCurrentOperation(item);
+            printLoopCurrentOp(item);
 
             switch (item.operation) {
                 case OP.upload: {
@@ -68,15 +55,17 @@ export async function processSftp(options: Options) {
             }
         }//for async
 
-        printOnExit(chalk.cyan(`  Completed ${options.filePairs.length} operation${plural(options.filePairs.length)}.`));
+        printLoopEnd(options);
         await sftp.end();
 
     } catch (error) {
-        printOnExitError(error);
+        printLoopEndError(error);
         await sftp.end();
         process.exit(-2);
     }
 }
+
+//TODO: handle path normalize before loop work
 
 /*
 //https://www.npmjs.com/package/ssh2-sftp-client#how-can-i-upload-files-without-having-to-specify-a-password

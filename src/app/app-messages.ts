@@ -1,5 +1,7 @@
+import path from 'path';
 import chalk from 'chalk';
 import { help } from './app-help';
+import { Operation, Options } from './app-types';
 
 export const progrmaName = 'sftp-shell'; //export const { name: progrmaName } = require('../../package.json');
 
@@ -11,28 +13,52 @@ export const HEADER0 =
 
 const HEADER = chalk.green(HEADER0);
 
-export function printHeader(): void {
+export function printHeader() {
     console.log(HEADER);
 }
 
-export function printHeaderAndVersion(): void {
+export function printHeaderAndVersion() {
     console.log(`${HEADER}\n  version ${progrmaName}\n`);
     console.log(HEADER);
 }
 
-export function printMessageBeforeExit(msg: string): void {
+export function printMessageBeforeExit(msg: string) {
     console.log(`${chalk.redBright('\nTerminated:')}\n    ${msg}`);
     help();
     printHeader();
 }
 
-export function printOnExitError(error: Error): void {
+// sftp loop
+
+const opName = (s: string) => s === 'u' ? 'Upload to FTP' : s === 'd' ? 'Download from FTP' : s === 'l' ? 'List folder content' : '?';
+const plural = (n: number) => n === 1 ? '' : 's';
+
+export const printOnConnectionCloased = () => console.log(chalk.yellow(`Connection closed\n`));
+
+export function printLoopStart(o: Options, sftpWorkingDir: string) {
+    console.log(`  Remote root: ${sftpWorkingDir}`);
+    console.log(chalk.cyan(`\n  Stating ${o.filePairs.length} operation${plural(o.filePairs.length)}.`));
+}
+
+export function printLoopCurrentOp(item: Operation) {
+    console.log(chalk.gray(`    Operation: ${opName(item.operation)}\n        Local: ${path.normalize(item.local)}\n       Remote: ${item.remote}`));
+}
+
+export function printLoopEnd(o: Options) {
+    printOnExit(chalk.cyan(`  Completed ${o.filePairs.length} operation${plural(o.filePairs.length)}.`));
+}
+
+export function printLoopEndError(error: unknown) {
+    printOnExitError(error as Error);
+}
+
+function printOnExit(msg: string) {
+    console.log(msg);
+    console.log(`${HEADER}`);
+}
+
+function printOnExitError(error: Error) {
     console.log('\nSFTP error: ', chalk.redBright(error.message));
     console.log('\nSFTP stack: ', error.stack);
     console.log(chalk.red(`${HEADER0}`));
-}
-
-export function printOnExit(msg: string): void {
-    console.log(msg);
-    console.log(`${HEADER}`);
 }
