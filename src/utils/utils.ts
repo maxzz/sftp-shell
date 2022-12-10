@@ -1,3 +1,5 @@
+const mkdir = require('mkdir-p');
+
 export function formatWith(str: string, obj: Object) {
     // 0. Replaces string patterns with named parameters: formatWith("A {key}", {key: "B"}) --> "A B"
     return str.replace(/{([\w\$_]+)}/gm, function fmt_(all, name) {
@@ -17,4 +19,8 @@ export function formatDeep(str: string, obj: Object) {
         str = formatDeep(str, obj);
     }
     return str;
+}
+
+export function mkDirSync(dirName: string) {
+    mkdir.sync(dirName);
 }

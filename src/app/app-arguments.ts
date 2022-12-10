@@ -1,11 +1,11 @@
 import fs from 'fs';
-import { terminate } from './app-errors';
+import commandLineArgs from 'command-line-args';
 import { OP, Operation, Options } from './app-types';
 import { optionDefinitions } from './app-options';
+import { terminate } from './app-errors';
 import { help } from './app-help';
-import commandLineArgs from 'command-line-args';
 import { printHeader, printHeaderAndVersion } from './app-messages';
-import * as ut from '../utils/utils';
+import { formatDeep } from '../utils/utils';
 
 function validate(options: Options) {
     if (options.help || !Object.keys(options).length) {
@@ -24,7 +24,7 @@ function validate(options: Options) {
 
     if (options.keyfile) {
         try {
-            options.keyfile = ut.formatDeep(options.keyfile, process.env);
+            options.keyfile = formatDeep(options.keyfile, process.env);
             options.keyfile = fs.readFileSync(options.keyfile).toString();
         } catch (error) {
             terminate(`Cannot read SFTP access key file: '${options.keyfile}'`);
