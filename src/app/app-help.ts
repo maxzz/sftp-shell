@@ -3,7 +3,7 @@ import * as chalk from 'chalk';//const chalk = require('chalk'); //import chalk 
 const commandLineUsage = require('command-line-usage');
 //const commandLineArgs = require('command-line-args');
 
-export const { name: progrmaName } = require('package.json');
+export const { name: progrmaName } = require('../../package.json');
 
 export const HEADER0 =
     `  _   _   _   _  

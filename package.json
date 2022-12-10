@@ -5,10 +5,15 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "build": "browserify --node build/index.js -o dist/sftp-shell.js",
+        "_build": "browserify --node build/index.js -o dist/sftp-shell.js",
         "test": "node dist/sftp-shell.js",
         "how": "browserify --node --full-paths build/index.js -o dist/how/sftp-shell.js && discify dist/how/sftp-shell.js > dist/how/index.html && start \"\" \"file://%cd:\\=/%/dist/how/index.html\"",
-        "help": ">node build/index.js --help"
+        "help": ">node build/index.js --help",
+        
+        "build": "esbuild ./src/index.ts --bundle --platform=node --loader:.node=esbuild-native-node-modules-plugin --outfile=es.js",
+
+        "_t_build": "esbuild ./src/index.ts --bundle --platform=node --outfile=es.js",
+        "_j_build": "esbuild ./build/index.js --bundle --platform=node --outfile=es.js"
     },
     "dependencies": {
         "chalk": "^4.0.0",
@@ -18,7 +23,9 @@
         "ssh2-sftp-client": "^9.0.4"
     },
     "devDependencies": {
-        "@types/node": "18.11.9",
-        "@types/ssh2-sftp-client": "^9.0.0"
+        "@types/node": "18.11.12",
+        "@types/ssh2-sftp-client": "^9.0.0",
+        "esbuild": "^0.16.3",
+        "esbuild-native-node-modules-plugin": "^1.0.3"
     }
 }
