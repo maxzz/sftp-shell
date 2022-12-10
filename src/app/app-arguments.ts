@@ -4,7 +4,7 @@ import { OP, Operation, Options } from './app-types';
 import { optionDefinitions } from './app-options';
 import { help } from './app-help';
 import commandLineArgs from 'command-line-args';
-import { printHeader } from './app-messages';
+import { printHeader, printHeaderAndVersion } from './app-messages';
 import * as ut from '../utils/utils';
 
 function validate(options: Options) {
@@ -90,7 +90,10 @@ function validate(options: Options) {
 }
 
 export function getVerifiedArguments(): Options {
+    printHeaderAndVersion();
+
     let options = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as Options;
     validate(options);
+
     return options;
 }
