@@ -7,21 +7,21 @@ import chalk from 'chalk';
 import * as ut from '../utils/utils';
 const mkdir = require('mkdir-p');
 
+function getConnectConfig(o: Options): SFTPConfig {
+    return  {
+        host: o.host,
+        username: o.username,
+        ...(o.password && { password: o.password }),
+        ...(o.keyfile && { privateKey: o.keyfile }),
+        ...(o.port && { port: +o.port }),
+    };
+}
+
 export async function processSftp(options: Options) {
     const sftp = new Client();
-
+    sftp.on('close', () => console.log(chalk.yellow(`Connection closed\n`)));
     try {
-        let config: SFTPConfig = {
-            host: options.host,
-            username: options.username,
-            ...(options.password && { password: options.password }),
-            ...(options.keyfile && { privateKey: options.keyfile }),
-            ...(options.port && { port: +options.port }),
-        };
-
-        sftp.on('close', () => {
-            console.log(`Connection closed\n`);
-        });
+        const config = getConnectConfig(options);
 
         await sftp.connect(config);
 
