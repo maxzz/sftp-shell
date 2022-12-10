@@ -92,7 +92,7 @@ function validate(options: Options) {
 export function getVerifiedArguments(): Options {
     printHeaderAndVersion();
 
-    let options = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as Options;
+    const options = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as Options;
     validate(options);
 
     return options;

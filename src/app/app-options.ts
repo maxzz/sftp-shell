@@ -41,20 +41,24 @@ export const optionDefinitions = [
                 "u" - upload to ftp,
                 "d" - download from ftp,
                 "l" - list ftp folder content.
-                For example:
-                    <localPathAndFileName> = u = <remotePathAndFileName>
-                    <localPathAndFileName> = d = <remotePathAndFileName>
-                    <localPathAndFileName> = l = <remotePath>
-                * Existing local files will be overwritten silently.
-                * It is possible for remote path to use macro \\{start\\}
-                  which is start working folder.`
+            * For example:
+            <localPathAndFileName> = u = <remotePathAndFileName>
+            <localPathAndFileName> = d = <remotePathAndFileName>
+            <localPathAndFileName> = l = <remotePath>
+            * It is possible for remote path to use macro \\{start\\}
+                which is start working folder on server.
+            * Existing local files will be overwritten silently.`
     },
     {
         name: 'alias',
         alias: 'a',
         type: String,
         multiple: true,
-        description: 'Aliases to expand on remote path after start remote folder aquired from SFTP.'
+        description: `Aliases to expand on remote path after start remote folder aquired from SFTP.
+            For example:
+                "--alias", "root = \\{start\\}/files/crossmatch"
+                "--alias", "g01 = \\{root\\}/AltusAddons/g01"
+            The {underline start} alias is automatically added as the initial working directory of the SFTP server.`
     },
     {
         name: 'help',
