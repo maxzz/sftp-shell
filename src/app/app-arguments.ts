@@ -1,11 +1,10 @@
 import fs from 'fs';
 import { terminate } from './app-errors';
-import { help, optionDefinitions, printHeader } from './app-help';
 import { OP, Operation, Options } from './app-types';
+import { optionDefinitions } from './app-options';
+import { help, printHeader } from './app-help';
+import commandLineArgs from 'command-line-args';
 import * as ut from '../utils/utils';
-
-//const commandLineUsage = require('command-line-usage');
-const commandLineArgs = require('command-line-args');
 
 function validate(options: Options) {
     if (options.help || !Object.keys(options).length) {
@@ -90,7 +89,7 @@ function validate(options: Options) {
 }
 
 export function getVerifiedArguments(): Options {
-    let options = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true });
+    let options = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as Options;
     validate(options);
     return options;
 }

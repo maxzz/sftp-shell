@@ -8,6 +8,7 @@ export function formatWith(str: string, obj: Object) {
         }
     });
 }
+
 export function formatDeep(str: string, obj: Object) {
     // 0. Replaces nested patterns.
     str = formatWith(str, obj);

@@ -1,7 +1,6 @@
-import * as chalk from 'chalk';//const chalk = require('chalk'); //import chalk from 'chalk';
-
-const commandLineUsage = require('command-line-usage');
-//const commandLineArgs = require('command-line-args');
+import chalk from 'chalk';//const chalk = require('chalk'); //import chalk from 'chalk';
+import { optionDefinitions } from './app-options';
+import commandLineUsage from 'command-line-usage';
 
 export const { name: progrmaName } = require('../../package.json');
 
@@ -38,72 +37,6 @@ export function printOnExit(msg: string): void {
     console.log(msg);
     console.log(`${HEADER}`);
 }
-
-export const optionDefinitions = [
-    {
-        name: 'host',
-        type: String,
-        description: 'Host name like "www.crossmatch.com"'
-    },
-    {
-        name: 'port',
-        type: String,
-        description: 'SFTP port.'
-    },
-    {
-        name: 'username',
-        alias: 'u',
-        type: String,
-        description: 'User name for this session.'
-    },
-    {
-        name: 'password',
-        alias: 'p',
-        type: String,
-        description: 'User password.'
-    },
-    {
-        name: 'keyfile',
-        type: String,
-        description: 'Path to key file. This will be expanded with environment variables.'
-    },
-    {
-        name: 'key',
-        type: String,
-        description: 'User key'
-    },
-    {
-        name: 'ftp',
-        alias: 'f',
-        type: String,
-        multiple: true,
-        description: `Every line must have: <local> = <oparation> = <remote>
-            where opration is one of:
-                "u" - upload to ftp,
-                "d" - download from ftp,
-                "l" - list ftp folder content.
-                For example:
-                    <localPathAndFileName> = u = <remotePathAndFileName>
-                    <localPathAndFileName> = d = <remotePathAndFileName>
-                    <localPathAndFileName> = l = <remotePath>
-                * Existing local files will be overwritten silently.
-                * It is possible for remote path to use macro \\{start\\}
-                  which is start working folder.`
-    },
-    {
-        name: 'alias',
-        alias: 'a',
-        type: String,
-        multiple: true,
-        description: 'Aliases to expand on remote path after start remote folder aquired from SFTP.'
-    },
-    {
-        name: 'help',
-        alias: 'h',
-        type: Boolean,
-        description: 'Show this help screen.'
-    }
-];
 
 export function help() {
     const usage = commandLineUsage([
