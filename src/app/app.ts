@@ -20,6 +20,15 @@ function getConnectConfig(o: Options): SFTPConfig {
 const opName = (s: string) => s === 'u' ? 'Upload to FTP' : s === 'd' ? 'Download from FTP' : s === 'l' ? 'List folder content' : '?';
 const plural = (n: number) => n === 1 ? '' : 's';
 
+function printStart(sftpWorkingDir: string, o: Options) {
+    console.log(`  Remote root: ${sftpWorkingDir}`);
+    console.log(chalk.cyan(`\n  Stating ${o.filePairs.length} operation${plural(o.filePairs.length)}.`));
+}
+
+function printCurrentOperation(item: Operation) {
+    console.log(chalk.gray(`    Operation: ${opName(item.operation)}\n        Local: ${path.normalize(item.local)}\n       Remote: ${item.remote}`));
+}
+
 export async function processSftp(options: Options) {
     const sftp = new Client();
     sftp.on('close', () => console.log(chalk.yellow(`Connection closed\n`)));
@@ -27,21 +36,18 @@ export async function processSftp(options: Options) {
         await sftp.connect(getConnectConfig(options));
 
         let sftpWorkingDir = await sftp.cwd();
-        console.log(`  Remote root: ${sftpWorkingDir}`);
+        printStart(sftpWorkingDir, options);
 
         let resolveEnv = {
             start: sftpWorkingDir,
-            ...options.aliasPairs
+            ...options.aliasPairs,
         };
-
-        console.log(chalk.cyan(`\n  Stating ${options.filePairs.length} operation${plural(options.filePairs.length)}.`));
 
         for (let i = 0; i < options.filePairs.length; i++) {
             let item: Operation = options.filePairs[i];
 
             item.remote = formatDeep(item.remote, resolveEnv);
-
-            console.log(chalk.gray(`    Operation: ${opName(item.operation)}\n        Local: ${path.normalize(item.local)}\n       Remote: ${item.remote}`));
+            printCurrentOperation(item);
 
             switch (item.operation) {
                 case OP.upload: {
