@@ -3,8 +3,8 @@ import fs from 'fs';
 import Client from 'ssh2-sftp-client';
 import { OP, Operation, Options, SFTPConfig } from './app-types';
 import { printOnExit, printOnExitError } from './app-messages';
+import { formatDeep } from '../utils/utils';
 import chalk from 'chalk';
-import * as ut from '../utils/utils';
 const mkdir = require('mkdir-p');
 
 function getConnectConfig(o: Options): SFTPConfig {
@@ -17,33 +17,31 @@ function getConnectConfig(o: Options): SFTPConfig {
     };
 }
 
+const opName = (s: string) => s === 'u' ? 'Upload to FTP' : s === 'd' ? 'Download from FTP' : s === 'l' ? 'List folder content' : '?';
+const plural = (n: number) => n === 1 ? '' : 's';
+
 export async function processSftp(options: Options) {
     const sftp = new Client();
     sftp.on('close', () => console.log(chalk.yellow(`Connection closed\n`)));
     try {
-        const config = getConnectConfig(options);
+        await sftp.connect(getConnectConfig(options));
 
-        await sftp.connect(config);
+        let sftpWorkingDir = await sftp.cwd();
+        console.log(`  Remote root: ${sftpWorkingDir}`);
 
-        let cwd = await sftp.cwd();
-        console.log(`  Remote root: ${cwd}`);
-
-        let env = {
-            start: cwd,
+        let resolveEnv = {
+            start: sftpWorkingDir,
             ...options.aliasPairs
         };
-
-        const opName = (s: string) => s === 'u' ? 'Upload to FTP' : s === 'd' ? 'Download from FTP' : s === 'l' ? 'List folder content' : '?';
-        const plural = (n: number) => n === 1 ? '' : 's';
 
         console.log(chalk.cyan(`\n  Stating ${options.filePairs.length} operation${plural(options.filePairs.length)}.`));
 
         for (let i = 0; i < options.filePairs.length; i++) {
             let item: Operation = options.filePairs[i];
 
-            item.remote = ut.formatDeep(item.remote, env);
+            item.remote = formatDeep(item.remote, resolveEnv);
 
-            console.log(`    Operation: ${opName(item.operation)}\n        Local: ${path.normalize(item.local)}\n       Remote: ${item.remote}`);
+            console.log(chalk.gray(`    Operation: ${opName(item.operation)}\n        Local: ${path.normalize(item.local)}\n       Remote: ${item.remote}`));
 
             switch (item.operation) {
                 case OP.upload: {
