@@ -3,7 +3,8 @@ import chalk from 'chalk';
 import { help } from './app-help';
 import { Operation, Options } from './app-types';
 
-export const progrmaName = 'sftp-shell'; //export const { name: progrmaName } = require('../../package.json');
+export const appName = 'sftp-shell'; //export const { name: progrmaName } = require('../../package.json');
+export const appVersion = '1.2.0'; //export const { version: progrmaName } = require('../../package.json');
 
 const HEADER0 =
 `  _   _   _   _  
@@ -12,9 +13,9 @@ const HEADER0 =
  \\_/ \\_/ \\_/ \\_/`;
 
 const HEADER1 =`
- ┌─┐┌─┐┌┬┐┌─┐
- └─┐├┤  │ ├─┘
- └─┘└   ┴ ┴ `;
+ ┌─┐┌─┐┌┬┐┌─┐  ┌─┐┌─┐┌┬┐┌─┐┬ ┬
+ └─┐├┤  │ ├─┘  ├┤ ├┤  │ │  ├─┤
+ └─┘└   ┴ ┴    └  └─┘ ┴ └─┘┴ ┴ o o o`;
 
 const HEADER = chalk.green(HEADER1);
 
@@ -23,7 +24,7 @@ export function printHeader() {
 }
 
 export function printHeaderAndVersion() {
-    console.log(`${HEADER}\n  version ${progrmaName}\n`);
+    console.log(`SFTP client shell ${chalk.cyan(appName)} version ${appVersion}.`);
     console.log(HEADER);
 }
 
