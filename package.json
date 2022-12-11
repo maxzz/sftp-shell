@@ -6,12 +6,9 @@
     "license": "MIT",
     "scripts": {
         "dev": "tsc -w",
-        "build": "node esbuild.ts",
-        "makebin": "pkg -t host -o sftp-shell build2/index.js",
-        "_build": "browserify --node build/index.js -o dist/sftp-shell.js",
-        "test": "node dist/sftp-shell.js",
-        "how": "browserify --node --full-paths build/index.js -o dist/how/sftp-shell.js && discify dist/how/sftp-shell.js > dist/how/index.html && start \"\" \"file://%cd:\\=/%/dist/how/index.html\"",
-        "help": ">node build/index.js --help"
+        "make-es": "node esbuild.js",
+        "makebin": "pkg -t host -o dist/sftp-shell build-es/index.js",
+        "build": "yarn make-es && yarn makebin"
     },
     "dependencies": {
         "chalk": "^4.0.0",
