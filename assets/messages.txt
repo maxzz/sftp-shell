@@ -184,5 +184,7 @@ SFTP shell appName version 2.0 utility transfers files to/from FTP server over S
 The appName utility transfers files to/from FTP server over SFTP (SSH File Transfer Protocol). version 2.0
 The appName utility transfers files to/from an FTP server using SFTP (SSH File Transfer Protocol). version 2.0
 
+            * It is possible for remote path to use alias {underline start}
+              which is start working folder on server.
 
 //////////////////////////////////////////////////////

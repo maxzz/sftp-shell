@@ -42,11 +42,9 @@ export const optionDefinitions = [
                 {gray     d - download file from ftp,}
                 {gray     l - download ftp folder contents list.}
             For example:
-                {gray     <localPathAndFileName> = u = <remotePathAndFileName>}
-                {gray     <localPathAndFileName> = d = <remotePathAndFileName>}
-                {gray     <localPathAndFileName> = l = <remotePath>}
-            * It is possible for remote path to use macro {underline start}
-                which is start working folder on server.
+                {gray     "<localPathAndFileName> = u = <remotePathAndFileName>"}
+                {gray     "<localPathAndFileName> = d = <remotePathAndFileName>"}
+                {gray     "<localPathAndFileName> = l = <remotePath>"}
             * Existing local files will be overwritten silently.`
     },
     {
@@ -56,8 +54,8 @@ export const optionDefinitions = [
         multiple: true,
         description: `Aliases to expand any path after start remote folder aquired from SFTP.
             For example:
-                "--alias", "root = \\{start\\}/files/crossmatch"
-                "--alias", "g01 = \\{root\\}/AltusAddons/g01"
+                {gray     --alias "root = \\{start\\}/files/crossmatch"}
+                {gray     --alias "g01 = \\{root\\}/AltusAddons/g01"}
             The {underline start} alias is automatically added as the initial working directory of the SFTP server.`
     },
     {
