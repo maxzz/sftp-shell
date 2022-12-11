@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import Client from 'ssh2-sftp-client';
 import { OP, Operation, Options, SFTPConfig } from './app-types';
-import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionCloased } from './app-messages';
+import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionCloased, printAppDone } from './app-messages';
 import { formatDeep, mkDirSync } from '../utils/utils';
 
 function getConnectConfig(o: Options): SFTPConfig {
@@ -56,6 +56,7 @@ export async function processSftp(options: Options) {
 
         printLoopEnd(options);
         await sftp.end(); 
+        printAppDone()
 
     } catch (error) {
         printLoopEndError(error);

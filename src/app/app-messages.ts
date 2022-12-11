@@ -47,7 +47,9 @@ export function printMessageBeforeExit(msg: string) {
 const opName = (s: string) => s === 'u' ? 'Upload to FTP' : s === 'd' ? 'Download from FTP' : s === 'l' ? 'List folder content' : '?';
 const plural = (n: number) => n === 1 ? '' : 's';
 
-export const printOnConnectionCloased = () => console.log(chalk.gray(`  SFTP connection closed\n`));
+export function printOnConnectionCloased() {
+    return console.log(chalk.gray(`\n  SFTP connection closed.`));
+}
 
 export function printLoopStart(o: Options, sftpWorkingDir: string) {
     console.log(chalk.gray(`\n  Remote root: ${sftpWorkingDir}`));
@@ -59,16 +61,11 @@ export function printLoopCurrentOp(item: Operation) {
 }
 
 export function printLoopEnd(o: Options) {
-    printOnExit(chalk.cyan(`  Completed ${o.filePairs.length} operation${plural(o.filePairs.length)}.`));
+    console.log(chalk.cyan(`  Completed ${o.filePairs.length} operation${plural(o.filePairs.length)}.`));
 }
 
 export function printLoopEndError(error: unknown) {
     printOnExitError(error as Error);
-}
-
-function printOnExit(msg: string) {
-    console.log(msg);
-    console.log(chalk.green(`${HEADER2}`));
 }
 
 function printOnExitError(error: Error) {
