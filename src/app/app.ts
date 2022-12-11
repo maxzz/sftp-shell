@@ -23,7 +23,7 @@ function resolvePathes(filePairs: Operation[], sftpWorkingDir: string, options: 
     return filePairs.map((op) => {
         return {
             operation: op.operation,
-            local: formatDeep(op.local, resolveEnv),
+            local: path.normalize(formatDeep(op.local, resolveEnv)),
             remote: formatDeep(op.remote, resolveEnv),
         };
     });
@@ -43,7 +43,6 @@ export async function processSftp(options: Options) {
             const item: Operation = filePairs[i];
 
             printLoopCurrentOp(item);
-
             switch (item.operation) {
                 case OP.upload: {
                     await sftp.fastPut(item.local, item.remote);
