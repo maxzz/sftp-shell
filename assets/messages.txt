@@ -133,3 +133,8 @@ export function printSftpStart() {
 
     console.log(chalk.bgRed.white(`${HEADER3}`));
 }
+
+    "_build": "browserify --node build/index.js -o dist/sftp-shell.js",
+    "test": "node dist/sftp-shell.js",
+    "how": "browserify --node --full-paths build/index.js -o dist/how/sftp-shell.js && discify dist/how/sftp-shell.js > dist/how/index.html && start \"\" \"file://%cd:\\=/%/dist/how/index.html\"",
+    "help": ">node build/index.js --help"

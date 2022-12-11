@@ -1,6 +1,8 @@
 node_modules
 dist
-build
+build-ts
+build-es
+
 built2
 test3
 
