@@ -4,7 +4,7 @@ import { help } from './app-help';
 import { Operation, Options } from './app-types';
 
 export const appName = 'sftp-shell'; //export const { name: progrmaName } = require('../../package.json');
-export const appVersion = '1.2.0'; //export const { version: progrmaName } = require('../../package.json');
+export const appVersion = '2.0.5'; //export const { version: progrmaName } = require('../../package.json');
 
 const HEADER1 = `
 o o o o o o o o o SFTP o o o o o o o o o`;
@@ -36,7 +36,7 @@ export function printAppFailed() {
 //
 
 export function printAppVersion() {
-    console.log(`SFTP client shell ${chalk.cyan(appName)} version ${appVersion}.`);
+    console.log(`SFTP client shell ${chalk.cyan(appName)} version ${appVersion} ${new Date()}.`);
 }
 
 export function printMessageBeforeExit(msg: string) {
