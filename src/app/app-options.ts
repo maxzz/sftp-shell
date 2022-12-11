@@ -36,11 +36,11 @@ export const optionDefinitions = [
         alias: 'f',
         type: String,
         multiple: true,
-        description: `Every line must have: <local> = <oparation> = <remote>
-            where opration is one of:
-                "u" - upload to ftp,
-                "d" - download from ftp,
-                "l" - list ftp folder content.
+        description: `Each line must be in format: <local> = <operation> = <remote>
+            where the operation is one of:
+                "u" - upload file to ftp,
+                "d" - download file from ftp,
+                "l" - download ftp folder contents list.
             * For example:
             <localPathAndFileName> = u = <remotePathAndFileName>
             <localPathAndFileName> = d = <remotePathAndFileName>

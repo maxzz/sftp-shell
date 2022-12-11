@@ -1,4 +1,5 @@
 import commandLineUsage from 'command-line-usage';
+import { appName } from './app-messages';
 import { optionDefinitions } from './app-options';
 
 export function help() {
@@ -13,18 +14,20 @@ export function help() {
         },
         {
             header: 'Example:',
-            content: `{cyan sftp-shell}
+            content: `{cyan ${appName}}
             --host "appserver.live.b82019b8-481a-44c8-88da-be3d2af3cfbb.drush.in"
             --port 2222
             --username "live.b82019b8-481a-44c8-88da-be3d2af3cfbb"
             --keyfile "\\{USERPROFILE\\}/.ssh/id_rsa"
             --alias "root = \\{start\\}/files/crossmatch"
             --alias "g01 = \\{root\\}/AltusAddons/g01"
+            --alias "local = C:/Y/w/test"
             --ftp "test/listC.json = l = \\{start\\}/files/crossmatch/AltusAddons/g01"
             --ftp "test/listD.json = l = \\{g01\\}/current"`
         },
         {
-            content: `Project owner: {underline maxz}`
+            header: `Project owner:`,
+            content: `maxz`
         },
     ]);
     console.log(usage);
