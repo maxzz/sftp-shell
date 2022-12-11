@@ -32,6 +32,7 @@ export async function processSftp(options: Options) {
         for (let i = 0; i < options.filePairs.length; i++) {
             let item: Operation = options.filePairs[i];
 
+            item.local = formatDeep(item.local, resolveEnv);
             item.remote = formatDeep(item.remote, resolveEnv);
             printLoopCurrentOp(item);
 

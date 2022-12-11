@@ -36,7 +36,7 @@ export function printAppFailed() {
 //
 
 export function printAppVersion() {
-    console.log(`SFTP client shell ${chalk.cyan(appName)} version ${appVersion} ${new Date()}.`);
+    console.log(`SFTP client shell ${chalk.cyan(appName)} version ${appVersion}.`);
 }
 
 export function printMessageBeforeExit(msg: string) {
