@@ -1,7 +1,7 @@
-import path from 'path';
 import chalk from 'chalk';
-import { help } from './app-help';
 import { Operation, Options } from './app-types';
+import { toUnix } from '../utils/utils';
+import { help } from './app-help';
 
 export const appName = 'sftp-shell'; //export const { name: progrmaName } = require('../../package.json');
 export const appVersion = '2.0.5'; //export const { version: progrmaName } = require('../../package.json');
@@ -59,7 +59,7 @@ export function printLoopStart(o: Options, sftpWorkingDir: string) {
 }
 
 export function printLoopCurrentOp(item: Operation) {
-    console.log(chalk.gray(`    Operation: ${opName(item.operation)}\n        Local: ${path.normalize(item.local)}\n       Remote: ${item.remote}`));
+    console.log(chalk.gray(`    Operation: ${opName(item.operation)}\n        Local: ${toUnix(item.local)}\n       Remote: ${item.remote}`));
 }
 
 export function printLoopEnd(o: Options) {
