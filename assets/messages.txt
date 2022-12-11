@@ -126,6 +126,8 @@ const HEADER1 = `
  └─┐├┤  │ ├─┘
  └─┘└   ┴ ┴  o o o`;
 
+//////////////////////////////////////////////////////
+
 export function printSftpStart() {
     console.log(chalk.cyan(HEADER1));
     console.log(chalk.redBright(`${HEADER3}`));
@@ -138,3 +140,39 @@ export function printSftpStart() {
     "test": "node dist/sftp-shell.js",
     "how": "browserify --node --full-paths build/index.js -o dist/how/sftp-shell.js && discify dist/how/sftp-shell.js > dist/how/index.html && start \"\" \"file://%cd:\\=/%/dist/how/index.html\"",
     "help": ">node build/index.js --help"
+
+//////////////////////////////////////////////////////
+
+/*
+//https://www.npmjs.com/package/ssh2-sftp-client#how-can-i-upload-files-without-having-to-specify-a-password
+
+Another alternative is to just pass in the SSH key directly as part of the configuration.
+
+let sftp = new Client();
+sftp.connect({
+  host: 'YOUR-HOST',
+  port: 'YOUR-PORT',
+  username: 'YOUR-USERNAME',
+  privateKey: fs.readFileSync('/path/to/ssh/key')
+}).then(() => {
+  sftp.fastPut(/* ... * /)
+}
+*/
+
+//host: appserver.live.b82019b8-481a-44c8-88da-be3d2af3cfbb.drush.in
+//port: 2222
+//user: live.b82019b8-481a-44c8-88da-be3d2af3cfbb
+//key: C:/Users/max/.ssh/id_rsa
+
+//addr: /srv/bindings/463f1c6989094a37b0d02e70312a9d58/files/crossmatch/AltusAddons/g01
+//addr: /srv/bindings/463f1c6989094a37b0d02e70312a9d58/files/crossmatch/AltusAddons
+//addr: /srv/bindings/a6a833d30275429bb9e003114f17369f/files/crossmatch/AltusAddons
+//cwd:  /srv/bindings/b9e2e7a79bdb4e1b89923a82203bd6db
+
+//const REMOTE_ROOT_URL = "/AltusAddons/g01/current";
+
+//////////////////////////////////////////////////////
+
+* relative path resolved relative to start folder
+
+//////////////////////////////////////////////////////

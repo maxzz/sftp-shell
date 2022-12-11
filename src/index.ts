@@ -7,3 +7,8 @@ function main() {
 }
 
 main();
+
+//TODO: handle path normalize before loop work - done
+//TODO: new name sshell aka s-sh-sh-ell
+//TODO: options by sshell.config.json (as usual for specific tasks) and sshell.common.json (as usual for creds) files; both have the same file format.
+//TODO: we start sftp header to early
