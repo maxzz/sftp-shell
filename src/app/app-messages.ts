@@ -10,14 +10,16 @@ const HEADER1 = `
 o o o o o o o o o SFTP o o o o o o o o o`;
 
 const HEADER2 = `
-  ┌┬┐┌─┐┌┐┌┌─┐
-   │││ ││││├┤ 
-  ─┴┘└─┘┘└┘└─┘`;
+─┬┐┌─┐┌┐┌┌─┐
+ │││ ││││├┤ 
+─┴┘└─┘┘└┘└─┘
+`;
 
 const HEADER3 = `
   ┌─┐┌─┐┬┬  ┌─┐┌┬┐
   ├┤ ├─┤││  ├┤  ││
-  └  ┴ ┴┴┴─┘└─┘─┴┘`;
+  └  ┴ ┴┴┴─┘└─┘─┴┘
+`;
 
 export function printSftpStart() {
     console.log(chalk.cyan(HEADER1));
