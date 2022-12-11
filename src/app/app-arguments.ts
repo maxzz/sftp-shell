@@ -1,7 +1,7 @@
 import fs from 'fs';
 import commandLineArgs from 'command-line-args';
 import { OP, Operation, Options } from './app-types';
-import { optionDefinitions } from './app-options';
+import { optionDefinitions } from './app-argument-options';
 import { terminate } from './app-errors';
 import { help } from './app-help';
 import { printAppVersion, printAppDone } from './app-messages';
@@ -70,7 +70,7 @@ function validate(options: Options) {
     });
 
     if (!options.filePairs.length) {
-        console.log(`\nNo files to process. Done.`);
+        console.log(`\nOperations to be processed are not defined. Done.`);
         help();
         printAppDone();
         process.exit(0);
@@ -78,12 +78,12 @@ function validate(options: Options) {
 
     // aliases
     if (options.alias) {
-        options.aliasPairs = options.alias.reduce((acc: any, _: string) => {
-            let nameValue = _.split('=');
-            if (nameValue.length !== 2) {
-                terminate(`Invalid alias: '${_}'`);
+        options.aliasPairs = options.alias.reduce((acc: any, cur: string) => {
+            const [key, val] = cur.split('=').map((value) => value.trim());
+            if (!key || !val) {
+                terminate(`Invalid alias: '${cur}'`);
             }
-            acc[nameValue[0].trim()] = nameValue[1].trim();
+            acc[key] = val;
             return acc;
         }, {});
     }
