@@ -5,13 +5,18 @@ import { Operation, Options } from './app-types';
 
 export const progrmaName = 'sftp-shell'; //export const { name: progrmaName } = require('../../package.json');
 
-export const HEADER0 =
-    `  _   _   _   _  
+const HEADER0 =
+`  _   _   _   _  
  / \\ / \\ / \\ / \\ 
 ( S . F . T . P )
  \\_/ \\_/ \\_/ \\_/`;
 
-const HEADER = chalk.green(HEADER0);
+const HEADER1 =`
+ ┌─┐┌─┐┌┬┐┌─┐
+ └─┐├┤  │ ├─┘
+ └─┘└   ┴ ┴ `;
+
+const HEADER = chalk.green(HEADER1);
 
 export function printHeader() {
     console.log(HEADER);
