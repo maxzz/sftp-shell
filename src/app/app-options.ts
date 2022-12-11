@@ -36,16 +36,16 @@ export const optionDefinitions = [
         alias: 'f',
         type: String,
         multiple: true,
-        description: `Each line must be in format: <local> = <operation> = <remote>
+        description: `Each line must be in format: {gray <local> = <operation> = <remote>}
             where the operation is one of:
-                "u" - upload file to ftp,
-                "d" - download file from ftp,
-                "l" - download ftp folder contents list.
-            * For example:
-            <localPathAndFileName> = u = <remotePathAndFileName>
-            <localPathAndFileName> = d = <remotePathAndFileName>
-            <localPathAndFileName> = l = <remotePath>
-            * It is possible for remote path to use macro \\{start\\}
+                {gray     u - upload file to ftp,}
+                {gray     d - download file from ftp,}
+                {gray     l - download ftp folder contents list.}
+            For example:
+                {gray     <localPathAndFileName> = u = <remotePathAndFileName>}
+                {gray     <localPathAndFileName> = d = <remotePathAndFileName>}
+                {gray     <localPathAndFileName> = l = <remotePath>}
+            * It is possible for remote path to use macro {underline start}
                 which is start working folder on server.
             * Existing local files will be overwritten silently.`
     },
