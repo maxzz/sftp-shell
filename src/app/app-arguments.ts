@@ -4,7 +4,7 @@ import { OP, Operation, Options } from './app-types';
 import { optionDefinitions } from './app-options';
 import { terminate } from './app-errors';
 import { help } from './app-help';
-import { printHeader, printHeaderAndVersion } from './app-messages';
+import { printSftpStart, printAppVersion } from './app-messages';
 import { formatDeep } from '../utils/utils';
 
 function validate(options: Options) {
@@ -72,7 +72,7 @@ function validate(options: Options) {
     if (!options.filePairs.length) {
         console.log(`\nNo files to process. Done.`);
         help();
-        printHeader();
+        printSftpStart();
         process.exit(0);
     }
 
@@ -90,7 +90,8 @@ function validate(options: Options) {
 }
 
 export function getVerifiedArguments(): Options {
-    printHeaderAndVersion();
+    printAppVersion();
+    printSftpStart();
 
     const options = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as Options;
     validate(options);

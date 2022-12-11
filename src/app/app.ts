@@ -55,7 +55,7 @@ export async function processSftp(options: Options) {
         }//for async
 
         printLoopEnd(options);
-        await sftp.end();
+        await sftp.end(); 
 
     } catch (error) {
         printLoopEndError(error);

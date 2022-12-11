@@ -19,21 +19,27 @@ const HEADER3 = `
   ├┤ ├─┤││  ├┤  ││
   └  ┴ ┴┴┴─┘└─┘─┴┘`;
 
-export function printHeader() {
+export function printSftpStart() {
     console.log(chalk.cyan(HEADER1));
-    // console.log(chalk.green(HEADER2));
-    // console.log(chalk.red(`${HEADER3}`));
 }
 
-export function printHeaderAndVersion() {
+export function printAppDone() {
+    console.log(chalk.green(HEADER2));
+}
+
+export function printAppFailed() {
+    console.log(chalk.red(`${HEADER3}`));
+}
+
+//
+
+export function printAppVersion() {
     console.log(`SFTP client shell ${chalk.cyan(appName)} version ${appVersion}.`);
-    printHeader();
 }
 
 export function printMessageBeforeExit(msg: string) {
     console.log(`${chalk.redBright('\nTerminated:')}\n    ${msg}`);
     help();
-    printHeader();
 }
 
 // sftp loop
@@ -41,7 +47,7 @@ export function printMessageBeforeExit(msg: string) {
 const opName = (s: string) => s === 'u' ? 'Upload to FTP' : s === 'd' ? 'Download from FTP' : s === 'l' ? 'List folder content' : '?';
 const plural = (n: number) => n === 1 ? '' : 's';
 
-export const printOnConnectionCloased = () => console.log(chalk.gray(`SFTP connection closed\n`));
+export const printOnConnectionCloased = () => console.log(chalk.gray(`  SFTP connection closed\n`));
 
 export function printLoopStart(o: Options, sftpWorkingDir: string) {
     console.log(chalk.gray(`\n  Remote root: ${sftpWorkingDir}`));
