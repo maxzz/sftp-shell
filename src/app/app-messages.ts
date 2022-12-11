@@ -6,26 +6,28 @@ import { Operation, Options } from './app-types';
 export const appName = 'sftp-shell'; //export const { name: progrmaName } = require('../../package.json');
 export const appVersion = '1.2.0'; //export const { version: progrmaName } = require('../../package.json');
 
-const HEADER0 =
-`  _   _   _   _  
- / \\ / \\ / \\ / \\ 
-( S . F . T . P )
- \\_/ \\_/ \\_/ \\_/`;
+const HEADER1 = `
+o o o o o o o o o SFTP o o o o o o o o o`;
 
-const HEADER1 =`
- ┌─┐┌─┐┌┬┐┌─┐  ┌─┐┌─┐┌┬┐┌─┐┬ ┬
- └─┐├┤  │ ├─┘  ├┤ ├┤  │ │  ├─┤
- └─┘└   ┴ ┴    └  └─┘ ┴ └─┘┴ ┴ o o o`;
+const HEADER2 = `
+  ┌┬┐┌─┐┌┐┌┌─┐
+   │││ ││││├┤ 
+  ─┴┘└─┘┘└┘└─┘`;
 
-const HEADER = chalk.green(HEADER1);
+const HEADER3 = `
+  ┌─┐┌─┐┬┬  ┌─┐┌┬┐
+  ├┤ ├─┤││  ├┤  ││
+  └  ┴ ┴┴┴─┘└─┘─┴┘`;
 
 export function printHeader() {
-    console.log(HEADER);
+    console.log(chalk.cyan(HEADER1));
+    // console.log(chalk.green(HEADER2));
+    // console.log(chalk.red(`${HEADER3}`));
 }
 
 export function printHeaderAndVersion() {
     console.log(`SFTP client shell ${chalk.cyan(appName)} version ${appVersion}.`);
-    console.log(HEADER);
+    printHeader();
 }
 
 export function printMessageBeforeExit(msg: string) {
@@ -39,10 +41,10 @@ export function printMessageBeforeExit(msg: string) {
 const opName = (s: string) => s === 'u' ? 'Upload to FTP' : s === 'd' ? 'Download from FTP' : s === 'l' ? 'List folder content' : '?';
 const plural = (n: number) => n === 1 ? '' : 's';
 
-export const printOnConnectionCloased = () => console.log(chalk.yellow(`Connection closed\n`));
+export const printOnConnectionCloased = () => console.log(chalk.gray(`SFTP connection closed\n`));
 
 export function printLoopStart(o: Options, sftpWorkingDir: string) {
-    console.log(`  Remote root: ${sftpWorkingDir}`);
+    console.log(chalk.gray(`\n  Remote root: ${sftpWorkingDir}`));
     console.log(chalk.cyan(`\n  Stating ${o.filePairs.length} operation${plural(o.filePairs.length)}.`));
 }
 
@@ -60,11 +62,11 @@ export function printLoopEndError(error: unknown) {
 
 function printOnExit(msg: string) {
     console.log(msg);
-    console.log(`${HEADER}`);
+    console.log(chalk.green(`${HEADER2}`));
 }
 
 function printOnExitError(error: Error) {
     console.log('\nSFTP error: ', chalk.redBright(error.message));
     console.log('\nSFTP stack: ', error.stack);
-    console.log(chalk.red(`${HEADER0}`));
+    console.log(chalk.red(`${HEADER3}`));
 }
