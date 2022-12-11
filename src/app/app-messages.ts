@@ -61,7 +61,7 @@ export function printLoopCurrentOp(item: Operation) {
 }
 
 export function printLoopEnd(o: Options) {
-    console.log(chalk.cyan(`  Completed ${o.filePairs.length} operation${plural(o.filePairs.length)}.`));
+    console.log(chalk.cyan(`  Successfully completed ${o.filePairs.length} operation${plural(o.filePairs.length)}.`));
 }
 
 export function printLoopEndError(error: unknown) {
