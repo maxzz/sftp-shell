@@ -6,7 +6,7 @@ import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, pr
 import { formatDeep, mkDirSync } from '../utils/utils';
 
 function getConnectConfig(o: Options): SFTPConfig {
-    return  {
+    return {
         host: o.host,
         username: o.username,
         ...(o.password && { password: o.password }),
@@ -15,25 +15,33 @@ function getConnectConfig(o: Options): SFTPConfig {
     };
 }
 
+function resolvePathes(filePairs: Operation[], sftpWorkingDir: string, options: Options): Operation[] {
+    const resolveEnv = {
+        start: sftpWorkingDir,
+        ...options.aliasPairs,
+    };
+    return filePairs.map((op) => {
+        return {
+            operation: op.operation,
+            local: formatDeep(op.local, resolveEnv),
+            remote: formatDeep(op.remote, resolveEnv),
+        };
+    });
+}
+
 export async function processSftp(options: Options) {
     const sftp = new Client();
     sftp.on('close', printOnConnectionCloased);
     try {
         await sftp.connect(getConnectConfig(options));
-
-        let sftpWorkingDir = await sftp.cwd();
+        const sftpWorkingDir = await sftp.cwd();
+        
         printLoopStart(options, sftpWorkingDir);
+        const filePairs = resolvePathes(options.filePairs, sftpWorkingDir, options);
 
-        let resolveEnv = {
-            start: sftpWorkingDir,
-            ...options.aliasPairs,
-        };
+        for (let i = 0; i < filePairs.length; i++) {
+            const item: Operation = filePairs[i];
 
-        for (let i = 0; i < options.filePairs.length; i++) {
-            let item: Operation = options.filePairs[i];
-
-            item.local = formatDeep(item.local, resolveEnv);
-            item.remote = formatDeep(item.remote, resolveEnv);
             printLoopCurrentOp(item);
 
             switch (item.operation) {
@@ -47,8 +55,8 @@ export async function processSftp(options: Options) {
                     break;
                 }
                 case OP.list: {
-                    mkDirSync(path.dirname(item.local));
                     const list = await sftp.list(item.remote);
+                    mkDirSync(path.dirname(item.local));
                     fs.writeFileSync(item.local, JSON.stringify(list, null, 4));
                     break;
                 }
@@ -56,8 +64,8 @@ export async function processSftp(options: Options) {
         }//for async
 
         printLoopEnd(options);
-        await sftp.end(); 
-        printAppDone()
+        await sftp.end();
+        printAppDone();
 
     } catch (error) {
         printLoopEndError(error);

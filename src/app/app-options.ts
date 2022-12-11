@@ -54,7 +54,7 @@ export const optionDefinitions = [
         alias: 'a',
         type: String,
         multiple: true,
-        description: `Aliases to expand on remote path after start remote folder aquired from SFTP.
+        description: `Aliases to expand any path after start remote folder aquired from SFTP.
             For example:
                 "--alias", "root = \\{start\\}/files/crossmatch"
                 "--alias", "g01 = \\{root\\}/AltusAddons/g01"
