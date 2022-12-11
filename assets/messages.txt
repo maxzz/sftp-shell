@@ -125,3 +125,11 @@ const HEADER1 = `
  ┌─┐┌─┐┌┬┐┌─┐
  └─┐├┤  │ ├─┘
  └─┘└   ┴ ┴  o o o`;
+
+export function printSftpStart() {
+    console.log(chalk.cyan(HEADER1));
+    console.log(chalk.redBright(`${HEADER3}`));
+    console.log(chalk.red(`${HEADER3}`));
+
+    console.log(chalk.bgRed.white(`${HEADER3}`));
+}
