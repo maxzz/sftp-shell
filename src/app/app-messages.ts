@@ -35,7 +35,7 @@ export function printAppFailed() {
 //
 
 export function printAppVersion() {
-    console.log(`SFTP client shell ${chalk.cyan(appName)} version ${appVersion}.`);
+    console.log(`The ${chalk.cyan(appName)} utility transfers files to/from an FTP server\nusing SFTP (SSH File Transfer Protocol). version ${appVersion}.`);
 }
 
 export function printMessageBeforeExit(msg: string) {
@@ -52,6 +52,7 @@ export function printOnConnectionCloased() {
 }
 
 export function printLoopStart(o: Options, sftpWorkingDir: string) {
+    printSftpStart();
     console.log(chalk.gray(`\n  Remote root: ${sftpWorkingDir}`));
     console.log(chalk.cyan(`\n  Stating ${o.filePairs.length} operation${plural(o.filePairs.length)}.`));
 }

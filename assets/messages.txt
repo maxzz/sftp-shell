@@ -176,3 +176,13 @@ sftp.connect({
 * relative path resolved relative to start folder
 
 //////////////////////////////////////////////////////
+
+`SFTP shell ${chalk.cyan(appName)} version ${appVersion} utility transfers files\nto/from FTP server over SFTP (SSH File Transfer Protocol).`
+
+SFTP shell appName version 2.0 utility transfers files to/from FTP server over SFTP (SSH File Transfer Protocol).
+
+The appName utility transfers files to/from FTP server over SFTP (SSH File Transfer Protocol). version 2.0
+The appName utility transfers files to/from an FTP server using SFTP (SSH File Transfer Protocol). version 2.0
+
+
+//////////////////////////////////////////////////////

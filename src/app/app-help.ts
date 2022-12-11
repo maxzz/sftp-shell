@@ -4,10 +4,10 @@ import { optionDefinitions } from './app-options';
 
 export function help() {
     const usage = commandLineUsage([
-        {
-            header: 'SFTP client shell',
-            content: 'Transfer files to/from FTP server over SFTP protocol.'
-        },
+        // {
+        //     header: 'SFTP client shell',
+        //     content: 'Transfer files to/from FTP server over SFTP (SSH File Transfer Protocol).'
+        // },
         {
             header: 'Options',
             optionList: optionDefinitions
