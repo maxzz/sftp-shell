@@ -23,7 +23,7 @@ function resolvePathes(filePairs: Operation[], sftpWorkingDir: string, options: 
     return filePairs.map((op) => {
         return {
             operation: op.operation,
-            local: path.normalize(formatDeep(op.local, resolveEnv)),
+            local: path.resolve(path.normalize(formatDeep(op.local, resolveEnv))),
             remote: formatDeep(op.remote, resolveEnv),
         };
     });
