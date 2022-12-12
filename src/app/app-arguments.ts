@@ -7,8 +7,29 @@ import { help } from './app-help';
 import { printAppVersion, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils';
 
+function getCreads(options: Options) {
+    let totalCreds: number = +!!options.keyfile + +!!options.password + +!!options.key;
+    if (totalCreds > 1) {
+        terminate(`Specify only one of: <password>, <keyfile>, or <key>.`);
+    }
+
+    if (options.keyfile) {
+        try {
+            options.keyfile = formatDeep(options.keyfile, process.env);
+            options.keyfile = fs.readFileSync(options.keyfile).toString();
+        } catch (error) {
+            terminate(`Cannot read SFTP access key file: '${options.keyfile}'`);
+        }
+    }
+
+    const basicOK = options.host && options.username && (options.password || options.keyfile || options.key);
+    if (!basicOK) {
+        terminate('Missing: host || username || password || keyfile');
+    }
+}
+
 function getOperations(options: Options) {
-    const {ftp} = options;
+    const { ftp } = options;
     if (!ftp?.length) {
         terminate('Missing: <ftp> commands list to perform');
     }
@@ -65,8 +86,6 @@ function getAliases(options: Options) {
     return rv;
 }
 
-//TODO: getCreads(options: Options)
-
 function validate(options: Options) {
     if (options.help || !Object.keys(options).length) {
         help();
@@ -77,27 +96,9 @@ function validate(options: Options) {
         terminate(`Unknown option(s):\n${options._unknown.map(_ => `        '${_}'\n`).join('')}`);
     }
 
-    let totalCreds: number = +!!options.keyfile + +!!options.password + +!!options.key;
-    if (totalCreds > 1) {
-        terminate(`Specify only one from <password>, <keyfile>, or <key>.`);
-    }
-
-    if (options.keyfile) {
-        try {
-            options.keyfile = formatDeep(options.keyfile, process.env);
-            options.keyfile = fs.readFileSync(options.keyfile).toString();
-        } catch (error) {
-            terminate(`Cannot read SFTP access key file: '${options.keyfile}'`);
-        }
-    }
-
-    const basicOK = options.host && options.username && (options.password || options.keyfile || options.key);
-    if (!basicOK) {
-        terminate('Missing: host || username || password || keyfile');
-    }
-
-    options.filePairs = getOperations(options);
+    getCreads(options);
     options.aliasPairs = getAliases(options);
+    options.filePairs = getOperations(options);
 }
 
 export function getVerifiedArguments(): Options {
