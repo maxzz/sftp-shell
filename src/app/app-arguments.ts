@@ -7,6 +7,66 @@ import { help } from './app-help';
 import { printAppVersion, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils';
 
+function getOperations(options: Options) {
+    const {ftp} = options;
+    if (!ftp?.length) {
+        terminate('Missing: <ftp> commands list to perform');
+    }
+
+    const rv = ftp.map((cur) => {
+        const files = cur.split('=');
+        if (files.length !== 3) {
+            terminate(`Wrong files pair: ${cur}`);
+        }
+
+        const item: Operation = {
+            local: files[0].trim(),
+            operation: files[1].trim() as OP,
+            remote: files[2].trim()
+        };
+
+        if (item.operation.length !== 1 || !~'udl'.indexOf(item.operation)) {
+            terminate(`Invalid operation (not u | d | l) for:\n    ${cur}`);
+        }
+
+        if (item.operation === OP.upload) {
+            if (!fs.existsSync(item.local)) {
+                console.log(`\nFile pairs: ${JSON.stringify(ftp, null, 4)}\n`);
+                terminate(`File not exists: ${item.local}`);
+            }
+        }
+
+        return item;
+    });
+
+    if (!rv.length) {
+        console.log(`\nOperations to be processed are not defined. Done.`);
+        help();
+        printAppDone();
+        process.exit(0);
+    }
+
+    return rv;
+}
+
+function getAliases(options: Options) {
+    // aliases
+    let rv = {};
+    if (options.alias) {
+        rv = options.alias.reduce((acc: any, cur: string) => {
+            const [key, val] = cur.split('=').map((value) => value.trim());
+            if (!key || !val) {
+                terminate(`Invalid alias: '${cur}'`);
+            }
+            acc[key] = val;
+            return acc;
+        }, {});
+    }
+    return rv;
+}
+
+//TODO: getCreads(options: Options)
+
 function validate(options: Options) {
     if (options.help || !Object.keys(options).length) {
         help();
@@ -36,57 +96,8 @@ function validate(options: Options) {
         terminate('Missing: host || username || password || keyfile');
     }
 
-    // ftp pairs
-
-    const ftpOK = options.ftp && options.ftp.length;
-    if (!ftpOK) {
-        terminate('Missing: <ftp> commands list to perform');
-    }
-
-    options.filePairs = options.ftp.map(_ => {
-        const files = _.split('=');
-        if (files.length !== 3) {
-            terminate(`Wrong files pair: ${_}`);
-        }
-
-        const item: Operation = {
-            local: files[0].trim(),
-            operation: files[1].trim() as OP,
-            remote: files[2].trim()
-        };
-
-        if (item.operation.length !== 1 || !~'udl'.indexOf(item.operation)) {
-            terminate(`Invalid operation (not u | d | l) for:\n    ${_}`);
-        }
-
-        if (item.operation === OP.upload) {
-            if (!fs.existsSync(item.local)) {
-                console.log(`\nFile pairs: ${JSON.stringify(options.ftp, null, 4)}\n`);
-                terminate(`File not exists: ${item.local}`);
-            }
-        }
-
-        return item;
-    });
-
-    if (!options.filePairs.length) {
-        console.log(`\nOperations to be processed are not defined. Done.`);
-        help();
-        printAppDone();
-        process.exit(0);
-    }
-
-    // aliases
-    if (options.alias) {
-        options.aliasPairs = options.alias.reduce((acc: any, cur: string) => {
-            const [key, val] = cur.split('=').map((value) => value.trim());
-            if (!key || !val) {
-                terminate(`Invalid alias: '${cur}'`);
-            }
-            acc[key] = val;
-            return acc;
-        }, {});
-    }
+    options.filePairs = getOperations(options);
+    options.aliasPairs = getAliases(options);
 }
 
 export function getVerifiedArguments(): Options {
