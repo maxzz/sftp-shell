@@ -8,9 +8,9 @@ import {
 export function execSync(command: string, options: ExecSyncOptionsWithStringEncoding): string {
     const child = _execSync(command, options);
     return (child || '').toString();
-};
+}
 
-module.exports.spawn.sync = function (command: string, args: readonly string[], opts?: SpawnSyncOptionsWithStringEncoding & {expect?: boolean | null | string}) {
+export function spawnSync(command: string, args: readonly string[], opts?: SpawnSyncOptionsWithStringEncoding & { expect?: number; }): string | { stdout: string; stderr: string; } {
     if (!opts) opts = {} as SpawnSyncOptionsWithStringEncoding;
 
     opts = Object.assign({}, opts); // change own copy
@@ -22,7 +22,7 @@ module.exports.spawn.sync = function (command: string, args: readonly string[], 
         opts.stdio = [d, d, d];
     }
 
-    let expect = opts.expect === undefined ? 0 : opts.expect;
+    let expect: boolean | number | null | string = opts.expect === undefined ? 0 : opts.expect;
     delete opts.expect; // to avoid passing to spawnSync
 
     const opts2 = Object.assign({}, opts); // 0.12.x mutates
@@ -62,4 +62,4 @@ module.exports.spawn.sync = function (command: string, args: readonly string[], 
     } else {
         return '';
     }
-};
+}
