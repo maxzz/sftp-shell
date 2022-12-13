@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import child from 'child_process';
 
 //const mkdir = require('mkdir-p');
 // export function mkDirSync(dirName: string): void {
@@ -100,3 +101,29 @@ export function fileCopy(src: string, dest: string): void {
         throw error;
     }
 }
+
+export function runScript(scriptFullFname: string, args?: string): boolean {
+    let cmdArgs = {
+        tool: 'node',
+        script: scriptFullFname,
+        args: args || ''
+    };
+    let cmd = '{tool} {script} {args}';
+    cmd = formatDeep(cmd, cmdArgs).trim();
+    try {
+        let ret = child.execSync(cmd);
+        if (ret) {
+            let output = ret.toString();
+            if (output) {
+                console.log(`${output}`);
+            }
+        }
+        return true;
+    } catch(err) {
+        if (err.stdout) {
+            console.log(`Execution error:\n${err.stdout.toString()}`);
+        } else {
+            console.log(`Execution error:\n${err}`);
+        }
+    }
+} //runScript()
