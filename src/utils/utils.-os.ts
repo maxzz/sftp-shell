@@ -102,28 +102,21 @@ export function fileCopy(src: string, dest: string): void {
     }
 }
 
-export function runScript(scriptFullFname: string, args?: string): boolean {
-    let cmdArgs = {
-        tool: 'node',
-        script: scriptFullFname,
-        args: args || ''
-    };
-    let cmd = '{tool} {script} {args}';
-    cmd = formatDeep(cmd, cmdArgs).trim();
+export function runScript(scriptFullFilename: string, scriptArgs?: string): boolean {
+    const { tool, script, args } = { tool: 'node', script: scriptFullFilename, args: scriptArgs || '' };
     try {
-        let ret = child.execSync(cmd);
+        const cmd = `${tool} ${script} ${args}`.trim();
+        const ret = child.execSync(cmd);
         if (ret) {
-            let output = ret.toString();
-            if (output) {
-                console.log(`${output}`);
-            }
+            const output = ret.toString();
+            output && console.log(`${output}`);
         }
         return true;
-    } catch(err) {
+    } catch (err) {
         if (err.stdout) {
             console.log(`Execution error:\n${err.stdout.toString()}`);
         } else {
             console.log(`Execution error:\n${err}`);
         }
     }
-} //runScript()
+}
