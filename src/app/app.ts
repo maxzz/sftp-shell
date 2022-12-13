@@ -3,7 +3,8 @@ import fs from 'fs';
 import Client from 'ssh2-sftp-client';
 import { OP, Operation, Options, SFTPConfig } from './app-types';
 import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionCloased, printAppDone } from './app-messages';
-import { formatDeep, mkDirSync } from '../utils/utils-aliases';
+import { formatDeep } from '../utils/utils-aliases';
+import { mkDirSync } from '../utils/utils.-os';
 
 function getConnectConfig(o: Options): SFTPConfig {
     return {
