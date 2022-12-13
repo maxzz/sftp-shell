@@ -7,7 +7,7 @@
     "scripts": {
         "dev": "tsc -w",
         "make-es": "node esbuild.js",
-        "makebin": "pkg -t host -o dist/sftp-shell build-es/index.js",
+        "makebin": "pkg -t host -o dist/sshell build-es/index.js",
         "build": "yarn make-es && yarn makebin"
     },
     "dependencies": {
