@@ -3,16 +3,19 @@ import {
     ExecSyncOptionsWithStringEncoding,
     spawnSync as _spawnSync,
     SpawnSyncOptionsWithStringEncoding,
-} from 'child_process'; // https://github.com/vercel/pkg/blob/main/test/utils.js
+} from 'child_process';
 
 export function execSync(command: string, options: ExecSyncOptionsWithStringEncoding): string {
     const child = _execSync(command, options);
     return (child || '').toString();
 }
 
-export function spawnSync(command: string, args: readonly string[], opts?: SpawnSyncOptionsWithStringEncoding & { expect?: number; }): string | { stdout: string; stderr: string; } {
-    if (!opts) opts = {} as SpawnSyncOptionsWithStringEncoding;
+export type SpawnSyncOptions = SpawnSyncOptionsWithStringEncoding & { // https://github.com/vercel/pkg/blob/main/test/utils.js
+    expect?: number; // exit code as usual 0
+};
 
+export function spawnSync(command: string, args: readonly string[], opts?: SpawnSyncOptions): string | { stdout: string; stderr: string; } {
+    if (!opts) { opts = {} as SpawnSyncOptionsWithStringEncoding; }
     opts = Object.assign({}, opts); // change own copy
 
     const d = opts.stdio;
@@ -22,13 +25,13 @@ export function spawnSync(command: string, args: readonly string[], opts?: Spawn
         opts.stdio = [d, d, d];
     }
 
-    let expect: boolean | number | null | string = opts.expect === undefined ? 0 : opts.expect;
+    let expect: number = opts.expect === undefined ? 0 : opts.expect;
     delete opts.expect; // to avoid passing to spawnSync
 
     const opts2 = Object.assign({}, opts); // 0.12.x mutates
     const child = _spawnSync(command, args, opts2);
 
-    let s: number | string = child.status;
+    let s: number = child.status;
     if (child.signal) { s = null; } // conform old node vers to https://github.com/nodejs/node/pull/11288
 
     if (child.error || s !== expect) {
@@ -45,9 +48,7 @@ export function spawnSync(command: string, args: readonly string[], opts?: Spawn
     }
 
     if (s !== expect) {
-        if (s === null) { s = 'null'; };
-        if (expect === null) { expect = 'null'; };
-        throw new Error('Status ' + s.toString() + ', expected ' + expect.toString());
+        throw new Error('Status ' + (s === null ? 'null' : s).toString() + ', expected ' + (expect === null ? 'null' : expect).toString());
     }
 
     if (opts.stdio[1] === 'pipe' && opts.stdio[2] === 'pipe') {
