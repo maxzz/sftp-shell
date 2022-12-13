@@ -5,7 +5,7 @@ import { optionDefinitions } from './app-argument-options';
 import { terminate } from './app-errors';
 import { help } from './app-help';
 import { printAppVersion, printAppDone } from './app-messages';
-import { formatDeep } from '../utils/utils';
+import { formatDeep } from '../utils/utils-aliases';
 
 function getCreads(options: Options) {
     let totalCreds: number = +!!options.keyfile + +!!options.password + +!!options.key;

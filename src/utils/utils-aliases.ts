@@ -1,3 +1,4 @@
+import fs from 'fs';
 const mkdir = require('mkdir-p');
 
 export function formatWith(str: string, obj: Object) {
@@ -23,6 +24,13 @@ export function formatDeep(str: string, obj: Object) {
 
 export function mkDirSync(dirName: string) {
     mkdir.sync(dirName);
+}
+
+export function exist(name: string): fs.Stats | undefined {
+    try {
+        return fs.statSync(name);
+    } catch (e) {
+    }
 }
 
 export function toUnix(fileName: string): string {
