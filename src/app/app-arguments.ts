@@ -6,6 +6,7 @@ import { terminate } from './app-errors';
 import { help, helpEx } from './app-help';
 import { printAppVersion, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
+import path from 'path';
 
 function getCreads(options: ArgOptions): ArgCredentials {
     let totalCreds: number = +!!options.keyfile + +!!options.password + +!!options.key;
@@ -47,6 +48,17 @@ function getConnectConfig(c: ArgCredentials): SFTPCredentials {
     };
 }
 
+function getAliases(aliases: string[]): Aliases {
+    return aliases?.reduce((acc: any, cur: string) => {
+        const [key, val] = cur.split('=').map((value) => value.trim());
+        if (!key || !val) {
+            terminate(`Invalid alias: '${cur}'`);
+        }
+        acc[key] = val;
+        return acc;
+    }, {}) || {};
+}
+
 function getOperations(ftp: string[] = []): Operation[] {
     return ftp.map((cur) => {
         const parts = cur.split('=').map((value) => value.trim());
@@ -64,8 +76,10 @@ function getOperations(ftp: string[] = []): Operation[] {
     });
 }
 
-function checkOperationLocalFiles(operations: Operation[]): void {
+function checkOperationLocalFiles(operations: Operation[], aliases: Aliases): void {
     operations.forEach((item) => {
+        item.local = path.resolve(path.normalize(formatDeep(item.local, aliases)));
+        
         if (item.operation === OP.upload) {
             if (!fs.existsSync(item.local)) {
                 console.log(`\nFailed FTP pair: ${JSON.stringify(item)}\n`);
@@ -75,19 +89,8 @@ function checkOperationLocalFiles(operations: Operation[]): void {
     });
 }
 
-function getAliases(aliases: string[]): Aliases {
-    return aliases?.reduce((acc: any, cur: string) => {
-        const [key, val] = cur.split('=').map((value) => value.trim());
-        if (!key || !val) {
-            terminate(`Invalid alias: '${cur}'`);
-        }
-        acc[key] = val;
-        return acc;
-    }, {}) || {};
-}
-
 function getConfigs(names: string[] = []): AppOptions[] {
-    const configs = names.map((name) => {
+    return names.map((name) => {
         try {
             name = formatDeep(name, process.env);
             const cnt = fs.readFileSync(name).toString();
@@ -102,7 +105,6 @@ function getConfigs(names: string[] = []): AppOptions[] {
             terminate(`Failed to get config file: '${name}'. error: ${error.toString()}`);
         }
     }).filter(Boolean);
-    return configs;
 }
 
 function validate(argOptions: ArgOptions): AppOptions {
@@ -136,7 +138,7 @@ function validate(argOptions: ArgOptions): AppOptions {
         printAppDone();
         process.exit(0);
     }
-    checkOperationLocalFiles(rv.operations);
+    checkOperationLocalFiles(rv.operations, rv.aliases);
 
     return rv;
 }

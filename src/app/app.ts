@@ -14,7 +14,7 @@ function resolvePathes(operations: Operation[], sftpWorkingDir: string, aliases:
     return operations.map((op) => {
         return {
             operation: op.operation,
-            local: path.resolve(path.normalize(formatDeep(op.local, resolveEnv))),
+            local: op.local,
             remote: formatDeep(op.remote, resolveEnv),
         };
     });
