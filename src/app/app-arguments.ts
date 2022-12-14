@@ -29,10 +29,6 @@ function getCreads(options: ArgsOptions): void {
 }
 
 function getOperations(ftp: string[]): Operation[] {
-    if (!ftp?.length) {
-        terminate('Missing: <ftp> commands list to perform');
-    }
-
     const rv = ftp.map((cur) => {
         const files = cur.split('=');
         if (files.length !== 3) {
@@ -55,17 +51,8 @@ function getOperations(ftp: string[]): Operation[] {
                 terminate(`File not exists: ${item.local}`);
             }
         }
-
         return item;
     });
-
-    if (!rv.length) {
-        console.log(`\nOperations to be processed are not defined. Done.`);
-        help();
-        printAppDone();
-        process.exit(0);
-    }
-
     return rv;
 }
 
@@ -98,7 +85,19 @@ function validate(options: ArgsOptions): void {
 
     getCreads(options);
     options.aliasPairs = getAliases(options);
+
+    if (!options.ftp?.length) {
+        terminate('Missing: <ftp> commands list to perform');
+    }
+
     options.filePairs = getOperations(options.ftp || []);
+
+    if (!options.filePairs.length) {
+        console.log(`\nOperations to be processed are not defined. Done.`);
+        help();
+        printAppDone();
+        process.exit(0);
+    }
 }
 
 export function getVerifiedArguments(): ArgsOptions {
