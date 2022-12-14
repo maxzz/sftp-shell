@@ -54,7 +54,7 @@ export function printOnConnectionCloased() {
 export function printLoopStart(o: AppOptions, sftpWorkingDir: string) {
     printSftpStart();
     console.log(chalk.gray(`\n  Remote root: ${sftpWorkingDir}`));
-    console.log(chalk.cyan(`\n  Stating ${o.filePairs.length} operation${plural(o.filePairs.length)}.`));
+    console.log(chalk.cyan(`\n  Stating ${o.operations.length} operation${plural(o.operations.length)}.`));
 }
 
 export function printLoopCurrentOp(item: Operation) {
@@ -62,7 +62,7 @@ export function printLoopCurrentOp(item: Operation) {
 }
 
 export function printLoopEnd(o: AppOptions) {
-    console.log(chalk.cyan(`  Successfully completed ${o.filePairs.length} operation${plural(o.filePairs.length)}.`));
+    console.log(chalk.cyan(`  Successfully completed ${o.operations.length} operation${plural(o.operations.length)}.`));
 }
 
 export function printLoopEndError(error: unknown) {

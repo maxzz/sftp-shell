@@ -25,7 +25,7 @@ export type Aliases = Record<string, string>;
 
 export type AppOptions = {
     credentials: SFTPCredentials;
-    filePairs: Operation[];         // generated from ArgsOptions.ftp
+    operations: Operation[];        // generated from ArgsOptions.ftp
     aliasPairs?: Aliases;           // alias -> value;  generated from ArgsOptions.alias
 };
 

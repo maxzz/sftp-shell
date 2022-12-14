@@ -112,9 +112,9 @@ function validate(argOptions: ArgOptions): AppOptions {
         terminate('Missing: <ftp> commands list to perform');
     }
 
-    rv.filePairs = getOperations(argOptions.ftp || []);
+    rv.operations = getOperations(argOptions.ftp || []);
 
-    if (!rv.filePairs.length) {
+    if (!rv.operations.length) {
         console.log(`\nOperations to be processed are not defined. Done.`);
         help();
         printAppDone();

@@ -28,7 +28,7 @@ export async function processSftp(appOptions: AppOptions) {
         const sftpWorkingDir = await sftp.cwd();
         
         printLoopStart(appOptions, sftpWorkingDir);
-        const operations = resolvePathes(appOptions.filePairs, sftpWorkingDir, appOptions.aliasPairs);
+        const operations = resolvePathes(appOptions.operations, sftpWorkingDir, appOptions.aliasPairs);
 
         for (let i = 0; i < operations.length; i++) {
             const item: Operation = operations[i];
