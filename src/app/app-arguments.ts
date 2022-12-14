@@ -7,7 +7,7 @@ import { help, helpEx } from './app-help';
 import { printAppVersion, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 
-function getCreads(options: Options) {
+function getCreads(options: Options): void {
     let totalCreds: number = +!!options.keyfile + +!!options.password + +!!options.key;
     if (totalCreds > 1) {
         terminate(`Specify only one of: <password>, <keyfile>, or <key>.`);
@@ -28,7 +28,7 @@ function getCreads(options: Options) {
     }
 }
 
-function getOperations(options: Options) {
+function getOperations(options: Options): Operation[] {
     const { ftp } = options;
     if (!ftp?.length) {
         terminate('Missing: <ftp> commands list to perform');
@@ -70,9 +70,9 @@ function getOperations(options: Options) {
     return rv;
 }
 
-function getAliases(options: Options) {
+function getAliases(options: Options): Record<string, string> {
     // aliases
-    let rv = {};
+    let rv: Record<string, string> = {};
     if (options.alias) {
         rv = options.alias.reduce((acc: any, cur: string) => {
             const [key, val] = cur.split('=').map((value) => value.trim());
@@ -86,7 +86,7 @@ function getAliases(options: Options) {
     return rv;
 }
 
-function validate(options: Options) {
+function validate(options: Options): void {
     if (options.help || !Object.keys(options).length) {
         help();
         helpEx();
