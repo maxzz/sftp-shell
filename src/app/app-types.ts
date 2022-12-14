@@ -10,13 +10,16 @@ export type Operation = {
     remote: string;
 };
 
-export type Options = {
+export type CredOptions = {
     host: string;
     port?: string;
     username: string;
     password?: string;
     keyfile?: string;
     key?: string;
+};
+
+export type Options = CredOptions & {
     help?: string;
 
     _unknown: string[];
