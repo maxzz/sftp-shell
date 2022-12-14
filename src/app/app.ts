@@ -1,12 +1,12 @@
 import path from 'path';
 import fs from 'fs';
 import Client from 'ssh2-sftp-client';
-import { OP, Operation, ArgsOptions, SFTPConfig, AppOptions, ArgsCredentials, Aliases } from './app-types';
+import { OP, Operation, SFTPCredentials, AppOptions, ArgsCredentials, Aliases } from './app-types';
 import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionCloased, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 import { mkDirSync } from '../utils/utils-os';
 
-function getConnectConfig(c: ArgsCredentials): SFTPConfig {
+function getConnectConfig(c: ArgsCredentials): SFTPCredentials {
     return {
         host: c.host,
         username: c.username,

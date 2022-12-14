@@ -29,12 +29,12 @@ export type AppOptions = {
 
 // Arguments
 
-export type SFTPConfig = {
+export type SFTPCredentials = {     // should partial match ssh2.ConnectConfig
     host: string;
+    port?: number;
     username: string;
     password?: string;
     privateKey?: string;
-    port?: number;
 };
 
 export type ArgsCredentials = {
