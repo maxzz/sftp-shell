@@ -1,6 +1,6 @@
 import fs from 'fs';
 import commandLineArgs from 'command-line-args';
-import { OP, Operation, ArgsOptions } from './app-types';
+import { OP, Operation, ArgsOptions, AppOptions } from './app-types';
 import { optionDefinitions } from './app-argument-options';
 import { terminate } from './app-errors';
 import { help, helpEx } from './app-help';
@@ -72,7 +72,7 @@ function getAliases(options: ArgsOptions): Record<string, string> {
     return rv;
 }
 
-function validate(options: ArgsOptions): void {
+function validate(options: ArgsOptions): AppOptions {
     if (options.help || !Object.keys(options).length) {
         help();
         helpEx();
@@ -83,28 +83,39 @@ function validate(options: ArgsOptions): void {
         terminate(`Unknown option(s):\n${options._unknown.map(_ => `        '${_}'\n`).join('')}`);
     }
 
+    // 1. Creds
+
     getCreads(options);
-    options.aliasPairs = getAliases(options);
+
+    // 2. Aliases
+
+    const appOptions = {} as AppOptions;
+
+    appOptions.aliasPairs = getAliases(options);
+
+    // 3. Operations
 
     if (!options.ftp?.length) {
         terminate('Missing: <ftp> commands list to perform');
     }
 
-    options.filePairs = getOperations(options.ftp || []);
+    appOptions.filePairs = getOperations(options.ftp || []);
 
-    if (!options.filePairs.length) {
+    if (!appOptions.filePairs.length) {
         console.log(`\nOperations to be processed are not defined. Done.`);
         help();
         printAppDone();
         process.exit(0);
     }
+
+    return appOptions;
 }
 
-export function getVerifiedArguments(): ArgsOptions {
+export function getVerifiedArguments(): AppOptions {
     printAppVersion();
 
     const options = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as ArgsOptions;
-    validate(options);
+    const appOptions = validate(options);
 
-    return options;
+    return appOptions;
 }
