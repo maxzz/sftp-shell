@@ -104,7 +104,7 @@ function validate(argOptions: ArgOptions): AppOptions {
 
     // 2. Aliases
 
-    rv.aliasPairs = getAliases(argOptions);
+    rv.aliases = getAliases(argOptions);
 
     // 3. Operations
 
