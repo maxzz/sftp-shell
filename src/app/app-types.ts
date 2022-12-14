@@ -31,8 +31,8 @@ export type AppOptions = {
 
 // Arguments
 
-export type SFTPCredentials = Pick<ConnectConfig, 'host' | 'port' | 'username' | 'password' | 'privateKey'>; // should partial match ssh2.ConnectConfig
-// {     
+export type SFTPCredentials = Pick<ConnectConfig, 'host' | 'port' | 'username' | 'password' | 'privateKey'>;
+// {
 //     host: string;
 //     port?: number;
 //     username: string;
@@ -40,7 +40,7 @@ export type SFTPCredentials = Pick<ConnectConfig, 'host' | 'port' | 'username' |
 //     privateKey?: string;
 // };
 
-export type ArgsCredentials = {
+export type ArgCredentials = {
     host: string;
     port?: string;
     username: string;
@@ -49,7 +49,7 @@ export type ArgsCredentials = {
     key?: string;
 };
 
-export type ArgsOptions = ArgsCredentials & ProcessingOptions & {
+export type ArgOptions = ArgCredentials & ProcessingOptions & {
     help?: string;
     _unknown: string[];
 };

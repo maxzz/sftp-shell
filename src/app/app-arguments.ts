@@ -1,13 +1,13 @@
 import fs from 'fs';
 import commandLineArgs from 'command-line-args';
-import { OP, Operation, ArgsOptions, AppOptions, ArgsCredentials, Aliases, SFTPCredentials } from './app-types';
 import { optionDefinitions } from './app-argument-options';
+import { OP, Operation, ArgOptions, AppOptions, ArgCredentials, Aliases, SFTPCredentials } from './app-types';
 import { terminate } from './app-errors';
 import { help, helpEx } from './app-help';
 import { printAppVersion, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 
-function getCreads(options: ArgsOptions): ArgsCredentials {
+function getCreads(options: ArgOptions): ArgCredentials {
     let totalCreds: number = +!!options.keyfile + +!!options.password + +!!options.key;
     if (totalCreds > 1) {
         terminate(`Specify only one of: <password>, <keyfile>, or <key>.`);
@@ -37,7 +37,7 @@ function getCreads(options: ArgsOptions): ArgsCredentials {
     };
 }
 
-function getConnectConfig(c: ArgsCredentials): SFTPCredentials {
+function getConnectConfig(c: ArgCredentials): SFTPCredentials {
     return {
         host: c.host,
         username: c.username,
@@ -75,7 +75,7 @@ function getOperations(ftp: string[]): Operation[] {
     return rv;
 }
 
-function getAliases(options: ArgsOptions): Aliases {
+function getAliases(options: ArgOptions): Aliases {
     // aliases
     let rv: Aliases = {};
     if (options.alias) {
@@ -91,22 +91,22 @@ function getAliases(options: ArgsOptions): Aliases {
     return rv;
 }
 
-function validate(options: ArgsOptions): AppOptions {
-    if (options.help || !Object.keys(options).length) {
+function validate(argOptions: ArgOptions): AppOptions {
+    if (argOptions.help || !Object.keys(argOptions).length) {
         help();
         helpEx();
         process.exit(0);
     }
 
-    if (options._unknown) {
-        terminate(`Unknown option(s):\n${options._unknown.map(_ => `        '${_}'\n`).join('')}`);
+    if (argOptions._unknown) {
+        terminate(`Unknown option(s):\n${argOptions._unknown.map(_ => `        '${_}'\n`).join('')}`);
     }
 
     const appOptions = {} as AppOptions;
 
     // 1. Creds
 
-    appOptions.credentials = getConnectConfig(getCreads(options));
+    appOptions.credentials = getConnectConfig(getCreads(argOptions));
 
     if (!appOptions.credentials.username) {
         terminate('There is no username to login.');
@@ -114,15 +114,15 @@ function validate(options: ArgsOptions): AppOptions {
 
     // 2. Aliases
 
-    appOptions.aliasPairs = getAliases(options);
+    appOptions.aliasPairs = getAliases(argOptions);
 
     // 3. Operations
 
-    if (!options.ftp?.length) {
+    if (!argOptions.ftp?.length) {
         terminate('Missing: <ftp> commands list to perform');
     }
 
-    appOptions.filePairs = getOperations(options.ftp || []);
+    appOptions.filePairs = getOperations(argOptions.ftp || []);
 
     if (!appOptions.filePairs.length) {
         console.log(`\nOperations to be processed are not defined. Done.`);
@@ -137,8 +137,8 @@ function validate(options: ArgsOptions): AppOptions {
 export function getVerifiedArguments(): AppOptions {
     printAppVersion();
 
-    const options = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as ArgsOptions;
-    const appOptions = validate(options);
+    const argOptions = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as ArgOptions;
+    const appOptions: AppOptions = validate(argOptions);
 
     return appOptions;
 }
