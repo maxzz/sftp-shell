@@ -99,7 +99,7 @@ function getConfigs(names: string[] = []): ArgProcessingOptions[] {
             const obj = JSON.parse(cnt) as ArgProcessingOptions;
             return obj;
         } catch (error) {
-            terminate(`Cannot config file: '${name}'`);
+            terminate(`Failed to get config file: '${name}'. error: ${error.toString()}`);
         }
     }).filter(Boolean);
     return configs;
@@ -108,7 +108,7 @@ function getConfigs(names: string[] = []): ArgProcessingOptions[] {
 function validate(argOptions: ArgOptions): AppOptions {
     const rv = {} as AppOptions;
 
-    const configs = getConfigs(argOptions.configs);
+    const configs = getConfigs(argOptions.config);
 
     // 1. Creds
 

@@ -54,5 +54,5 @@ export type ArgProcessingOptions = ArgCredentials & ProcessingOptions;
 export type ArgOptions = ArgProcessingOptions & {
     help?: string;
     _unknown: string[];
-    configs?: string[];
+    config?: string[];
 };

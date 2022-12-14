@@ -62,6 +62,8 @@
                 "--username", "live.b82019b8-481a-44c8-88da-be3d2af3cfbb",
                 "--keyfile", "{USERPROFILE}/.ssh/id_rsa",
 
+                "--config", "abd", "def",
+
                 // "--alias",
                 //"--alias", "=",
                 // "--alias", "a=",
