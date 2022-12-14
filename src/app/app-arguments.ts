@@ -28,8 +28,7 @@ function getCreads(options: ArgsOptions): void {
     }
 }
 
-function getOperations(options: ArgsOptions): Operation[] {
-    const { ftp } = options;
+function getOperations(ftp: string[]): Operation[] {
     if (!ftp?.length) {
         terminate('Missing: <ftp> commands list to perform');
     }
@@ -99,7 +98,7 @@ function validate(options: ArgsOptions): void {
 
     getCreads(options);
     options.aliasPairs = getAliases(options);
-    options.filePairs = getOperations(options);
+    options.filePairs = getOperations(options.ftp || []);
 }
 
 export function getVerifiedArguments(): ArgsOptions {
