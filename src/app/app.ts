@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import Client from 'ssh2-sftp-client';
-import { OP, Operation, ArgsOptions, SFTPConfig, AppOptions, ArgsCredentials } from './app-types';
+import { OP, Operation, ArgsOptions, SFTPConfig, AppOptions, ArgsCredentials, Aliases } from './app-types';
 import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionCloased, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 import { mkDirSync } from '../utils/utils-os';
@@ -16,10 +16,10 @@ function getConnectConfig(c: ArgsCredentials): SFTPConfig {
     };
 }
 
-function resolvePathes(operations: Operation[], sftpWorkingDir: string, appOptions: AppOptions): Operation[] {
+function resolvePathes(operations: Operation[], sftpWorkingDir: string, aliases: Aliases): Operation[] {
     const resolveEnv = {
         start: sftpWorkingDir,
-        ...appOptions.aliasPairs,
+        ...aliases,
     };
     return operations.map((op) => {
         return {
@@ -38,10 +38,10 @@ export async function processSftp(appOptions: AppOptions) {
         const sftpWorkingDir = await sftp.cwd();
         
         printLoopStart(appOptions, sftpWorkingDir);
-        const filePairs = resolvePathes(appOptions.filePairs, sftpWorkingDir, appOptions);
+        const operations = resolvePathes(appOptions.filePairs, sftpWorkingDir, appOptions.aliasPairs);
 
-        for (let i = 0; i < filePairs.length; i++) {
-            const item: Operation = filePairs[i];
+        for (let i = 0; i < operations.length; i++) {
+            const item: Operation = operations[i];
 
             printLoopCurrentOp(item);
             switch (item.operation) {
