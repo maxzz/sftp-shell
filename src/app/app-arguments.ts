@@ -48,23 +48,34 @@ function getConnectConfig(c: ArgCredentials): SFTPCredentials {
 }
 
 function getOperations(ftp: string[] = []): Operation[] {
-    const rv = ftp.map((cur) => {
-        const files = cur.split('=');
+    return ftp.map((cur) => {
+
+        const files = cur.split('=').map((value) => value.trim());
         if (files.length !== 3) {
             terminate(`Wrong files pair: ${cur}`);
         }
 
-        const item: Operation = {
-            local: files[0].trim(),
-            operation: files[1].trim() as OP,
-            remote: files[2].trim()
-        };
+        //const [local, operation, remote]: [string, OP, string] = files;
+        const [local, operation, remote] = files;
+        const item = { local, operation, remote, } as Operation;
+
+        // const item: Operation = {
+        //     local,
+        //     operation: operation as OP,
+        //     remote,
+        // };
+
+        // const item: Operation = {
+        //     local: files[0].trim(),
+        //     operation: files[1].trim() as OP,
+        //     remote: files[2].trim()
+        // };
 
         if (item.operation.length !== 1 || !~'udl'.indexOf(item.operation)) {
-            terminate(`Invalid operation (not u | d | l) for:\n    ${cur}`);
+            terminate(`Invalid operation (should be one of: u | d | l) for:\n    ${cur}`);
         }
 
-        if (item.operation === OP.upload) {
+        if (item.operation === OP.upload) {                                            //TODO: need local aliases or move this check out
             if (!fs.existsSync(item.local)) {
                 console.log(`\nFile pairs: ${JSON.stringify(ftp, null, 4)}\n`);
                 terminate(`File not exists: ${item.local}`);
@@ -72,7 +83,6 @@ function getOperations(ftp: string[] = []): Operation[] {
         }
         return item;
     });
-    return rv;
 }
 
 function getAliases(aliases: string[]): Aliases {
