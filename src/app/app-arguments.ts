@@ -1,13 +1,13 @@
 import fs from 'fs';
 import commandLineArgs from 'command-line-args';
-import { OP, Operation, ArgsOptions, AppOptions } from './app-types';
+import { OP, Operation, ArgsOptions, AppOptions, ArgsCredentials } from './app-types';
 import { optionDefinitions } from './app-argument-options';
 import { terminate } from './app-errors';
 import { help, helpEx } from './app-help';
 import { printAppVersion, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 
-function getCreads(options: ArgsOptions): void {
+function getCreads(options: ArgsOptions): ArgsCredentials {
     let totalCreds: number = +!!options.keyfile + +!!options.password + +!!options.key;
     if (totalCreds > 1) {
         terminate(`Specify only one of: <password>, <keyfile>, or <key>.`);
@@ -26,6 +26,15 @@ function getCreads(options: ArgsOptions): void {
     if (!basicOK) {
         terminate('Missing: host || username || password || keyfile');
     }
+
+    return {
+        host: options.host,
+        port: options.port,
+        username: options.username,
+        password: options.password,
+        keyfile: options.keyfile,
+        key: options.key,
+    };
 }
 
 function getOperations(ftp: string[]): Operation[] {
@@ -83,13 +92,13 @@ function validate(options: ArgsOptions): AppOptions {
         terminate(`Unknown option(s):\n${options._unknown.map(_ => `        '${_}'\n`).join('')}`);
     }
 
+    const appOptions = {} as AppOptions;
+
     // 1. Creds
 
-    getCreads(options);
+    appOptions.credentials = getCreads(options);
 
     // 2. Aliases
-
-    const appOptions = {} as AppOptions;
 
     appOptions.aliasPairs = getAliases(options);
 

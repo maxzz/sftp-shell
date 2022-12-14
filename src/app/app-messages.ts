@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { Operation, ArgsOptions } from './app-types';
+import { Operation, ArgsOptions, AppOptions } from './app-types';
 import { toUnix } from '../utils/utils-os';
 
 export const appName = 'sftp-shell'; //export const { name: progrmaName } = require('../../package.json');
@@ -51,7 +51,7 @@ export function printOnConnectionCloased() {
     return console.log(chalk.gray(`\n  SFTP connection closed.`));
 }
 
-export function printLoopStart(o: ArgsOptions, sftpWorkingDir: string) {
+export function printLoopStart(o: AppOptions, sftpWorkingDir: string) {
     printSftpStart();
     console.log(chalk.gray(`\n  Remote root: ${sftpWorkingDir}`));
     console.log(chalk.cyan(`\n  Stating ${o.filePairs.length} operation${plural(o.filePairs.length)}.`));
@@ -61,7 +61,7 @@ export function printLoopCurrentOp(item: Operation) {
     console.log(chalk.gray(`    Operation: ${opName(item.operation)}\n        Local: ${toUnix(item.local)}\n       Remote: ${item.remote}`));
 }
 
-export function printLoopEnd(o: ArgsOptions) {
+export function printLoopEnd(o: AppOptions) {
     console.log(chalk.cyan(`  Successfully completed ${o.filePairs.length} operation${plural(o.filePairs.length)}.`));
 }
 

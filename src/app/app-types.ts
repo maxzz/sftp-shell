@@ -43,6 +43,7 @@ export type Operation = {
 };
 
 export type AppOptions = {
+    credentials: ArgsCredentials;
     filePairs: Operation[];                 // generated from ArgsOptions.ftp
     aliasPairs?: Record<string, string>;    // alias -> value;  generated from ArgsOptions.alias
 };
