@@ -1,20 +1,10 @@
 import path from 'path';
 import fs from 'fs';
 import Client from 'ssh2-sftp-client';
-import { OP, Operation, SFTPCredentials, AppOptions, ArgsCredentials, Aliases } from './app-types';
+import { OP, Operation, AppOptions, Aliases } from './app-types';
 import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionCloased, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 import { mkDirSync } from '../utils/utils-os';
-
-function getConnectConfig(c: ArgsCredentials): SFTPCredentials {
-    return {
-        host: c.host,
-        username: c.username,
-        ...(c.password && { password: c.password }),
-        ...(c.keyfile && { privateKey: c.keyfile }),
-        ...(c.port && { port: +c.port }),
-    };
-}
 
 function resolvePathes(operations: Operation[], sftpWorkingDir: string, aliases: Aliases): Operation[] {
     const resolveEnv = {
@@ -34,7 +24,7 @@ export async function processSftp(appOptions: AppOptions) {
     const sftp = new Client();
     sftp.on('close', printOnConnectionCloased);
     try {
-        await sftp.connect(getConnectConfig(appOptions.credentials));
+        await sftp.connect(appOptions.credentials);
         const sftpWorkingDir = await sftp.cwd();
         
         printLoopStart(appOptions, sftpWorkingDir);

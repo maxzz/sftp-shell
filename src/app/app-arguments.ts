@@ -1,6 +1,6 @@
 import fs from 'fs';
 import commandLineArgs from 'command-line-args';
-import { OP, Operation, ArgsOptions, AppOptions, ArgsCredentials, Aliases } from './app-types';
+import { OP, Operation, ArgsOptions, AppOptions, ArgsCredentials, Aliases, SFTPCredentials } from './app-types';
 import { optionDefinitions } from './app-argument-options';
 import { terminate } from './app-errors';
 import { help, helpEx } from './app-help';
@@ -34,6 +34,16 @@ function getCreads(options: ArgsOptions): ArgsCredentials {
         password: options.password,
         keyfile: options.keyfile,
         key: options.key,
+    };
+}
+
+function getConnectConfig(c: ArgsCredentials): SFTPCredentials {
+    return {
+        host: c.host,
+        username: c.username,
+        ...(c.password && { password: c.password }),
+        ...(c.keyfile && { privateKey: c.keyfile }),
+        ...(c.port && { port: +c.port }),
     };
 }
 
@@ -96,7 +106,7 @@ function validate(options: ArgsOptions): AppOptions {
 
     // 1. Creds
 
-    appOptions.credentials = getCreads(options);
+    appOptions.credentials = getConnectConfig(getCreads(options));
 
     if (!appOptions.credentials.username) {
         terminate('There is no username to login.');
