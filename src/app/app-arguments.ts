@@ -49,39 +49,29 @@ function getConnectConfig(c: ArgCredentials): SFTPCredentials {
 
 function getOperations(ftp: string[] = []): Operation[] {
     return ftp.map((cur) => {
-
-        const files = cur.split('=').map((value) => value.trim());
-        if (files.length !== 3) {
+        const parts = cur.split('=').map((value) => value.trim());
+        if (parts.length !== 3) {
             terminate(`Wrong files pair: ${cur}`);
         }
-
-        //const [local, operation, remote]: [string, OP, string] = files;
-        const [local, operation, remote] = files;
+        const [local, operation, remote] = parts;
         const item = { local, operation, remote, } as Operation;
-
-        // const item: Operation = {
-        //     local,
-        //     operation: operation as OP,
-        //     remote,
-        // };
-
-        // const item: Operation = {
-        //     local: files[0].trim(),
-        //     operation: files[1].trim() as OP,
-        //     remote: files[2].trim()
-        // };
 
         if (item.operation.length !== 1 || !~'udl'.indexOf(item.operation)) {
             terminate(`Invalid operation (should be one of: u | d | l) for:\n    ${cur}`);
         }
 
-        if (item.operation === OP.upload) {                                            //TODO: need local aliases or move this check out
+        return item;
+    });
+}
+
+function checkOperationLocalFiles(operations: Operation[]): void {
+    operations.forEach((item) => {
+        if (item.operation === OP.upload) {
             if (!fs.existsSync(item.local)) {
-                console.log(`\nFile pairs: ${JSON.stringify(ftp, null, 4)}\n`);
+                console.log(`\nFailed FTP pair: ${JSON.stringify(item)}\n`);
                 terminate(`File not exists: ${item.local}`);
             }
         }
-        return item;
     });
 }
 
@@ -146,6 +136,7 @@ function validate(argOptions: ArgOptions): AppOptions {
         printAppDone();
         process.exit(0);
     }
+    checkOperationLocalFiles(rv.operations);
 
     return rv;
 }
