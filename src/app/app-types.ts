@@ -1,3 +1,5 @@
+import { ConnectConfig } from 'ssh2';
+
 // Config file options
 
 export type ProcessingOptions = {
@@ -29,13 +31,14 @@ export type AppOptions = {
 
 // Arguments
 
-export type SFTPCredentials = {     // should partial match ssh2.ConnectConfig
-    host: string;
-    port?: number;
-    username: string;
-    password?: string;
-    privateKey?: string;
-};
+export type SFTPCredentials = Pick<ConnectConfig, 'host' | 'port' | 'username' | 'password' | 'privateKey'>; // should partial match ssh2.ConnectConfig
+// {     
+//     host: string;
+//     port?: number;
+//     username: string;
+//     password?: string;
+//     privateKey?: string;
+// };
 
 export type ArgsCredentials = {
     host: string;
