@@ -1,13 +1,13 @@
 import fs from 'fs';
 import commandLineArgs from 'command-line-args';
-import { OP, Operation, Options } from './app-types';
+import { OP, Operation, ArgsOptions } from './app-types';
 import { optionDefinitions } from './app-argument-options';
 import { terminate } from './app-errors';
 import { help, helpEx } from './app-help';
 import { printAppVersion, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 
-function getCreads(options: Options): void {
+function getCreads(options: ArgsOptions): void {
     let totalCreds: number = +!!options.keyfile + +!!options.password + +!!options.key;
     if (totalCreds > 1) {
         terminate(`Specify only one of: <password>, <keyfile>, or <key>.`);
@@ -28,7 +28,7 @@ function getCreads(options: Options): void {
     }
 }
 
-function getOperations(options: Options): Operation[] {
+function getOperations(options: ArgsOptions): Operation[] {
     const { ftp } = options;
     if (!ftp?.length) {
         terminate('Missing: <ftp> commands list to perform');
@@ -70,7 +70,7 @@ function getOperations(options: Options): Operation[] {
     return rv;
 }
 
-function getAliases(options: Options): Record<string, string> {
+function getAliases(options: ArgsOptions): Record<string, string> {
     // aliases
     let rv: Record<string, string> = {};
     if (options.alias) {
@@ -86,7 +86,7 @@ function getAliases(options: Options): Record<string, string> {
     return rv;
 }
 
-function validate(options: Options): void {
+function validate(options: ArgsOptions): void {
     if (options.help || !Object.keys(options).length) {
         help();
         helpEx();
@@ -102,10 +102,10 @@ function validate(options: Options): void {
     options.filePairs = getOperations(options);
 }
 
-export function getVerifiedArguments(): Options {
+export function getVerifiedArguments(): ArgsOptions {
     printAppVersion();
 
-    const options = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as Options;
+    const options = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as ArgsOptions;
     validate(options);
 
     return options;

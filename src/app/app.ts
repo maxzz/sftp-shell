@@ -1,12 +1,12 @@
 import path from 'path';
 import fs from 'fs';
 import Client from 'ssh2-sftp-client';
-import { OP, Operation, Options, SFTPConfig } from './app-types';
+import { OP, Operation, ArgsOptions, SFTPConfig } from './app-types';
 import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionCloased, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 import { mkDirSync } from '../utils/utils.-os';
 
-function getConnectConfig(o: Options): SFTPConfig {
+function getConnectConfig(o: ArgsOptions): SFTPConfig {
     return {
         host: o.host,
         username: o.username,
@@ -16,7 +16,7 @@ function getConnectConfig(o: Options): SFTPConfig {
     };
 }
 
-function resolvePathes(filePairs: Operation[], sftpWorkingDir: string, options: Options): Operation[] {
+function resolvePathes(filePairs: Operation[], sftpWorkingDir: string, options: ArgsOptions): Operation[] {
     const resolveEnv = {
         start: sftpWorkingDir,
         ...options.aliasPairs,
@@ -30,7 +30,7 @@ function resolvePathes(filePairs: Operation[], sftpWorkingDir: string, options: 
     });
 }
 
-export async function processSftp(options: Options) {
+export async function processSftp(options: ArgsOptions) {
     const sftp = new Client();
     sftp.on('close', printOnConnectionCloased);
     try {
