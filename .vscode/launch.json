@@ -62,8 +62,6 @@
                 "--username", "live.b82019b8-481a-44c8-88da-be3d2af3cfbb",
                 "--keyfile", "{USERPROFILE}/.ssh/id_rsa",
 
-                "--config", "abd", "def",
-
                 // "--alias",
                 //"--alias", "=",
                 // "--alias", "a=",
@@ -76,6 +74,16 @@
                 // "--ftp", "{local1}/test/listC.json = l = {start}/files/crossmatch/AltusAddons/g01",
                 // "--ftp", "{local2}/test/listD.json = l = {g01}/current",
                 "--ftp", "test3/listE.json = l = {g01}/current",
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run w/ config",
+            "program": "${workspaceFolder}\\build-ts\\index.js",
+            "console": "externalTerminal",
+            "args": [
+                "--config", "config-creds.json", "config-a.json",
             ]
         }
     ]

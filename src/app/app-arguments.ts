@@ -157,7 +157,7 @@ export function getVerifiedArguments(): AppOptions {
 
     const argOptions = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as ArgOptions;
 
-    //checkHelpCall(argOptions);
+    checkHelpCall(argOptions);
     const appOptions: AppOptions = validate(argOptions);
 
     return appOptions;
