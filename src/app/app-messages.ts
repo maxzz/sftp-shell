@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { Operation, ArgsOptions } from './app-types';
-import { toUnix } from '../utils/utils-aliases';
+import { toUnix } from '../utils/utils-os';
 
 export const appName = 'sftp-shell'; //export const { name: progrmaName } = require('../../package.json');
 export const appVersion = '2.0.5'; //export const { version: progrmaName } = require('../../package.json');
