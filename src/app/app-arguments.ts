@@ -3,7 +3,7 @@ import commandLineArgs from 'command-line-args';
 import { OP, Operation, Options } from './app-types';
 import { optionDefinitions } from './app-argument-options';
 import { terminate } from './app-errors';
-import { help } from './app-help';
+import { help, helpEx } from './app-help';
 import { printAppVersion, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 
@@ -89,6 +89,7 @@ function getAliases(options: Options) {
 function validate(options: Options) {
     if (options.help || !Object.keys(options).length) {
         help();
+        helpEx();
         process.exit(0);
     }
 

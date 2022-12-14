@@ -12,6 +12,12 @@ export function help() {
             header: 'Options',
             optionList: optionDefinitions
         },
+    ]);
+    console.log(usage);
+}
+
+export function helpEx() {
+    const usage = commandLineUsage([
         {
             header: 'Example:',
             content: `{cyan ${appName}}
