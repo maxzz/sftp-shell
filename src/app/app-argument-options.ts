@@ -59,6 +59,13 @@ export const optionDefinitions = [
         alias: 'a',
     },
     {
+        name: 'config',
+        type: String,
+        multiple: true,
+        description: `Optional additional config filename can have any CLI options except 'config (to avoid xlinks).'`,
+        alias: 'c',
+    },
+    {
         name: 'help',
         type: Boolean,
         description: 'Show extended help.',
