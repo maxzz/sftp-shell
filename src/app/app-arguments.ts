@@ -1,6 +1,6 @@
 import fs from 'fs';
 import commandLineArgs from 'command-line-args';
-import { OP, Operation, ArgsOptions, AppOptions, ArgsCredentials } from './app-types';
+import { OP, Operation, ArgsOptions, AppOptions, ArgsCredentials, Aliases } from './app-types';
 import { optionDefinitions } from './app-argument-options';
 import { terminate } from './app-errors';
 import { help, helpEx } from './app-help';
@@ -65,9 +65,9 @@ function getOperations(ftp: string[]): Operation[] {
     return rv;
 }
 
-function getAliases(options: ArgsOptions): Record<string, string> {
+function getAliases(options: ArgsOptions): Aliases {
     // aliases
-    let rv: Record<string, string> = {};
+    let rv: Aliases = {};
     if (options.alias) {
         rv = options.alias.reduce((acc: any, cur: string) => {
             const [key, val] = cur.split('=').map((value) => value.trim());
