@@ -92,6 +92,39 @@ function getAliases(options: ArgOptions): Aliases {
 }
 
 function validate(argOptions: ArgOptions): AppOptions {
+    const rv = {} as AppOptions;
+
+    // 1. Creds
+
+    rv.credentials = getConnectConfig(getCreads(argOptions));
+
+    if (!rv.credentials.username) {
+        terminate('There is no username to login.');
+    }
+
+    // 2. Aliases
+
+    rv.aliasPairs = getAliases(argOptions);
+
+    // 3. Operations
+
+    if (!argOptions.ftp?.length) {
+        terminate('Missing: <ftp> commands list to perform');
+    }
+
+    rv.filePairs = getOperations(argOptions.ftp || []);
+
+    if (!rv.filePairs.length) {
+        console.log(`\nOperations to be processed are not defined. Done.`);
+        help();
+        printAppDone();
+        process.exit(0);
+    }
+
+    return rv;
+}
+
+function checkHelpCall(argOptions: ArgOptions) {
     if (argOptions.help || !Object.keys(argOptions).length) {
         help();
         helpEx();
@@ -101,43 +134,14 @@ function validate(argOptions: ArgOptions): AppOptions {
     if (argOptions._unknown) {
         terminate(`Unknown option(s):\n${argOptions._unknown.map(_ => `        '${_}'\n`).join('')}`);
     }
-
-    const appOptions = {} as AppOptions;
-
-    // 1. Creds
-
-    appOptions.credentials = getConnectConfig(getCreads(argOptions));
-
-    if (!appOptions.credentials.username) {
-        terminate('There is no username to login.');
-    }
-
-    // 2. Aliases
-
-    appOptions.aliasPairs = getAliases(argOptions);
-
-    // 3. Operations
-
-    if (!argOptions.ftp?.length) {
-        terminate('Missing: <ftp> commands list to perform');
-    }
-
-    appOptions.filePairs = getOperations(argOptions.ftp || []);
-
-    if (!appOptions.filePairs.length) {
-        console.log(`\nOperations to be processed are not defined. Done.`);
-        help();
-        printAppDone();
-        process.exit(0);
-    }
-
-    return appOptions;
 }
 
 export function getVerifiedArguments(): AppOptions {
     printAppVersion();
 
     const argOptions = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as ArgOptions;
+
+    checkHelpCall(argOptions);
     const appOptions: AppOptions = validate(argOptions);
 
     return appOptions;
