@@ -98,6 +98,10 @@ function validate(options: ArgsOptions): AppOptions {
 
     appOptions.credentials = getCreads(options);
 
+    if (!appOptions.credentials.username) {
+        terminate('There is no username to login.');
+    }
+
     // 2. Aliases
 
     appOptions.aliasPairs = getAliases(options);
