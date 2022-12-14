@@ -83,7 +83,7 @@
             "program": "${workspaceFolder}\\build-ts\\index.js",
             "console": "externalTerminal",
             "args": [
-                "--config", "config-creds.json", "config-a.json",
+                "--config", "test/config-creds.json", "test/config-a.json",
             ]
         }
     ]

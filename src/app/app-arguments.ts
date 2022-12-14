@@ -47,7 +47,7 @@ function getConnectConfig(c: ArgCredentials): SFTPCredentials {
     };
 }
 
-function getOperations(ftp: string[]): Operation[] {
+function getOperations(ftp: string[] = []): Operation[] {
     const rv = ftp.map((cur) => {
         const files = cur.split('=');
         if (files.length !== 3) {
@@ -96,7 +96,12 @@ function getConfigs(names: string[] = []): ArgProcessingOptions[] {
         try {
             name = formatDeep(name, process.env);
             const cnt = fs.readFileSync(name).toString();
-            const obj = JSON.parse(cnt) as ArgProcessingOptions;
+            const obj = JSON.parse(cnt) as ArgCredentials & ArgProcessingOptions;
+            const rv: AppOptions = {
+                credentials: getConnectConfig(obj),
+                operations: getOperations(obj.ftp),
+                aliases: {},
+            };
             return obj;
         } catch (error) {
             terminate(`Failed to get config file: '${name}'. error: ${error.toString()}`);
@@ -108,7 +113,7 @@ function getConfigs(names: string[] = []): ArgProcessingOptions[] {
 function validate(argOptions: ArgOptions): AppOptions {
     const rv = {} as AppOptions;
 
-    const configs = getConfigs(argOptions.config);
+    const configs = getConfigs(argOptions.config); // TODO: aliases before everything
 
     // 1. Creds
 
@@ -128,7 +133,7 @@ function validate(argOptions: ArgOptions): AppOptions {
         terminate('Missing: <ftp> commands list to perform');
     }
 
-    rv.operations = getOperations(argOptions.ftp || []);
+    rv.operations = getOperations(argOptions.ftp);
 
     if (!rv.operations.length) {
         console.log(`\nOperations to be processed are not defined. Done.`);
