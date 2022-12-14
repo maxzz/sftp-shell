@@ -48,9 +48,6 @@
             "name": "Run wo/ params",
             "program": "${workspaceFolder}\\build-ts\\index.js",
             "console": "externalTerminal",
-            // "args": [
-            //     "--help"
-            // ]
         },
         {
             "type": "node",
@@ -59,7 +56,7 @@
             "program": "${workspaceFolder}\\build-ts\\index.js",
             "console": "externalTerminal",
             "args": [
-                "--help",
+                //"--help",
                 "--host", "appserver.live.b82019b8-481a-44c8-88da-be3d2af3cfbb.drush.in",
                 "--port", "2222",
                 "--username", "live.b82019b8-481a-44c8-88da-be3d2af3cfbb",
