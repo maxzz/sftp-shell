@@ -24,8 +24,8 @@ export type ArgsOptions = ArgsCredentials & {
     ftp: string[];
     alias?: string[];
 
-    filePairs: Operation[]; // generated from ftp
-    aliasPairs?: Record<string, string>; // alias -> value;  generated from alias
+    // filePairs: Operation[]; // generated from ftp
+    // aliasPairs?: Record<string, string>; // alias -> value;  generated from alias
 };
 
 // App options
