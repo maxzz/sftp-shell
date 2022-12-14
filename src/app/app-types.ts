@@ -10,7 +10,7 @@ export type Operation = {
     remote: string;
 };
 
-export type CredOptions = {
+export type ArgsCredentials = {
     host: string;
     port?: string;
     username: string;
@@ -19,7 +19,7 @@ export type CredOptions = {
     key?: string;
 };
 
-export type Options = CredOptions & {
+export type Options = ArgsCredentials & {
     help?: string;
 
     _unknown: string[];
@@ -27,7 +27,7 @@ export type Options = CredOptions & {
     alias?: string[];
 
     filePairs: Operation[]; // generated from ftp
-    aliasPairs?: { [name: string]: string; }; // generated from alias
+    aliasPairs?: Record<string, string>; // alias -> value;  generated from alias
 };
 
 export type SFTPConfig = {
