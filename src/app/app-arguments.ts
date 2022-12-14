@@ -75,23 +75,18 @@ function getOperations(ftp: string[] = []): Operation[] {
     return rv;
 }
 
-function getAliases(options: ArgOptions): Aliases {
-    // aliases
-    let rv: Aliases = {};
-    if (options.alias) {
-        rv = options.alias.reduce((acc: any, cur: string) => {
-            const [key, val] = cur.split('=').map((value) => value.trim());
-            if (!key || !val) {
-                terminate(`Invalid alias: '${cur}'`);
-            }
-            acc[key] = val;
-            return acc;
-        }, {});
-    }
-    return rv;
+function getAliases(aliases: string[]): Aliases {
+    return aliases?.reduce((acc: any, cur: string) => {
+        const [key, val] = cur.split('=').map((value) => value.trim());
+        if (!key || !val) {
+            terminate(`Invalid alias: '${cur}'`);
+        }
+        acc[key] = val;
+        return acc;
+    }, {}) || {};
 }
 
-function getConfigs(names: string[] = []): ArgProcessingOptions[] {
+function getConfigs(names: string[] = []): AppOptions[] {
     const configs = names.map((name) => {
         try {
             name = formatDeep(name, process.env);
@@ -100,9 +95,9 @@ function getConfigs(names: string[] = []): ArgProcessingOptions[] {
             const rv: AppOptions = {
                 credentials: getConnectConfig(obj),
                 operations: getOperations(obj.ftp),
-                aliases: {},
+                aliases: getAliases(obj.alias),
             };
-            return obj;
+            return rv;
         } catch (error) {
             terminate(`Failed to get config file: '${name}'. error: ${error.toString()}`);
         }
@@ -125,7 +120,7 @@ function validate(argOptions: ArgOptions): AppOptions {
 
     // 2. Aliases
 
-    rv.aliases = getAliases(argOptions);
+    rv.aliases = getAliases(argOptions.alias);
 
     // 3. Operations
 
