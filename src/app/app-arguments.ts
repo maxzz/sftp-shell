@@ -1,7 +1,7 @@
 import fs from 'fs';
 import commandLineArgs from 'command-line-args';
 import { optionDefinitions } from './app-argument-options';
-import { OP, Operation, ArgOptions, AppOptions, ArgCredentials, Aliases, SFTPCredentials } from './app-types';
+import { OP, Operation, ArgOptions, AppOptions, ArgCredentials, Aliases, SFTPCredentials, ArgProcessingOptions } from './app-types';
 import { terminate } from './app-errors';
 import { help, helpEx } from './app-help';
 import { printAppVersion, printAppDone } from './app-messages';
@@ -91,8 +91,24 @@ function getAliases(options: ArgOptions): Aliases {
     return rv;
 }
 
+function getConfigs(names: string[] = []): ArgProcessingOptions[] {
+    const configs = names.map((name) => {
+        try {
+            name = formatDeep(name, process.env);
+            const cnt = fs.readFileSync(name).toString();
+            const obj = JSON.parse(cnt) as ArgProcessingOptions;
+            return obj;
+        } catch (error) {
+            terminate(`Cannot config file: '${name}'`);
+        }
+    }).filter(Boolean);
+    return configs;
+}
+
 function validate(argOptions: ArgOptions): AppOptions {
     const rv = {} as AppOptions;
+
+    const configs = getConfigs(argOptions.configs);
 
     // 1. Creds
 
@@ -141,7 +157,7 @@ export function getVerifiedArguments(): AppOptions {
 
     const argOptions = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as ArgOptions;
 
-    checkHelpCall(argOptions);
+    //checkHelpCall(argOptions);
     const appOptions: AppOptions = validate(argOptions);
 
     return appOptions;
