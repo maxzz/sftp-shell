@@ -42,8 +42,10 @@ export type Operation = {
     remote: string;
 };
 
+export type Aliases = Record<string, string>;
+
 export type AppOptions = {
     credentials: ArgsCredentials;
-    filePairs: Operation[];                 // generated from ArgsOptions.ftp
-    aliasPairs?: Record<string, string>;    // alias -> value;  generated from ArgsOptions.alias
+    filePairs: Operation[];         // generated from ArgsOptions.ftp
+    aliasPairs?: Aliases;           // alias -> value;  generated from ArgsOptions.alias
 };

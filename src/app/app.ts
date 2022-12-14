@@ -16,12 +16,12 @@ function getConnectConfig(c: ArgsCredentials): SFTPConfig {
     };
 }
 
-function resolvePathes(filePairs: Operation[], sftpWorkingDir: string, appOptions: AppOptions): Operation[] {
+function resolvePathes(operations: Operation[], sftpWorkingDir: string, appOptions: AppOptions): Operation[] {
     const resolveEnv = {
         start: sftpWorkingDir,
         ...appOptions.aliasPairs,
     };
-    return filePairs.map((op) => {
+    return operations.map((op) => {
         return {
             operation: op.operation,
             local: path.resolve(path.normalize(formatDeep(op.local, resolveEnv))),
