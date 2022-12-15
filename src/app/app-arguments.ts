@@ -88,22 +88,26 @@ function checkOperationLocalFiles(operations: Operation[], aliases: Aliases): vo
     });
 }
 
+function getConfigAppOptions(name: string, aliases: Aliases): AppOptions {
+    try {
+        name = formatDeep(name, process.env);
+        name = formatDeep(name, aliases);
+        const cnt = fs.readFileSync(name).toString();
+        const obj = JSON.parse(cnt) as ArgCredentials & ArgProcessingOptions;
+        return {
+            credentials: getConnectConfig(obj),
+            operations: getOperations(obj.ftp),
+            aliases: getAliases(obj.alias),
+        };
+    } catch (error) {
+        terminate(`Failed to get config file: '${name}'. error: ${error.toString()}`);
+    }
+}
+
 function getConfigs(names: string[] = [], aliases: Aliases): AppOptions[] {
     return names.map((name) => {
-        try {
-            name = formatDeep(name, process.env);
-            name = formatDeep(name, aliases);
-            const cnt = fs.readFileSync(name).toString();
-            const obj = JSON.parse(cnt) as ArgCredentials & ArgProcessingOptions;
-            const rv: AppOptions = {
-                credentials: getConnectConfig(obj),
-                operations: getOperations(obj.ftp),
-                aliases: getAliases(obj.alias),
-            };
-            return rv;
-        } catch (error) {
-            terminate(`Failed to get config file: '${name}'. error: ${error.toString()}`);
-        }
+        const appOptions = getConfigAppOptions(name, aliases);
+        return appOptions;
     }).filter(Boolean);
 }
 
@@ -122,9 +126,11 @@ function validate(argOptions: ArgOptions): AppOptions {
 
     rv.aliases = getAliases(argOptions.alias);
 
+    // 3. External configs
+
     const configs = getConfigs(argOptions.config, rv.aliases); // TODO: aliases before everything and update after each config parsed
 
-    // 3. Operations
+    // 4. Operations
 
     if (!argOptions.ftp?.length) {
         terminate('Missing: <ftp> commands list to perform');
