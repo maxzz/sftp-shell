@@ -20,27 +20,8 @@ function checkCreads(options: ArgOptions) {
     }
 }
 
-function getCreads(options: ArgOptions): ArgCredentials {
-    if (options.keyfile) {
-        try {
-            options.keyfile = formatDeep(options.keyfile, process.env);
-            options.keyfile = fs.readFileSync(options.keyfile).toString();
-        } catch (error) {
-            terminate(`Cannot read SFTP access key file: '${options.keyfile}'`);
-        }
-    }
-
-    return {
-        host: options.host,
-        port: options.port,
-        username: options.username,
-        password: options.password,
-        keyfile: options.keyfile,
-        key: options.key,
-    };
-}
-
-function getConnectConfig(c: ArgCredentials): SFTPCredentials {
+function getConnectConfig(options: ArgCredentials): SFTPCredentials {
+    const c: ArgCredentials = getCreads(options);
     return {
         host: c.host,
         username: c.username,
@@ -48,6 +29,25 @@ function getConnectConfig(c: ArgCredentials): SFTPCredentials {
         ...(c.keyfile && { privateKey: c.keyfile }),
         ...(c.port && { port: +c.port }),
     };
+
+    function getCreads(options: ArgCredentials): ArgCredentials {
+        if (options.keyfile) {
+            try {
+                options.keyfile = formatDeep(options.keyfile, process.env);
+                options.keyfile = fs.readFileSync(options.keyfile).toString();
+            } catch (error) {
+                terminate(`Cannot read SFTP access key file: '${options.keyfile}'`);
+            }
+        }
+        return {
+            host: options.host,
+            port: options.port,
+            username: options.username,
+            password: options.password,
+            keyfile: options.keyfile,
+            key: options.key,
+        };
+    }
 }
 
 function getAliases(aliases: string[]): Aliases {
@@ -95,7 +95,7 @@ function getConfigAppOptions(name: string, aliases: Aliases): AppOptions {
         name = formatDeep(name, process.env);
         name = formatDeep(name, aliases);
         const cnt = fs.readFileSync(name).toString();
-        const obj = JSON.parse(cnt) as ArgCredentials & ArgProcessingOptions;
+        const obj = JSON.parse(cnt) as ArgProcessingOptions;
         return {
             credentials: getConnectConfig(obj),
             operations: getOperations(obj.ftp),
@@ -118,7 +118,7 @@ function validate(argOptions: ArgOptions): AppOptions {
 
     // 1. Creds
 
-    rv.credentials = getConnectConfig(getCreads(argOptions));
+    rv.credentials = getConnectConfig(argOptions);
 
     if (!rv.credentials.username) {
         terminate('There is no username to login.');
