@@ -8,26 +8,16 @@ import { printAppVersion, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 import path from 'path';
 
-function checkCreads(options: SFTPCredentials) {
-    let totalCreds: number = +!!options.privateKey + +!!options.password;
-    if (totalCreds > 1) {
-        terminate(`Specify only one of: <password>, <keyfile>.`);
-    }
-
-    const basicOK = options.host && options.username && (options.password || options.privateKey);
-    if (!basicOK) {
-        terminate('Missing: host || username || password || keyfile');
-    }
-}
-
 function getConnectConfig(options: ArgCredentials): SFTPCredentials {
+    
     const c: ArgCredentials = getCreads(options);
+
     return {
-        host: c.host,
         username: c.username,
+        host: c.host,
+        ...(c.port && { port: +c.port }),
         ...(c.password && { password: c.password }),
         ...(c.keyfile && { privateKey: c.keyfile }),
-        ...(c.port && { port: +c.port }),
     };
 
     function getCreads(options: ArgCredentials): ArgCredentials {
@@ -40,9 +30,9 @@ function getConnectConfig(options: ArgCredentials): SFTPCredentials {
             }
         }
         return {
+            username: options.username,
             host: options.host,
             port: options.port,
-            username: options.username,
             password: options.password,
             keyfile: options.keyfile,
         };
@@ -77,6 +67,41 @@ function getOperations(ftp: string[] = []): Operation[] {
     });
 }
 
+function getConfigs(names: string[] = [], aliases: Aliases): AppOptions[] {
+    return names.map((name) => {
+        const appOptions = getConfigAppOptions(name, aliases);
+        return appOptions;
+    }).filter(Boolean);
+
+    function getConfigAppOptions(name: string, aliases: Aliases): AppOptions {
+        try {
+            name = formatDeep(name, process.env);
+            name = formatDeep(name, aliases);
+            const cnt = fs.readFileSync(name).toString();
+            const obj = JSON.parse(cnt) as ArgProcessingOptions;
+            return {
+                credentials: getConnectConfig(obj),
+                operations: getOperations(obj.ftp),
+                aliases: getAliases(obj.alias),
+            };
+        } catch (error) {
+            terminate(`Failed to get config file: '${name}'. error: ${error.toString()}`);
+        }
+    }
+}
+
+function checkCreads(options: SFTPCredentials) {
+    let totalCreds: number = +!!options.privateKey + +!!options.password;
+    if (totalCreds > 1) {
+        terminate(`Specify only one of: <password>, <keyfile>.`);
+    }
+
+    const basicOK = options.host && options.username && (options.password || options.privateKey);
+    if (!basicOK) {
+        terminate('Missing: host || username || password || keyfile');
+    }
+}
+
 function checkOperationLocalFiles(operations: Operation[], aliases: Aliases): void {
     operations.forEach((item) => {
         item.local = path.resolve(path.normalize(formatDeep(item.local, aliases)));
@@ -87,29 +112,6 @@ function checkOperationLocalFiles(operations: Operation[], aliases: Aliases): vo
             }
         }
     });
-}
-
-function getConfigAppOptions(name: string, aliases: Aliases): AppOptions {
-    try {
-        name = formatDeep(name, process.env);
-        name = formatDeep(name, aliases);
-        const cnt = fs.readFileSync(name).toString();
-        const obj = JSON.parse(cnt) as ArgProcessingOptions;
-        return {
-            credentials: getConnectConfig(obj),
-            operations: getOperations(obj.ftp),
-            aliases: getAliases(obj.alias),
-        };
-    } catch (error) {
-        terminate(`Failed to get config file: '${name}'. error: ${error.toString()}`);
-    }
-}
-
-function getConfigs(names: string[] = [], aliases: Aliases): AppOptions[] {
-    return names.map((name) => {
-        const appOptions = getConfigAppOptions(name, aliases);
-        return appOptions;
-    }).filter(Boolean);
 }
 
 function validate(argOptions: ArgOptions): AppOptions {
