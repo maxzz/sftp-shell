@@ -79,7 +79,6 @@ function getOperations(ftp: string[] = []): Operation[] {
 function checkOperationLocalFiles(operations: Operation[], aliases: Aliases): void {
     operations.forEach((item) => {
         item.local = path.resolve(path.normalize(formatDeep(item.local, aliases)));
-        
         if (item.operation === OP.upload) {
             if (!fs.existsSync(item.local)) {
                 console.log(`\nFailed FTP pair: ${JSON.stringify(item)}\n`);
@@ -89,10 +88,11 @@ function checkOperationLocalFiles(operations: Operation[], aliases: Aliases): vo
     });
 }
 
-function getConfigs(names: string[] = []): AppOptions[] {
+function getConfigs(names: string[] = [], aliases: Aliases): AppOptions[] {
     return names.map((name) => {
         try {
             name = formatDeep(name, process.env);
+            name = formatDeep(name, aliases);
             const cnt = fs.readFileSync(name).toString();
             const obj = JSON.parse(cnt) as ArgCredentials & ArgProcessingOptions;
             const rv: AppOptions = {
@@ -110,8 +110,6 @@ function getConfigs(names: string[] = []): AppOptions[] {
 function validate(argOptions: ArgOptions): AppOptions {
     const rv = {} as AppOptions;
 
-    const configs = getConfigs(argOptions.config); // TODO: aliases before everything
-
     // 1. Creds
 
     rv.credentials = getConnectConfig(getCreads(argOptions));
@@ -123,6 +121,8 @@ function validate(argOptions: ArgOptions): AppOptions {
     // 2. Aliases
 
     rv.aliases = getAliases(argOptions.alias);
+
+    const configs = getConfigs(argOptions.config, rv.aliases); // TODO: aliases before everything and update after each config parsed
 
     // 3. Operations
 
