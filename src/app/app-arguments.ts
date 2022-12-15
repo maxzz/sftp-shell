@@ -8,13 +8,13 @@ import { printAppVersion, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 import path from 'path';
 
-function checkCreads(options: ArgOptions) {
-    let totalCreds: number = +!!options.keyfile + +!!options.password + +!!options.key;
+function checkCreads(options: SFTPCredentials) {
+    let totalCreds: number = +!!options.privateKey + +!!options.password;
     if (totalCreds > 1) {
-        terminate(`Specify only one of: <password>, <keyfile>, or <key>.`);
+        terminate(`Specify only one of: <password>, <keyfile>.`);
     }
 
-    const basicOK = options.host && options.username && (options.password || options.keyfile || options.key);
+    const basicOK = options.host && options.username && (options.password || options.privateKey);
     if (!basicOK) {
         terminate('Missing: host || username || password || keyfile');
     }
@@ -45,7 +45,6 @@ function getConnectConfig(options: ArgCredentials): SFTPCredentials {
             username: options.username,
             password: options.password,
             keyfile: options.keyfile,
-            key: options.key,
         };
     }
 }
@@ -146,7 +145,9 @@ function validate(argOptions: ArgOptions): AppOptions {
         printAppDone();
         process.exit(0);
     }
+    
     checkOperationLocalFiles(rv.operations, rv.aliases);
+    checkCreads(rv.credentials);
 
     return rv;
 }
