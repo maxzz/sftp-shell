@@ -8,12 +8,19 @@ import { printAppVersion, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 import path from 'path';
 
-function getCreads(options: ArgOptions): ArgCredentials {
+function checkCreads(options: ArgOptions) {
     let totalCreds: number = +!!options.keyfile + +!!options.password + +!!options.key;
     if (totalCreds > 1) {
         terminate(`Specify only one of: <password>, <keyfile>, or <key>.`);
     }
 
+    const basicOK = options.host && options.username && (options.password || options.keyfile || options.key);
+    if (!basicOK) {
+        terminate('Missing: host || username || password || keyfile');
+    }
+}
+
+function getCreads(options: ArgOptions): ArgCredentials {
     if (options.keyfile) {
         try {
             options.keyfile = formatDeep(options.keyfile, process.env);
@@ -21,11 +28,6 @@ function getCreads(options: ArgOptions): ArgCredentials {
         } catch (error) {
             terminate(`Cannot read SFTP access key file: '${options.keyfile}'`);
         }
-    }
-
-    const basicOK = options.host && options.username && (options.password || options.keyfile || options.key);
-    if (!basicOK) {
-        terminate('Missing: host || username || password || keyfile');
     }
 
     return {
