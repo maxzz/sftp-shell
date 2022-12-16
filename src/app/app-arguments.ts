@@ -72,6 +72,9 @@ function getConfigs(names: string[] = []): AppOptions[] {
 }
 
 function checkCreads(options: SFTPCredentials) {
+    if (!options.username) {
+        terminate('There is no username to login.');
+    }
     const totalCreds: number = +!!options.privateKey + +!!options.password;
     if (totalCreds > 1) {
         terminate(`Specify only one of: <password>, <keyfile>.`);
@@ -95,31 +98,21 @@ function checkOperationLocalFiles(operations: Operation[], aliases: Aliases): vo
 }
 
 function validate(argOptions: ArgOptions): AppOptions {
-    const rv = {} as AppOptions;
+    const rv: AppOptions = {
+        credentials: getConnectConfig(argOptions),
+        aliases: getAliases(argOptions.alias),
+        operations: getOperations(argOptions.ftp),
+    };
 
-    // 1. Creds
-
-    rv.credentials = getConnectConfig(argOptions);
-
-    if (!rv.credentials.username) {
-        terminate('There is no username to login.');
-    }
-
-    // 2. Aliases
-
-    rv.aliases = getAliases(argOptions.alias);
-
-    // 3. External configs
+    // External configs
 
     const configs = getConfigs(argOptions.config); // TODO: aliases before everything and update after each config parsed
 
-    // 4. Operations
+    // Checks
 
     if (!argOptions.ftp?.length) {
         terminate('Missing: <ftp> commands list to perform');
     }
-
-    rv.operations = getOperations(argOptions.ftp);
 
     if (!rv.operations.length) {
         console.log(`\nOperations to be processed are not defined. Done.`);
