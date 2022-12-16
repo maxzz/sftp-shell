@@ -27,8 +27,11 @@ function getConnectConfig(c: ArgCredentials): SFTPCredentials {
     };
 }
 
-function getAliases(aliases: string[]): Aliases {
-    return aliases?.reduce((acc: any, cur: string) => {
+function getAliases(aliases: string[] | string = []): Aliases {
+    if (typeof aliases === 'string') {
+        aliases = [aliases];
+    }
+    return aliases.reduce((acc: any, cur: string) => {
         const [key, val] = cur.split('=').map((value) => value.trim());
         if (!key || !val) {
             terminate(`Invalid alias: '${cur}'`);
