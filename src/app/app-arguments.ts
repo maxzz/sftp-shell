@@ -8,10 +8,15 @@ import { printAppVersion, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 import path from 'path';
 
-function getConnectConfig(options: ArgCredentials): SFTPCredentials {
-    
-    const c: ArgCredentials = getCreads(options);
-
+function getConnectConfig(c: ArgCredentials): SFTPCredentials {
+    if (c.keyfile) {
+        try {
+            c.keyfile = formatDeep(c.keyfile, process.env);
+            c.keyfile = fs.readFileSync(c.keyfile).toString();
+        } catch (error) {
+            terminate(`Cannot read SFTP access key file: '${c.keyfile}'`);
+        }
+    }
     return {
         username: c.username,
         host: c.host,
@@ -19,24 +24,6 @@ function getConnectConfig(options: ArgCredentials): SFTPCredentials {
         ...(c.password && { password: c.password }),
         ...(c.keyfile && { privateKey: c.keyfile }),
     };
-
-    function getCreads(options: ArgCredentials): ArgCredentials {
-        if (options.keyfile) {
-            try {
-                options.keyfile = formatDeep(options.keyfile, process.env);
-                options.keyfile = fs.readFileSync(options.keyfile).toString();
-            } catch (error) {
-                terminate(`Cannot read SFTP access key file: '${options.keyfile}'`);
-            }
-        }
-        return {
-            username: options.username,
-            host: options.host,
-            port: options.port,
-            password: options.password,
-            keyfile: options.keyfile,
-        };
-    }
 }
 
 function getAliases(aliases: string[]): Aliases {
