@@ -135,19 +135,15 @@ function validate(argOptions: ArgOptions): AppOptions {
 
     // Checks
 
-    if (!argOptions.ftp?.length) {
-        terminate('Missing: <ftp> commands list to perform');
-    }
+    checkCreads(rv.credentials);
+    checkOperationLocalFiles(rv.operations, rv.aliases);
 
     if (!rv.operations.length) {
-        console.log(`\nOperations to be processed are not defined. Done.`);
+        console.log(`\nOperations to be processed are not defined (Missing: <ftp> commands list to perform).`);
         help();
         printAppDone();
         process.exit(0);
     }
-
-    checkOperationLocalFiles(rv.operations, rv.aliases);
-    checkCreads(rv.credentials);
 
     return rv;
 }
