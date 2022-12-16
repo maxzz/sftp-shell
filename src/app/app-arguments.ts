@@ -53,11 +53,10 @@ function getOperations(ftp: string[] = []): Operation[] {
     });
 }
 
-function getConfigs(names: string[] = [], aliases: Aliases): AppOptions[] {
-    function getConfigAppOptions(name: string, aliases: Aliases): AppOptions {
+function getConfigs(names: string[] = []): AppOptions[] {
+    function getConfigAppOptions(name: string): AppOptions {
         try {
             name = formatDeep(name, process.env);
-            name = formatDeep(name, aliases);
             const cnt = fs.readFileSync(name).toString();
             const obj = JSON.parse(cnt) as ArgProcessingOptions;
             return {
@@ -69,7 +68,7 @@ function getConfigs(names: string[] = [], aliases: Aliases): AppOptions[] {
             terminate(`Failed to get config file: '${name}'. error: ${error.toString()}`);
         }
     }
-    return names.map((name) => getConfigAppOptions(name, aliases)).filter(Boolean);
+    return names.map((name) => getConfigAppOptions(name)).filter(Boolean);
 }
 
 function checkCreads(options: SFTPCredentials) {
@@ -112,7 +111,7 @@ function validate(argOptions: ArgOptions): AppOptions {
 
     // 3. External configs
 
-    const configs = getConfigs(argOptions.config, rv.aliases); // TODO: aliases before everything and update after each config parsed
+    const configs = getConfigs(argOptions.config); // TODO: aliases before everything and update after each config parsed
 
     // 4. Operations
 
@@ -128,7 +127,7 @@ function validate(argOptions: ArgOptions): AppOptions {
         printAppDone();
         process.exit(0);
     }
-    
+
     checkOperationLocalFiles(rv.operations, rv.aliases);
     checkCreads(rv.credentials);
 
