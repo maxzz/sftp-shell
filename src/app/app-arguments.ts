@@ -38,7 +38,10 @@ function getAliases(aliases: string[]): Aliases {
     }, {}) || {};
 }
 
-function getOperations(ftp: string[] = []): Operation[] {
+function getOperations(ftp: string[] | string = []): Operation[] {
+    if (typeof ftp === 'string') {
+        ftp = [ftp];
+    }
     return ftp.map((cur) => {
         const parts = cur.split('=').map((value) => value.trim());
         if (parts.length !== 3) {
@@ -159,9 +162,9 @@ function checkHelpCall(argOptions: ArgOptions) {
 }
 
 export function getVerifiedArguments(): AppOptions {
-    console.log(chalk.yellow(`cwd: ${process.cwd()}`));
-
     printAppVersion();
+
+    console.log(chalk.gray(`Working directory: ${process.cwd()}`));
 
     const argOptions = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as ArgOptions;
 
