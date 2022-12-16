@@ -7,6 +7,7 @@ import { help, helpEx } from './app-help';
 import { printAppVersion, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 import path from 'path';
+import chalk from 'chalk';
 
 function getConnectConfig(c: ArgCredentials): SFTPCredentials {
     if (c.keyfile) {
@@ -56,16 +57,20 @@ function getOperations(ftp: string[] = []): Operation[] {
 function getExternalConfigs(names: string[] = []): AppOptions[] {
     function getConfigAppOptions(name: string): AppOptions {
         try {
-            name = formatDeep(name, process.env);
+            name = path.resolve(formatDeep(name, process.env));
             const cnt = fs.readFileSync(name).toString();
-            const obj = JSON.parse(cnt) as ArgProcessingOptions;
-            return {
-                credentials: getConnectConfig(obj),
-                operations: getOperations(obj.ftp),
-                aliases: getAliases(obj.alias),
-            };
+            try {
+                const obj = JSON.parse(cnt) as ArgProcessingOptions;
+                return {
+                    credentials: getConnectConfig(obj),
+                    operations: getOperations(obj.ftp),
+                    aliases: getAliases(obj.alias),
+                };
+            } catch (error) {
+                terminate(`${chalk.yellow('Failed to parse config file:')}\n        ${chalk.gray(name)}\n    error: ${error.toString()}`);
+            }
         } catch (error) {
-            terminate(`Failed to get config file: '${name}'. error: ${error.toString()}`);
+            terminate(`${chalk.yellow('Failed to get config file:')}\n        ${chalk.gray(name)}\n    error: ${error.toString()}`);
         }
     }
     return names.map((name) => getConfigAppOptions(name)).filter(Boolean);
@@ -120,7 +125,6 @@ function validate(argOptions: ArgOptions): AppOptions {
         aliases: getAliases(argOptions.alias),
         operations: getOperations(argOptions.ftp),
     });
-
     const rv: AppOptions = mergeConfigs(configs);
 
     // Checks
@@ -155,6 +159,8 @@ function checkHelpCall(argOptions: ArgOptions) {
 }
 
 export function getVerifiedArguments(): AppOptions {
+    console.log(chalk.yellow(`cwd: ${process.cwd()}`));
+
     printAppVersion();
 
     const argOptions = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as ArgOptions;
