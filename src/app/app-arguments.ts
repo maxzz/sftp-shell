@@ -53,7 +53,7 @@ function getOperations(ftp: string[] = []): Operation[] {
     });
 }
 
-function getConfigs(names: string[] = []): AppOptions[] {
+function getExternalConfigs(names: string[] = []): AppOptions[] {
     function getConfigAppOptions(name: string): AppOptions {
         try {
             name = formatDeep(name, process.env);
@@ -97,16 +97,31 @@ function checkOperationLocalFiles(operations: Operation[], aliases: Aliases): vo
     });
 }
 
+function mergeConfigs(all: AppOptions[]): AppOptions {
+    const rv = {
+    } as AppOptions;
+
+    rv.credentials = all.find((config) => !!config.credentials.username)?.credentials || {}; // will use the first one
+    rv.aliases = all.reduce((acc, curr) => Object.assign({}, acc, curr.aliases), {}); // the last one wins
+
+    rv.operations = all.reduce((acc, curr) => {
+        acc.push(...curr.operations);
+        return acc;
+    }, []);
+
+    return rv;
+}
+
 function validate(argOptions: ArgOptions): AppOptions {
-    const rv: AppOptions = {
+
+    const configs = getExternalConfigs(argOptions.config); // TODO: aliases before everything and update after each config parsed
+    configs.push({
         credentials: getConnectConfig(argOptions),
         aliases: getAliases(argOptions.alias),
         operations: getOperations(argOptions.ftp),
-    };
+    });
 
-    // External configs
-
-    const configs = getConfigs(argOptions.config); // TODO: aliases before everything and update after each config parsed
+    const rv: AppOptions = mergeConfigs(configs);
 
     // Checks
 
