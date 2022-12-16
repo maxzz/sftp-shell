@@ -49,17 +49,11 @@ function getOperations(ftp: string[] = []): Operation[] {
         if (item.operation.length !== 1 || !~'udl'.indexOf(item.operation)) {
             terminate(`Invalid operation (should be one of: u | d | l) for:\n    ${cur}`);
         }
-
         return item;
     });
 }
 
 function getConfigs(names: string[] = [], aliases: Aliases): AppOptions[] {
-    return names.map((name) => {
-        const appOptions = getConfigAppOptions(name, aliases);
-        return appOptions;
-    }).filter(Boolean);
-
     function getConfigAppOptions(name: string, aliases: Aliases): AppOptions {
         try {
             name = formatDeep(name, process.env);
@@ -75,14 +69,14 @@ function getConfigs(names: string[] = [], aliases: Aliases): AppOptions[] {
             terminate(`Failed to get config file: '${name}'. error: ${error.toString()}`);
         }
     }
+    return names.map((name) => getConfigAppOptions(name, aliases)).filter(Boolean);
 }
 
 function checkCreads(options: SFTPCredentials) {
-    let totalCreds: number = +!!options.privateKey + +!!options.password;
+    const totalCreds: number = +!!options.privateKey + +!!options.password;
     if (totalCreds > 1) {
         terminate(`Specify only one of: <password>, <keyfile>.`);
     }
-
     const basicOK = options.host && options.username && (options.password || options.privateKey);
     if (!basicOK) {
         terminate('Missing: host || username || password || keyfile');

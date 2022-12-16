@@ -25,12 +25,7 @@ export const optionDefinitions = [
         name: 'keyfile',
         type: String,
         description: 'Path to key file. This will be expanded with environment variables.',
-    },
-    {
-        name: 'key',
-        type: String,
-        description: 'User key',
-    },
+    }, // { name: 'key', type: String, description: 'User key', }, // not used anymore
     {
         name: 'ftp',
         type: String,
