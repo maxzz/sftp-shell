@@ -17,8 +17,7 @@ const HEADER2 = `
 const HEADER3 = `
   ┌─┐┌─┐┬┬  ┌─┐┌┬┐  
   ├┤ ├─┤││  ├┤  ││  
-  └  ┴ ┴┴┴─┘└─┘─┴┘  
-`;
+  └  ┴ ┴┴┴─┘└─┘─┴┘  `;
 
 export function printSftpStart() {
     console.log(chalk.cyan(HEADER1));
