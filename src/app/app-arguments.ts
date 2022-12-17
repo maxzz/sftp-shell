@@ -12,8 +12,8 @@ import chalk from 'chalk';
 function getConnectConfig(c: ArgCredentials): SFTPCredentials {
     if (c.keyfile) {
         try {
-            c.keyfile = formatDeep(c.keyfile as string, process.env);
-            c.keyfile = fs.readFileSync(c.keyfile);
+            c.keyfile = formatDeep(c.keyfile, process.env);
+            c.keyfile = fs.readFileSync(c.keyfile).toString();
         } catch (error) {
             terminate(`Cannot read SFTP access key file: '${c.keyfile}'`);
         }
