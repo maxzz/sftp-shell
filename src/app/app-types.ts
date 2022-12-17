@@ -45,7 +45,7 @@ export type ArgCredentials = {
     port?: string;
     username: string;
     password?: string;
-    keyfile?: string; //key?: string; // not used any more, but canbe easily added
+    keyfile?: string | Buffer; //key?: string; // not used any more, but canbe easily added
 };
 
 export type ArgProcessingOptions = ArgCredentials & ProcessingOptions;
