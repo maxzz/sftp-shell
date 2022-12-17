@@ -23,9 +23,9 @@ function resolvePathes(operations: Operation[], sftpWorkingDir: string, aliases:
 export async function processSftp(appOptions: AppOptions) {
     const sftp = new Client();
     sftp.on('close', printOnConnectionCloased);
-    sftp.on('keyboard-interactive', (name, instructions, instructionsLang, prompts) => {
-        console.log('name %s, instructions %s, instructionsLang %s, prompts', name, instructions, instructionsLang, prompts);
-    });
+    // sftp.on('keyboard-interactive', (name, instructions, instructionsLang, prompts) => { //https://github.com/theophilusx/ssh2-sftp-client/issues/230 never invoked
+    //     console.log('name %s, instructions %s, instructionsLang %s, prompts', name, instructions, instructionsLang, prompts);
+    // });
     try {
         await sftp.connect(appOptions.credentials);
         const sftpWorkingDir = await sftp.cwd();
