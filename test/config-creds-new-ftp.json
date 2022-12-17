@@ -1,6 +1,6 @@
 {
     "host": "crossmatch.hid.gl",
     "port": 22,
-    "username": "max@tanam4",
+    "username": "maksym",
     "keyfile": "{USERPROFILE}/.ssh/id_rsa"
 }
