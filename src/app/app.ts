@@ -40,6 +40,10 @@ export async function processSftp(appOptions: AppOptions) {
         console.log('------ ctx', ctx);
     });
     try {
+        const cfg: Client.ConnectOptions = appOptions.credentials;
+        cfg.debug = msg => {
+            console.error('++++++++++++++', msg);
+        };
         await sftp.connect(appOptions.credentials);
         const sftpWorkingDir = await sftp.cwd();
 
