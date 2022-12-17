@@ -24,8 +24,8 @@ function getConnectConfig(c: ArgCredentials): SFTPCredentials {
         ...(c.port && { port: +c.port }),
         ...(c.password && { password: c.password }),
         ...(c.keyfile && { privateKey: c.keyfile }),
-        //tryKeyboard: true,
-    }; // as SFTPCredentials & {tryKeyboard: boolean};
+        tryKeyboard: true,
+    } as SFTPCredentials & {tryKeyboard: boolean};
 }
 
 function getAliases(aliases: string[] | string = []): Aliases {
