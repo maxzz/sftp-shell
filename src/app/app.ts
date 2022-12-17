@@ -26,10 +26,10 @@ export async function processSftp(appOptions: AppOptions) {
     sftp.on('keyboard-interactive', (name, instructions, instructionsLang, prompts) => { //https://github.com/theophilusx/ssh2-sftp-client/issues/230 never invoked
         console.log('------ name %s, instructions %s, instructionsLang %s, prompts', name, instructions, instructionsLang, prompts);
     });
-    sftp.on('ready', () => { //https://github.com/mscdex/ssh2/issues/890
-        console.log('------ Ready event.');
-        sftp.end();
-    });
+    // sftp.on('ready', () => { //https://github.com/mscdex/ssh2/issues/890 <- this is breaking connection.
+    //     console.log('------ Ready event.');
+    //     sftp.end();
+    // });
     sftp.on('end', () => {
         console.error('------ End event.');
     });
@@ -40,10 +40,10 @@ export async function processSftp(appOptions: AppOptions) {
         console.log('------ ctx', ctx);
     });
     try {
-        const cfg: Client.ConnectOptions = appOptions.credentials;
-        cfg.debug = msg => {
-            console.error('++++++++++++++', msg);
-        };
+        // const cfg: Client.ConnectOptions = appOptions.credentials;
+        // cfg.debug = msg => {
+        //     console.error('++++++++++++++', msg);
+        // };
         await sftp.connect(appOptions.credentials);
         const sftpWorkingDir = await sftp.cwd();
 
