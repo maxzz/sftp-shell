@@ -21,10 +21,11 @@ function getConnectConfig(c: ArgCredentials): SFTPCredentials {
     return {
         username: c.username,
         host: c.host,
+        interactiveAuth: true,
         ...(c.port && { port: +c.port }),
         ...(c.password && { password: c.password }),
         ...(c.keyfile && { privateKey: c.keyfile }),
-    };
+    } as SFTPCredentials & {interactiveAuth: boolean};
 }
 
 function getAliases(aliases: string[] | string = []): Aliases {
