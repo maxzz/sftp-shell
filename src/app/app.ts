@@ -45,15 +45,15 @@ export async function processSftp(appOptions: AppOptions) {
         const cfg: Client.ConnectOptions = appOptions.credentials;
         cfg.debug = (msg) => {
             //console.log(msg); return;
-            
+
             if (msg.match(/Handshake: \(remote\)/)) {
                 console.log(chalk.yellow(msg));
-            } else
-            if (msg.match(/Handshake: \(local\)/)) {
+            } else if (msg.match(/Handshake: \(local\)/)) {
                 console.log(chalk.blue(msg));
-            } else
-            if (msg.match(/Handshake completed/)) {
+            } else if (msg.match(/Handshake completed/)) {
                 console.log(chalk.green(msg));
+            } else if (msg.match(/_REQUEST/)) {
+                console.log(chalk.cyan(msg));
             } else {
                 console.log(chalk.gray(msg));
             }
