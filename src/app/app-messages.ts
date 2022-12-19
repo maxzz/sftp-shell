@@ -34,7 +34,7 @@ export function printAppFailed() {
 //
 
 export function printAppVersion() {
-    console.log(`The ${chalk.cyan(appName)} utility transfers files to/from an FTP server\nusing SFTP (SSH File Transfer Protocol). version ${appVersion}.`);
+    console.log(`The ${chalk.cyan(appName)} utility transfers files to/from an FTP server\nusing SFTP (SSH File Transfer Protocol). ${appName} version is ${appVersion}.`);
 }
 
 export function printMessageBeforeExit(msg: string) {
