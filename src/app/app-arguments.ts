@@ -1,7 +1,7 @@
 import fs from 'fs';
 import commandLineArgs from 'command-line-args';
 import { optionDefinitions } from './app-argument-options';
-import { OP, Operation, ArgOptions, AppOptions, ArgCredentials, Aliases, SFTPCredentials, ArgProcessingOptions } from './app-types';
+import { OP, Operation, ArgOptions, AppOptions, ArgCredentials, Aliases, SSHConnectConfig, ArgProcessingOptions } from './app-types';
 import { terminate } from './app-errors';
 import { help, helpEx } from './app-help';
 import { printAppVersion, printAppDone } from './app-messages';
@@ -9,7 +9,7 @@ import { formatDeep } from '../utils/utils-aliases';
 import path from 'path';
 import chalk from 'chalk';
 
-function getConnectConfig(c: ArgCredentials): SFTPCredentials {
+function getConnectConfig(c: ArgCredentials): SSHConnectConfig {
     if (c.keyfile) {
         try {
             c.keyfile = formatDeep(c.keyfile, process.env);
@@ -83,7 +83,7 @@ function getExternalConfigs(names: string[] = []): AppOptions[] {
     return names.map((name) => getConfigAppOptions(name)).filter(Boolean);
 }
 
-function checkCreads(options: SFTPCredentials) {
+function checkCreads(options: SSHConnectConfig) {
     if (!options.username) {
         terminate('There is no username to login.');
     }

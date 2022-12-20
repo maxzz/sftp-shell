@@ -1,4 +1,5 @@
 import { ConnectConfig } from 'ssh2';
+export { ConnectConfig as SSHConnectConfig } from 'ssh2';
 
 // Config file options
 
@@ -24,14 +25,14 @@ export type Operation = {
 export type Aliases = Record<string, string>;
 
 export type AppOptions = {
-    credentials: SFTPCredentials;
+    credentials: ConnectConfig;
     operations: Operation[];        // generated from ArgsOptions.ftp
     aliases: Aliases;               // alias -> value;  generated from ArgsOptions.alias
 };
 
 // Arguments
 
-export type SFTPCredentials = ConnectConfig;
+// export type SFTPCredentials = ConnectConfig;
 // export type SFTPCredentials = Pick<ConnectConfig, 'host' | 'port' | 'username' | 'password' | 'privateKey'>;
 // // {
 // //     host: string;
