@@ -31,14 +31,15 @@ export type AppOptions = {
 
 // Arguments
 
-export type SFTPCredentials = Pick<ConnectConfig, 'host' | 'port' | 'username' | 'password' | 'privateKey'>;
-// {
-//     host: string;
-//     port?: number;
-//     username: string;
-//     password?: string;
-//     privateKey?: string;
-// };
+export type SFTPCredentials = ConnectConfig;
+// export type SFTPCredentials = Pick<ConnectConfig, 'host' | 'port' | 'username' | 'password' | 'privateKey'>;
+// // {
+// //     host: string;
+// //     port?: number;
+// //     username: string;
+// //     password?: string;
+// //     privateKey?: string;
+// // };
 
 export type ArgCredentials = {
     host: string;
