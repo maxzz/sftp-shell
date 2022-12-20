@@ -1,5 +1,5 @@
-import { ConnectConfig } from 'ssh2';
-export { ConnectConfig as SSHConnectConfig } from 'ssh2';
+import type { ConnectConfig } from 'ssh2';
+export type { ConnectConfig as SSHConnectConfig } from 'ssh2';
 
 // Config file options
 
@@ -32,22 +32,12 @@ export type AppOptions = {
 
 // Arguments
 
-// export type SFTPCredentials = ConnectConfig;
-// export type SFTPCredentials = Pick<ConnectConfig, 'host' | 'port' | 'username' | 'password' | 'privateKey'>;
-// // {
-// //     host: string;
-// //     port?: number;
-// //     username: string;
-// //     password?: string;
-// //     privateKey?: string;
-// // };
-
 export type ArgCredentials = {
     host: string;
     port?: string;
     username: string;
     password?: string;
-    keyfile?: string; //key?: string; // not used any more, but canbe easily added
+    keyfile?: string;               //key?: string; // not used any more, but canbe easily added
 };
 
 export type ArgProcessingOptions = ArgCredentials & ProcessingOptions;
