@@ -1,5 +1,6 @@
 import chalk from 'chalk';
-import { Operation, ArgOptions, AppOptions } from './app-types';
+import type { ForegroundColor } from 'chalk';
+import { Operation, AppOptions } from './app-types';
 import { toUnix } from '../utils/utils-os';
 
 export const appName = 'sftp-shell'; //export const { name: progrmaName } = require('../../package.json');
@@ -80,21 +81,37 @@ function printOnExitError(error: Error) {
 
 // SSH connection messages print
 
+function printHandshakeOptions(msg: string, color: typeof ForegroundColor) {
+    const m = msg.match(/Handshake: .*: (.*)/);
+    if (m?.[1]) {
+        const list = m[1].split(',').map((str) => `    ${str.trim()}`);
+        if (list.length > 1) {
+            list.forEach((str) => console.log(str));
+        } else {
+            console.log('-------m1', m[1]);
+        }
+    }
+    console.log(chalk[color](msg));
+}
+
 export function printConnectionVerbose(msg: string) {
     //console.log(msg); return;
     if (msg.match(/Handshake: \(remote\)/)) {
         console.log(chalk.yellow(msg));
     } else if (msg.match(/Handshake: \(local\)/)) {
-        const m = msg.match(/Handshake: .*: (.*)/);
-        if (m?.[1]) {
-            const list = m[1].split(',').map((str) => `    ${str.trim()}`);
-            if (list.length > 1) {
-                list.forEach((str) => console.log(str));
-            } else {
-                console.log('-------m1', m[1]);
-            }
-        }
-        console.log(chalk.blue(msg));
+
+        printHandshakeOptions(msg, 'blue');
+
+        // const m = msg.match(/Handshake: .*: (.*)/);
+        // if (m?.[1]) {
+        //     const list = m[1].split(',').map((str) => `    ${str.trim()}`);
+        //     if (list.length > 1) {
+        //         list.forEach((str) => console.log(str));
+        //     } else {
+        //         console.log('-------m1', m[1]);
+        //     }
+        // }
+        // console.log(chalk.blue(msg));
     } else if (msg.match(/Handshake completed/)) {
         console.log(chalk.green(msg));
     } else if (msg.match(/_REQUEST/)) {
