@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import Client from 'ssh2-sftp-client';
 import { OP, Operation, AppOptions, Aliases } from './app-types';
-import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionCloased, printAppDone } from './app-messages';
+import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionClosed, printAppDone } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 import { mkDirSync } from '../utils/utils-os';
 import chalk from 'chalk';
@@ -23,7 +23,7 @@ function resolvePathes(operations: Operation[], sftpWorkingDir: string, aliases:
 
 export async function processSftp(appOptions: AppOptions) {
     const sftp = new Client();
-    sftp.on('close', printOnConnectionCloased);
+    sftp.on('close', printOnConnectionClosed);
     // sftp.on('keyboard-interactive', (name, instructions, instructionsLang, prompts) => { //https://github.com/theophilusx/ssh2-sftp-client/issues/230 never invoked
     //     console.log('++++++++++++++++++++++++++++ name %s, instructions %s, instructionsLang %s, prompts', name, instructions, instructionsLang, prompts);
     // });
@@ -31,33 +31,33 @@ export async function processSftp(appOptions: AppOptions) {
     //     console.log('++++++++++++++++++++++++++++ Ready event.');
     //     sftp.end();
     // });
-    sftp.on('end', () => {
-        console.error('++++++++++++++++++++++++++++ End event.');
-    });
-    sftp.on('error', (error) => {
-        console.error('++++++++++++++++++++++++++++ Error event.', error);
-    });
-    sftp.on('authentication', (ctx) => {
-        console.log('++++++++++++++++++++++++++++ ctx', ctx);
-    });
+    // sftp.on('end', () => {
+    //     console.error('++++++++++++++++++++++++++++ End event.');
+    // });
+    // sftp.on('error', (error) => {
+    //     console.error('++++++++++++++++++++++++++++ Error event.', error);
+    // });
+    // sftp.on('authentication', (ctx) => {
+    //     console.log('++++++++++++++++++++++++++++ ctx', ctx);
+    // });
     try {
 
-        const cfg: Client.ConnectOptions = appOptions.credentials;
-        cfg.debug = (msg) => {
-            //console.log(msg); return;
+        // const cfg: Client.ConnectOptions = appOptions.credentials;
+        // cfg.debug = (msg) => {
+        //     //console.log(msg); return;
 
-            if (msg.match(/Handshake: \(remote\)/)) {
-                console.log(chalk.yellow(msg));
-            } else if (msg.match(/Handshake: \(local\)/)) {
-                console.log(chalk.blue(msg));
-            } else if (msg.match(/Handshake completed/)) {
-                console.log(chalk.green(msg));
-            } else if (msg.match(/_REQUEST/)) {
-                console.log(chalk.cyan(msg));
-            } else {
-                console.log(chalk.gray(msg));
-            }
-        };
+        //     if (msg.match(/Handshake: \(remote\)/)) {
+        //         console.log(chalk.yellow(msg));
+        //     } else if (msg.match(/Handshake: \(local\)/)) {
+        //         console.log(chalk.blue(msg));
+        //     } else if (msg.match(/Handshake completed/)) {
+        //         console.log(chalk.green(msg));
+        //     } else if (msg.match(/_REQUEST/)) {
+        //         console.log(chalk.cyan(msg));
+        //     } else {
+        //         console.log(chalk.gray(msg));
+        //     }
+        // };
 
         await sftp.connect(appOptions.credentials);
         const sftpWorkingDir = await sftp.cwd();

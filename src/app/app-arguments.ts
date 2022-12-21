@@ -18,13 +18,33 @@ function getConnectConfig(c: ArgCredentials): SSHConnectConfig {
             terminate(`Cannot read SFTP access key file: '${c.keyfile}'`);
         }
     }
-    return {
+
+    const con: SSHConnectConfig = {
         username: c.username,
         host: c.host,
         ...(c.port && { port: +c.port }),
         ...(c.password && { password: c.password }),
         ...(c.keyfile && { privateKey: c.keyfile }),
     };
+
+    if (c.verbose) {
+        con.debug = (msg) => {
+            //console.log(msg); return;
+            if (msg.match(/Handshake: \(remote\)/)) {
+                console.log(chalk.yellow(msg));
+            } else if (msg.match(/Handshake: \(local\)/)) {
+                console.log(chalk.blue(msg));
+            } else if (msg.match(/Handshake completed/)) {
+                console.log(chalk.green(msg));
+            } else if (msg.match(/_REQUEST/)) {
+                console.log(chalk.cyan(msg));
+            } else {
+                console.log(chalk.gray(msg));
+            }
+        };
+    }
+
+    return con;
 }
 
 function getAliases(aliases: string[] | string = []): Aliases {

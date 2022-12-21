@@ -38,13 +38,13 @@ export type ArgCredentials = {
     username: string;
     password?: string;
     keyfile?: string;               //key?: string; // not used any more, but can be easily added
+    verbose?: boolean;              // show debug information
 };
 
 export type ArgProcessingOptions = ArgCredentials & ProcessingOptions;
 
 export type ArgOptions = ArgProcessingOptions & {
     help?: boolean;                 // show help and exit
-    verbose?: boolean;              // show debug information
     config?: string[];              // list of additional config files
     _unknown: string[];             // any unknown options
 };
