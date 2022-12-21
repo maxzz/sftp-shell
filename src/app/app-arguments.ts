@@ -28,11 +28,20 @@ function getConnectConfig(c: ArgCredentials): SSHConnectConfig {
     };
 
     if (c.verbose) {
-        con.debug = (msg) => {
+        con.debug = (msg: string) => {
             //console.log(msg); return;
             if (msg.match(/Handshake: \(remote\)/)) {
                 console.log(chalk.yellow(msg));
             } else if (msg.match(/Handshake: \(local\)/)) {
+                const m = msg.match(/Handshake: .*: (.*)/);
+                if (m?.[1]) {
+                    const list = m[1].split(',').map((str) => `    ${str.trim()}`);
+                    if (list.length > 1) {
+                        list.forEach((str) => console.log(str))
+                    } else {
+                        console.log('-------m1', m[1]);
+                    }
+                }
                 console.log(chalk.blue(msg));
             } else if (msg.match(/Handshake completed/)) {
                 console.log(chalk.green(msg));
