@@ -46,7 +46,7 @@ export function printMessageBeforeExit(msg: string) {
 const opName = (s: string) => s === 'u' ? 'Upload to FTP' : s === 'd' ? 'Download from FTP' : s === 'l' ? 'List folder content' : '?';
 const plural = (n: number) => n === 1 ? '' : 's';
 
-export function printOnConnectionCloased() {
+export function printOnConnectionClosed() {
     return console.log(chalk.gray(`\n  SFTP connection closed.`));
 }
 
@@ -69,7 +69,11 @@ export function printLoopEndError(error: unknown) {
 }
 
 function printOnExitError(error: Error) {
-    console.log('\nSFTP error: ', chalk.redBright(error.message));
-    console.log('\nSFTP stack: ', error.stack);
+    if (error.message?.match(/All configured authentication methods failed/)) {
+        console.log('\nSFTP error: ', chalk.redBright(error.message));
+    } else {
+        console.log('\nSFTP error: ', chalk.redBright(error.message));
+        console.log('SFTP stack: ', chalk.gray(error.stack));
+    }
     console.log(chalk.red(`${HEADER3}`));
 }
