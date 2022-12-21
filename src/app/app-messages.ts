@@ -81,11 +81,9 @@ function printOnExitError(error: Error) {
 
 // SSH connection messages print
 
-function printHandshakeOptions(msg: string, color: typeof ForegroundColor) {
+function printHandshakeOptions(msg: string, color: typeof ForegroundColor, newGroup: boolean) {
     const m = msg.match(/(Handshake: .*: )(.*)/);
-    if (color === 'blue') { // started with local handshake
-        console.log('');
-    }
+    newGroup && console.log('');
     let list: string[] = m?.[2] ? m[2].split(',').map((str) => `    ${chalk[color](str.trim())}`) : undefined;
     if (list?.length > 1) {
         console.log(chalk[color](m[1]));
@@ -98,9 +96,9 @@ function printHandshakeOptions(msg: string, color: typeof ForegroundColor) {
 export function printConnectionVerbose(msg: string) {
     //console.log(msg); return;
     if (msg.match(/Handshake: \(remote\)/)) {
-        printHandshakeOptions(msg, 'yellow');
+        printHandshakeOptions(msg, 'yellow', false);
     } else if (msg.match(/Handshake: \(local\)/)) {
-        printHandshakeOptions(msg, 'blue');
+        printHandshakeOptions(msg, 'blue', true);
     } else if (msg.match(/Handshake completed/)) {
         console.log(chalk.green(msg));
     } else if (msg.match(/_REQUEST/)) {
