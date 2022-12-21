@@ -83,8 +83,12 @@ function printOnExitError(error: Error) {
 
 function printHandshakeOptions(msg: string, color: typeof ForegroundColor, newGroup: boolean) {
     const m = msg.match(/(Handshake: .*: )(.*)/);
-    newGroup && console.log('');
+    newGroup && console.log(chalk.gray('---------------------------------------'));
     let list: string[] = m?.[2] ? m[2].split(',').map((str) => `    ${chalk[color](str.trim())}`) : undefined;
+    // if (list?.length === 1) {
+    //     console.log(chalk[color](m[1]));
+    //     list.forEach((str) => console.log(str));
+    // } else
     if (list?.length > 1) {
         console.log(chalk[color](m[1]));
         list.forEach((str) => console.log(str));
