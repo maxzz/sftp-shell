@@ -83,6 +83,9 @@ function printOnExitError(error: Error) {
 
 function printHandshakeOptions(msg: string, color: typeof ForegroundColor) {
     const m = msg.match(/(Handshake: .*: )(.*)/);
+    if (color === 'blue') { // started with local handshake
+        console.log('');
+    }
     let list: string[] = m?.[2] ? m[2].split(',').map((str) => `    ${chalk[color](str.trim())}`) : undefined;
     if (list?.length > 1) {
         console.log(chalk[color](m[1]));
