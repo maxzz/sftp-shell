@@ -1,5 +1,5 @@
 import type { ConnectConfig } from 'ssh2';
-export type { ConnectConfig as SSHConnectConfig } from 'ssh2';
+export type { ConnectConfig as SSHConnectConfig } from 'ssh2'; //https://github.com/theophilusx/ssh2-sftp-client#connectconfig--sftp-object
 
 // Config file options
 
@@ -37,13 +37,14 @@ export type ArgCredentials = {
     port?: string;
     username: string;
     password?: string;
-    keyfile?: string;               //key?: string; // not used any more, but canbe easily added
+    keyfile?: string;               //key?: string; // not used any more, but can be easily added
 };
 
 export type ArgProcessingOptions = ArgCredentials & ProcessingOptions;
 
 export type ArgOptions = ArgProcessingOptions & {
-    help?: string;
-    _unknown: string[];
-    config?: string[];
+    help?: boolean;                 // show help and exit
+    verbose?: boolean;              // show debug information
+    config?: string[];              // list of additional config files
+    _unknown: string[];             // any unknown options
 };

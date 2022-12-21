@@ -54,6 +54,12 @@ export const optionDefinitions = [
         alias: 'a',
     },
     {
+        name: 'verbose',
+        type: Boolean,
+        description: `Verbose output of connection information`,
+        alias: 'v',
+    },
+    {
         name: 'config',
         type: String,
         multiple: true,
