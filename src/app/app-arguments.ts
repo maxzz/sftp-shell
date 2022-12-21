@@ -4,34 +4,10 @@ import { optionDefinitions } from './app-argument-options';
 import { OP, Operation, ArgOptions, AppOptions, ArgCredentials, Aliases, SSHConnectConfig, ArgProcessingOptions } from './app-types';
 import { terminate } from './app-errors';
 import { help, helpEx } from './app-help';
-import { printAppVersion, printAppDone } from './app-messages';
+import { printAppVersion, printAppDone, printConnectionVerbose } from './app-messages';
 import { formatDeep } from '../utils/utils-aliases';
 import path from 'path';
 import chalk from 'chalk';
-
-function printVerbose(msg: string) {
-    //console.log(msg); return;
-    if (msg.match(/Handshake: \(remote\)/)) {
-        console.log(chalk.yellow(msg));
-    } else if (msg.match(/Handshake: \(local\)/)) {
-        const m = msg.match(/Handshake: .*: (.*)/);
-        if (m?.[1]) {
-            const list = m[1].split(',').map((str) => `    ${str.trim()}`);
-            if (list.length > 1) {
-                list.forEach((str) => console.log(str));
-            } else {
-                console.log('-------m1', m[1]);
-            }
-        }
-        console.log(chalk.blue(msg));
-    } else if (msg.match(/Handshake completed/)) {
-        console.log(chalk.green(msg));
-    } else if (msg.match(/_REQUEST/)) {
-        console.log(chalk.cyan(msg));
-    } else {
-        console.log(chalk.gray(msg));
-    }
-}
 
 function getConnectConfig(c: ArgCredentials): SSHConnectConfig {
     if (c.keyfile) {
@@ -42,14 +18,13 @@ function getConnectConfig(c: ArgCredentials): SSHConnectConfig {
             terminate(`Cannot read SFTP access key file: '${c.keyfile}'`);
         }
     }
-
     const con: SSHConnectConfig = {
         username: c.username,
         host: c.host,
         ...(c.port && { port: +c.port }),
         ...(c.password && { password: c.password }),
         ...(c.keyfile && { privateKey: c.keyfile }),
-        ...(c.verbose && { debug: printVerbose }),
+        ...(c.verbose && { debug: printConnectionVerbose }),
     };
     return con;
 }
