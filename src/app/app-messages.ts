@@ -82,8 +82,8 @@ function printOnExitError(error: Error) {
 // SSH connection messages print
 
 function printHandshakeOptions(msg: string, color: typeof ForegroundColor) {
-    const m = msg.match(/Handshake: .*: (.*)/);
-    let list: string[] = m?.[1] ? m[1].split(',').map((str) => `    ${chalk[color](str.trim())}`) : undefined;
+    const m = msg.match(/(Handshake: .*: )(.*)/);
+    let list: string[] = m?.[2] ? m[2].split(',').map((str) => `    ${chalk[color](str.trim())}`) : undefined;
     if (list?.length > 1) {
         list.forEach((str) => console.log(str));
     } else {
