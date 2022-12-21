@@ -83,15 +83,7 @@ function printOnExitError(error: Error) {
 
 function printHandshakeOptions(msg: string, color: typeof ForegroundColor) {
     const m = msg.match(/Handshake: .*: (.*)/);
-    let list: string[];
-    if (m?.[1]) {
-        list = m[1].split(',').map((str) => `    ${chalk[color](str.trim())}`);
-        // if (list.length > 1) {
-        //     list.forEach((str) => console.log(str));
-        // } else {
-        //     console.log('-------m1', m[1]);
-        // }
-    }
+    let list: string[] = m?.[1] ? m[1].split(',').map((str) => `    ${chalk[color](str.trim())}`) : undefined;
     if (list?.length > 1) {
         list.forEach((str) => console.log(str));
     } else {
@@ -102,21 +94,9 @@ function printHandshakeOptions(msg: string, color: typeof ForegroundColor) {
 export function printConnectionVerbose(msg: string) {
     //console.log(msg); return;
     if (msg.match(/Handshake: \(remote\)/)) {
-        console.log(chalk.yellow(msg));
+        printHandshakeOptions(msg, 'yellow');
     } else if (msg.match(/Handshake: \(local\)/)) {
-
         printHandshakeOptions(msg, 'blue');
-
-        // const m = msg.match(/Handshake: .*: (.*)/);
-        // if (m?.[1]) {
-        //     const list = m[1].split(',').map((str) => `    ${str.trim()}`);
-        //     if (list.length > 1) {
-        //         list.forEach((str) => console.log(str));
-        //     } else {
-        //         console.log('-------m1', m[1]);
-        //     }
-        // }
-        // console.log(chalk.blue(msg));
     } else if (msg.match(/Handshake completed/)) {
         console.log(chalk.green(msg));
     } else if (msg.match(/_REQUEST/)) {
