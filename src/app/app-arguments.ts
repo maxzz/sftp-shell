@@ -9,6 +9,30 @@ import { formatDeep } from '../utils/utils-aliases';
 import path from 'path';
 import chalk from 'chalk';
 
+function printVerbose(msg: string) {
+    //console.log(msg); return;
+    if (msg.match(/Handshake: \(remote\)/)) {
+        console.log(chalk.yellow(msg));
+    } else if (msg.match(/Handshake: \(local\)/)) {
+        const m = msg.match(/Handshake: .*: (.*)/);
+        if (m?.[1]) {
+            const list = m[1].split(',').map((str) => `    ${str.trim()}`);
+            if (list.length > 1) {
+                list.forEach((str) => console.log(str));
+            } else {
+                console.log('-------m1', m[1]);
+            }
+        }
+        console.log(chalk.blue(msg));
+    } else if (msg.match(/Handshake completed/)) {
+        console.log(chalk.green(msg));
+    } else if (msg.match(/_REQUEST/)) {
+        console.log(chalk.cyan(msg));
+    } else {
+        console.log(chalk.gray(msg));
+    }
+}
+
 function getConnectConfig(c: ArgCredentials): SSHConnectConfig {
     if (c.keyfile) {
         try {
@@ -25,34 +49,8 @@ function getConnectConfig(c: ArgCredentials): SSHConnectConfig {
         ...(c.port && { port: +c.port }),
         ...(c.password && { password: c.password }),
         ...(c.keyfile && { privateKey: c.keyfile }),
+        ...(c.verbose && { debug: printVerbose }),
     };
-
-    if (c.verbose) {
-        con.debug = (msg: string) => {
-            //console.log(msg); return;
-            if (msg.match(/Handshake: \(remote\)/)) {
-                console.log(chalk.yellow(msg));
-            } else if (msg.match(/Handshake: \(local\)/)) {
-                const m = msg.match(/Handshake: .*: (.*)/);
-                if (m?.[1]) {
-                    const list = m[1].split(',').map((str) => `    ${str.trim()}`);
-                    if (list.length > 1) {
-                        list.forEach((str) => console.log(str))
-                    } else {
-                        console.log('-------m1', m[1]);
-                    }
-                }
-                console.log(chalk.blue(msg));
-            } else if (msg.match(/Handshake completed/)) {
-                console.log(chalk.green(msg));
-            } else if (msg.match(/_REQUEST/)) {
-                console.log(chalk.cyan(msg));
-            } else {
-                console.log(chalk.gray(msg));
-            }
-        };
-    }
-
     return con;
 }
 
