@@ -83,15 +83,20 @@ function printOnExitError(error: Error) {
 
 function printHandshakeOptions(msg: string, color: typeof ForegroundColor) {
     const m = msg.match(/Handshake: .*: (.*)/);
+    let list: string[];
     if (m?.[1]) {
-        const list = m[1].split(',').map((str) => `    ${str.trim()}`);
-        if (list.length > 1) {
-            list.forEach((str) => console.log(str));
-        } else {
-            console.log('-------m1', m[1]);
-        }
+        list = m[1].split(',').map((str) => `    ${chalk[color](str.trim())}`);
+        // if (list.length > 1) {
+        //     list.forEach((str) => console.log(str));
+        // } else {
+        //     console.log('-------m1', m[1]);
+        // }
     }
-    console.log(chalk[color](msg));
+    if (list?.length > 1) {
+        list.forEach((str) => console.log(str));
+    } else {
+        console.log(chalk[color](msg));
+    }
 }
 
 export function printConnectionVerbose(msg: string) {
