@@ -26,12 +26,14 @@ function getConnectConfig(c: ArgCredentials): SSHConnectConfig {
         ...(c.keyfile && { privateKey: c.keyfile }),
         ...(c.verbose && { debug: printConnectionVerbose }),
     };
-    con.algorithms = {
-        kex: ['curve25519-sha256'],        
-        // kex: {
-        //     prepend: ['curve25519-sha256']
-        // }
-    }
+    // con.algorithms = {
+    //     kex: ['curve25519-sha256'],
+    //     // kex: {
+    //     //     prepend: ['curve25519-sha256']
+    //     // }
+    //     serverHostKey: ['rsa-sha2-512', 'rsa-sha2-256', 'ssh-rsa'],
+    //     //cipher: ['aes256-ctr', 'aes192-ctr', 'chacha20-poly1305@openssh.com', ],
+    // }
     return con;
 }
 

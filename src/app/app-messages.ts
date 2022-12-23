@@ -96,14 +96,19 @@ function printHandshakeOptions(msg: string, color: typeof ForegroundColor, newGr
         console.log(chalk[color](msg));
     }
 }
-
+//
 export function printConnectionVerbose(msg: string) {
     //console.log(msg); return;
     if (msg.match(/Handshake: \(remote\)/)) {
         printHandshakeOptions(msg, 'yellow', false);
     } else if (msg.match(/Handshake: \(local\)/)) {
         printHandshakeOptions(msg, 'blue', true);
-    } else if (msg.match(/Handshake completed/)) {
+    }
+    // else if (msg.match(/Handshake: (.*): (.*)/)) { // i.e. not local and not remote
+    //     //TODO: handshake result
+    // }
+
+    else if (msg.match(/Handshake completed/)) {
         console.log(chalk.green(msg));
     } else if (msg.match(/_REQUEST/)) {
         console.log(chalk.cyan(msg));
