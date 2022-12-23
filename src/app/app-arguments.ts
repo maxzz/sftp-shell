@@ -26,6 +26,12 @@ function getConnectConfig(c: ArgCredentials): SSHConnectConfig {
         ...(c.keyfile && { privateKey: c.keyfile }),
         ...(c.verbose && { debug: printConnectionVerbose }),
     };
+    con.algorithms = {
+        kex: ['curve25519-sha256'],        
+        // kex: {
+        //     prepend: ['curve25519-sha256']
+        // }
+    }
     return con;
 }
 

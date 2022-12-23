@@ -1,0 +1,24 @@
+{
+	"files": [
+		{
+			"path": "node_modules/@types/ssh2/index.d.ts",
+			"bookmarks": [
+				{
+					"line": 96,
+					"column": 25,
+					"label": ""
+				}
+			]
+		},
+		{
+			"path": "node_modules/@types/ssh2-sftp-client/index.d.ts",
+			"bookmarks": [
+				{
+					"line": 85,
+					"column": 16,
+					"label": ""
+				}
+			]
+		}
+	]
+}
