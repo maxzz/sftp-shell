@@ -1,0 +1,1 @@
+sshell --config "config-creds-new-ftp.json" "config-a-new.json"

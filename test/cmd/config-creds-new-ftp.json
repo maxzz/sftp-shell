@@ -1,0 +1,7 @@
+{
+    "host": "crossmatch.hid.gl",
+    "port": 22,
+    "username": "maksym",
+    "keyfile": "C:/Users/makzak/.ssh/id_ed25519",
+    "verbose": false
+}
