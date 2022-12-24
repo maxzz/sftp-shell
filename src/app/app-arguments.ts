@@ -26,14 +26,6 @@ function getConnectConfig(c: ArgCredentials): SSHConnectConfig {
         ...(c.keyfile && { privateKey: c.keyfile }),
         ...(c.verbose && { debug: printConnectionVerbose }),
     };
-    // con.algorithms = {
-    //     kex: ['curve25519-sha256'],
-    //     // kex: {
-    //     //     prepend: ['curve25519-sha256']
-    //     // }
-    //     serverHostKey: ['rsa-sha2-512', 'rsa-sha2-256', 'ssh-rsa'],
-    //     //cipher: ['aes256-ctr', 'aes192-ctr', 'chacha20-poly1305@openssh.com', ],
-    // }
     return con;
 }
 
@@ -92,47 +84,6 @@ function getExternalConfigs(names: string[] = []): AppOptions[] {
     return names.map((name) => getConfigAppOptions(name)).filter(Boolean);
 }
 
-function checkCreads(options: SSHConnectConfig) {
-    if (!options.username) {
-        terminate('There is no username to login.');
-    }
-    const totalCreds: number = +!!options.privateKey + +!!options.password;
-    if (totalCreds > 1) {
-        terminate(`Specify only one of: <password>, <keyfile>.`);
-    }
-    const basicOK = options.host && options.username && (options.password || options.privateKey);
-    if (!basicOK) {
-        terminate('Missing: host || username || password || keyfile');
-    }
-}
-
-function checkOperationLocalFiles(operations: Operation[], aliases: Aliases): void {
-    operations.forEach((item) => {
-        item.local = path.resolve(path.normalize(formatDeep(item.local, aliases)));
-        if (item.operation === OP.upload) {
-            if (!fs.existsSync(item.local)) {
-                console.log(`\nFailed FTP pair: ${JSON.stringify(item)}\n`);
-                terminate(`File not exists: ${item.local}`);
-            }
-        }
-    });
-}
-
-function mergeConfigs(all: AppOptions[]): AppOptions {
-    const rv = {
-    } as AppOptions;
-
-    rv.credentials = all.find((config) => !!config.credentials.username)?.credentials || {}; // will use the first one
-    rv.aliases = all.reduce((acc, curr) => Object.assign({}, acc, curr.aliases), {}); // the last one wins
-
-    rv.operations = all.reduce((acc, curr) => {
-        acc.push(...curr.operations);
-        return acc;
-    }, []);
-
-    return rv;
-}
-
 function validate(argOptions: ArgOptions): AppOptions {
 
     const configs = getExternalConfigs(argOptions.config); // TODO: aliases before everything and update after each config parsed
@@ -156,17 +107,46 @@ function validate(argOptions: ArgOptions): AppOptions {
     }
 
     return rv;
-}
 
-function checkHelpCall(argOptions: ArgOptions) {
-    if (argOptions.help || !Object.keys(argOptions).length) {
-        help();
-        helpEx();
-        process.exit(0);
+    function checkCreads(options: SSHConnectConfig) {
+        if (!options.username) {
+            terminate('There is no username to login.');
+        }
+        const totalCreds: number = +!!options.privateKey + +!!options.password;
+        if (totalCreds > 1) {
+            terminate(`Specify only one of: <password>, <keyfile>.`);
+        }
+        const basicOK = options.host && options.username && (options.password || options.privateKey);
+        if (!basicOK) {
+            terminate('Missing: host || username || password || keyfile');
+        }
     }
 
-    if (argOptions._unknown) {
-        terminate(`Unknown option(s):\n${argOptions._unknown.map(_ => `        '${_}'\n`).join('')}`);
+    function checkOperationLocalFiles(operations: Operation[], aliases: Aliases): void {
+        operations.forEach((item) => {
+            item.local = path.resolve(path.normalize(formatDeep(item.local, aliases)));
+            if (item.operation === OP.upload) {
+                if (!fs.existsSync(item.local)) {
+                    console.log(`\nFailed FTP pair: ${JSON.stringify(item)}\n`);
+                    terminate(`File not exists: ${item.local}`);
+                }
+            }
+        });
+    }
+
+    function mergeConfigs(all: AppOptions[]): AppOptions {
+        const rv = {
+        } as AppOptions;
+
+        rv.credentials = all.find((config) => !!config.credentials.username)?.credentials || {}; // will use the first one
+        rv.aliases = all.reduce((acc, curr) => Object.assign({}, acc, curr.aliases), {}); // the last one wins
+
+        rv.operations = all.reduce((acc, curr) => {
+            acc.push(...curr.operations);
+            return acc;
+        }, []);
+
+        return rv;
     }
 }
 
@@ -181,4 +161,16 @@ export function getVerifiedArguments(): AppOptions {
     const appOptions: AppOptions = validate(argOptions);
 
     return appOptions;
+
+    function checkHelpCall(argOptions: ArgOptions) {
+        if (argOptions.help || !Object.keys(argOptions).length) {
+            help();
+            helpEx();
+            process.exit(0);
+        }
+
+        if (argOptions._unknown) {
+            terminate(`Unknown option(s):\n${argOptions._unknown.map(_ => `        '${_}'\n`).join('')}`);
+        }
+    }
 }
