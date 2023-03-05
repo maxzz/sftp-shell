@@ -29,6 +29,14 @@ export function exist(name: string): fs.Stats | undefined {
     }
 }
 
+export function replaceExt(fname: string, newExt: string) {
+    return path.join(path.dirname(fname), path.basename(fname, path.extname(fname)) + newExt);
+}
+
+export function filterByExt(fnames: string[], ext: string): string[] {
+    return fnames.filter((fname) => path.extname(fname).toLowerCase() === ext);
+}
+
 function mkdirRecursively(dist: string): void {
     dist = path.resolve(dist);
     if (!fs.existsSync(dist)) {
