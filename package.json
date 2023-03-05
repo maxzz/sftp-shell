@@ -14,6 +14,7 @@
         "chalk": "^4.0.0",
         "command-line-args": "5.2.1",
         "command-line-usage": "6.1.3",
+        "json5": "^2.2.3",
         "mkdir-p": "^0.0.7",
         "ssh2-sftp-client": "^9.0.4"
     },

@@ -8,6 +8,7 @@ import { printAppVersion, printAppDone, printConnectionVerbose } from './app-mes
 import { formatDeep } from '../utils/utils-aliases';
 import path from 'path';
 import chalk from 'chalk';
+import JSON5 from 'json5';
 
 function getConnectConfig(c: ArgCredentials): SSHConnectConfig {
     if (c.keyfile) {
@@ -68,7 +69,7 @@ function getExternalConfigs(names: string[] = []): AppOptions[] {
             name = path.resolve(formatDeep(name, process.env));
             const cnt = fs.readFileSync(name).toString();
             try {
-                const obj = JSON.parse(cnt) as ArgProcessingOptions;
+                const obj = JSON5.parse(cnt) as ArgProcessingOptions;
                 return {
                     credentials: getConnectConfig(obj),
                     operations: getOperations(obj.ftp),

@@ -3,5 +3,6 @@
         "root = {start}/crossmatch",
         "g01 = {root}/AltusAddons/g01"
     ],
+    //local path
     "ftp": "test3/listE.json = l = {g01}/current"
 }
