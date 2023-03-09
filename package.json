@@ -21,9 +21,9 @@
     "devDependencies": {
         "@types/command-line-args": "^5.2.0",
         "@types/command-line-usage": "^5.0.2",
-        "@types/node": "18.11.16",
+        "@types/node": "18.14.6",
         "@types/ssh2-sftp-client": "^9.0.0",
-        "esbuild": "0.16.8",
+        "esbuild": "0.17.11",
         "esbuild-native-node-modules-plugin": "^1.0.3"
     }
 }
