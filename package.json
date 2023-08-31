@@ -1,24 +1,17 @@
 {
     "name": "sftp-shell",
-    "description": "Transfer files to/from FTP server over SFTP protocol",
     "version": "2.0.5",
-    "main": "index.js",
+    "description": "Transfer files to/from FTP server over SFTP protocol",
     "license": "MIT",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/maxzz/sftp-shell.git"
     },
     "homepage": "https://github.com/maxzz/sftp-shell",
-    "scripts": {
-        "dev": "tsc -w",
-        "make-es": "node esbuild.js",
-        "makebin": "pkg -t host -o dist/sshell build-es/index.js",
-        "build": "yarn make-es && yarn makebin"
-    },
     "dependencies": {
         "chalk": "^4.0.0",
         "command-line-args": "5.2.1",
-        "command-line-usage": "6.1.3",
+        "command-line-usage": "7.0.1",
         "json5": "^2.2.3",
         "mkdir-p": "^0.0.7",
         "ssh2-sftp-client": "9.1.0"
@@ -26,9 +19,16 @@
     "devDependencies": {
         "@types/command-line-args": "^5.2.0",
         "@types/command-line-usage": "^5.0.2",
-        "@types/node": "20.5.6",
+        "@types/node": "20.5.7",
         "@types/ssh2-sftp-client": "^9.0.0",
         "esbuild": "0.19.2",
         "esbuild-native-node-modules-plugin": "^1.0.3"
+    },
+    "main": "index.js",
+    "scripts": {
+        "dev": "tsc -w",
+        "make-es": "node esbuild.js",
+        "makebin": "pkg -t host -o dist/sshell build-es/index.js",
+        "build": "yarn make-es && yarn makebin"
     }
 }
