@@ -1,5 +1,5 @@
 import commandLineUsage from 'command-line-usage';
-import { appName } from './app-messages';
+import { appName } from './messages';
 import { optionDefinitions } from '../app-argument-options';
 
 export function help() {
