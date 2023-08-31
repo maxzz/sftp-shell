@@ -83,5 +83,39 @@ export type OptionDefinitionsKeys = (typeof optionDefinitions)[number]['name']
 
 // helpers
 
-export type Writeable<T> = { -readonly [K in keyof T]: T[K] };
+export type Writeable<T> = { -readonly [K in keyof T]: T[K] }; // https://stackoverflow.com/questions/42999983/typescript-removing-readonly-modifier
+
 export type DeepWriteable<T> = { -readonly [K in keyof T]: DeepWriteable<T[K]> };
+
+/*
+//https://github.com/ts-essentials/ts-essentials
+
+export type IsAny<Type> = 0 extends 1 & Type ? true : false;
+export type IsUnknown<Type> = IsAny<Type> extends true ? false : unknown extends Type ? true : false;
+export type Primitive = string | number | boolean | bigint | symbol | undefined | null;
+export type Builtin = Primitive | Function | Date | Error | RegExp;
+
+export type DeepWritable<Type> = Type extends Exclude<Builtin, Error>
+  ? Type
+  : Type extends Map<infer Key, infer Value>
+  ? Map<DeepWritable<Key>, DeepWritable<Value>>
+  : Type extends ReadonlyMap<infer Key, infer Value>
+  ? Map<DeepWritable<Key>, DeepWritable<Value>>
+  : Type extends WeakMap<infer Key, infer Value>
+  ? WeakMap<DeepWritable<Key>, DeepWritable<Value>>
+  : Type extends Set<infer Values>
+  ? Set<DeepWritable<Values>>
+  : Type extends ReadonlySet<infer Values>
+  ? Set<DeepWritable<Values>>
+  : Type extends WeakSet<infer Values>
+  ? WeakSet<DeepWritable<Values>>
+  : Type extends Promise<infer Value>
+  ? Promise<DeepWritable<Value>>
+  : Type extends {}
+  ? { -readonly [Key in keyof Type]: DeepWritable<Type[Key]> }
+  : IsUnknown<Type> extends true
+  ? unknown
+  : Type;
+
+export type OptionDefinitions3 = DeepWritable<typeof optionDefinitionsConst>;
+*/
