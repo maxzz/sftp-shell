@@ -1,3 +1,5 @@
+import commandLineUsage from "command-line-usage";
+
 export const optionDefinitions = [
     {
         name: 'host',
@@ -72,4 +74,24 @@ export const optionDefinitions = [
         description: 'Show extended help.',
         alias: 'h',
     }
-];
+] as const;
+
+// type ArgOptions<T = typeof optionDefinitions[number]> = {
+//     [K in keyof T]: T[K];
+// }['name']
+
+// type All = typeof optionDefinitions;
+
+// const AA = <const T extends typeof optionDefinitions[number]>(aa: T[]) => {
+
+// }
+
+// type TArgOptions<const T> = (T)[keyof (T)[number]];
+
+// type ArgOptions = TArgOptions['name']
+
+type Writeable<T> = { -readonly [P in keyof T]: T[P] };
+type DeepWriteable<T> = { -readonly [P in keyof T]: DeepWriteable<T[P]> };
+
+export type OptionDefinitions = Writeable<typeof optionDefinitions>;
+export type bb = DeepWriteable<typeof optionDefinitions[keyof typeof optionDefinitions]>;
