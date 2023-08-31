@@ -1,5 +1,5 @@
 import commandLineArgs from 'command-line-args';
-import { OptionDefinitions, optionDefinitions } from '../app-argument-options';
+import { optionDefinitions } from '../app-argument-options';
 import { ArgOptions, AppOptions } from '../types';
 import chalk from 'chalk';
 import { printAppVersion, help, helpEx, terminate } from '../utils-app';
@@ -10,7 +10,7 @@ export function getVerifiedArguments(): AppOptions {
 
     console.log(chalk.gray(`Working directory: ${process.cwd()}`));
 
-    const argOptions = commandLineArgs(optionDefinitions as OptionDefinitions, { stopAtFirstUnknown: true }) as ArgOptions;
+    const argOptions = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as ArgOptions;
 
     checkHelpCall(argOptions);
     const appOptions: AppOptions = validate(argOptions);

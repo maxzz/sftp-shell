@@ -1,6 +1,6 @@
 import commandLineUsage from 'command-line-usage';
 import { appName } from './messages';
-import { OptionDefinitions, optionDefinitions } from '../app-argument-options';
+import { optionDefinitions } from '../app-argument-options';
 
 export function help() {
     const usage = commandLineUsage([
@@ -10,7 +10,7 @@ export function help() {
         // },
         {
             header: 'Options',
-            optionList: optionDefinitions as OptionDefinitions
+            optionList: optionDefinitions,
         },
     ]);
     console.log(usage);

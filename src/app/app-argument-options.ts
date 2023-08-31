@@ -1,6 +1,6 @@
 import commandLineUsage from "command-line-usage";
 
-export const optionDefinitions = [
+const optionDefinitionsConst = [
     {
         name: 'host',
         type: String,
@@ -76,22 +76,12 @@ export const optionDefinitions = [
     }
 ] as const;
 
-// type ArgOptions<T = typeof optionDefinitions[number]> = {
-//     [K in keyof T]: T[K];
-// }['name']
+export const optionDefinitions = optionDefinitionsConst as OptionDefinitions;
 
-// type All = typeof optionDefinitions;
+export type OptionDefinitions = Writeable<typeof optionDefinitionsConst>;
+export type OptionDefinitionsKeys = (typeof optionDefinitions)[number]['name']
 
-// const AA = <const T extends typeof optionDefinitions[number]>(aa: T[]) => {
+// helpers
 
-// }
-
-// type TArgOptions<const T> = (T)[keyof (T)[number]];
-
-// type ArgOptions = TArgOptions['name']
-
-type Writeable<T> = { -readonly [P in keyof T]: T[P] };
-type DeepWriteable<T> = { -readonly [P in keyof T]: DeepWriteable<T[P]> };
-
-export type OptionDefinitions = Writeable<typeof optionDefinitions>;
-export type bb = DeepWriteable<typeof optionDefinitions[keyof typeof optionDefinitions]>;
+export type Writeable<T> = { -readonly [K in keyof T]: T[K] };
+export type DeepWriteable<T> = { -readonly [K in keyof T]: DeepWriteable<T[K]> };
