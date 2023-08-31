@@ -1,69 +1,17 @@
 import fs from 'fs';
-import commandLineArgs from 'command-line-args';
-import { optionDefinitions } from './app-argument-options';
-import { OP, Operation, ArgOptions, AppOptions, ArgCredentials, Aliases, SSHConnectConfig, ArgProcessingOptions } from './app-types';
-import { terminate } from './app-errors';
-import { help, helpEx } from './app-help';
-import { printAppVersion, printAppDone, printConnectionVerbose } from './app-messages';
-import { formatDeep } from '../utils/utils-aliases';
 import path from 'path';
 import chalk from 'chalk';
 import JSON5 from 'json5';
-
-function getConnectConfig(c: ArgCredentials): SSHConnectConfig {
-    if (c.keyfile) {
-        try {
-            c.keyfile = formatDeep(c.keyfile, process.env);
-            c.keyfile = fs.readFileSync(c.keyfile, { encoding: 'utf8' });
-        } catch (error) {
-            terminate(`Cannot read SFTP access key file: '${c.keyfile}'`);
-        }
-    }
-    const con: SSHConnectConfig = {
-        username: c.username,
-        host: c.host,
-        ...(c.port && { port: +c.port }),
-        ...(c.password && { password: c.password }),
-        ...(c.keyfile && { privateKey: c.keyfile }),
-        ...(c.verbose && { debug: printConnectionVerbose }),
-    };
-    return con;
-}
-
-function getAliases(aliases: string[] | string = []): Aliases {
-    if (typeof aliases === 'string') {
-        aliases = [aliases];
-    }
-    return aliases.reduce((acc: any, cur: string) => {
-        const [key, val] = cur.split('=').map((value) => value.trim());
-        if (!key || !val) {
-            terminate(`Invalid alias: '${cur}'`);
-        }
-        acc[key] = val;
-        return acc;
-    }, {}) || {};
-}
-
-function getOperations(ftp: string[] | string = []): Operation[] {
-    if (typeof ftp === 'string') {
-        ftp = [ftp];
-    }
-    return ftp.map((cur) => {
-        const parts = cur.split('=').map((value) => value.trim());
-        if (parts.length !== 3) {
-            terminate(`Wrong files pair: ${cur}`);
-        }
-        const [local, operation, remote] = parts;
-        const item = { local, operation, remote, } as Operation;
-
-        if (item.operation.length !== 1 || !~'udl'.indexOf(item.operation)) {
-            terminate(`Invalid operation (should be one of: u | d | l) for:\n    ${cur}`);
-        }
-        return item;
-    });
-}
+import { OP, Operation, ArgOptions, AppOptions, Aliases, SSHConnectConfig, ArgProcessingOptions } from '../types';
+import { help, printAppDone, terminate } from '../utils-app';
+import { formatDeep } from '../../utils';
+import { getConnectConfig } from './options-config';
+import { getAliases } from './options-aliases';
+import { getOperations } from './options-operations';
 
 function getExternalConfigs(names: string[] = []): AppOptions[] {
+    return names.map((name) => getConfigAppOptions(name)).filter(Boolean);
+
     function getConfigAppOptions(name: string): AppOptions {
         try {
             name = path.resolve(formatDeep(name, process.env));
@@ -82,10 +30,9 @@ function getExternalConfigs(names: string[] = []): AppOptions[] {
             terminate(`${chalk.yellow('Failed to get config file:')}\n        ${chalk.gray(name)}\n    error: ${error.toString()}`);
         }
     }
-    return names.map((name) => getConfigAppOptions(name)).filter(Boolean);
 }
 
-function validate(argOptions: ArgOptions): AppOptions {
+export function validate(argOptions: ArgOptions): AppOptions {
 
     const configs = getExternalConfigs(argOptions.config); // TODO: aliases before everything and update after each config parsed
     configs.push({
@@ -148,30 +95,5 @@ function validate(argOptions: ArgOptions): AppOptions {
         }, []);
 
         return rv;
-    }
-}
-
-export function getVerifiedArguments(): AppOptions {
-    printAppVersion();
-
-    console.log(chalk.gray(`Working directory: ${process.cwd()}`));
-
-    const argOptions = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as ArgOptions;
-
-    checkHelpCall(argOptions);
-    const appOptions: AppOptions = validate(argOptions);
-
-    return appOptions;
-
-    function checkHelpCall(argOptions: ArgOptions) {
-        if (argOptions.help || !Object.keys(argOptions).length) {
-            help();
-            helpEx();
-            process.exit(0);
-        }
-
-        if (argOptions._unknown) {
-            terminate(`Unknown option(s):\n${argOptions._unknown.map(_ => `        '${_}'\n`).join('')}`);
-        }
     }
 }

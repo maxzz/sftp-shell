@@ -1,7 +1,7 @@
 import { printMessageBeforeExit } from "./app-messages";
 import { help } from "./app-help";
 
-export function terminate(msg) {
+export function terminate(msg: string) {
     printMessageBeforeExit(msg);
     help();
     process.exit(-1);

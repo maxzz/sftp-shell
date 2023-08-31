@@ -1,10 +1,9 @@
 import path from 'path';
 import fs from 'fs';
 import Client from 'ssh2-sftp-client';
-import { OP, Operation, AppOptions, Aliases } from './app-types';
-import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionClosed, printAppDone } from './app-messages';
-import { formatDeep } from '../utils/utils-aliases';
-import { mkDirSync } from '../utils/utils-os';
+import { OP, Operation, AppOptions, Aliases } from './types';
+import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionClosed, printAppDone } from './utils-app';
+import { formatDeep, mkDirSync } from '../utils';
 
 function resolvePathes(operations: Operation[], sftpWorkingDir: string, aliases: Aliases): Operation[] {
     const resolveEnv = {

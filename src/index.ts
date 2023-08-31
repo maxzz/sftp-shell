@@ -1,4 +1,4 @@
-import { getVerifiedArguments } from './app/app-arguments';
+import { getVerifiedArguments } from './app/arguments';
 import { processSftp } from './app/app';
 
 function main() {
