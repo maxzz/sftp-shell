@@ -43,8 +43,10 @@ export type ArgCredentials = {
 
 export type ArgProcessingOptions = ArgCredentials & ProcessingOptions;
 
-export type ArgOptions = ArgProcessingOptions & {
-    help?: boolean;                 // show help and exit
-    config?: string[];              // list of additional config files
-    _unknown: string[];             // any unknown options
-};
+export type ArgOptions =
+    & ArgProcessingOptions
+    & {
+        help?: boolean;                 // show help and exit
+        config?: string[];              // list of additional config files
+        _unknown: string[];             // any unknown options
+    };

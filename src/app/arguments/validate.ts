@@ -13,11 +13,12 @@ export function validate(argOptions: ArgOptions): AppOptions {
 
     const configs = getExternalConfigs(argOptions.config); // TODO: aliases before everything and update after each config parsed
 
-    configs.push({
-        aliases: getAliases(argOptions.alias),
-        credentials: getConnectConfig(argOptions),
-        operations: getOperations(argOptions.ftp),
-    });
+    configs.push(getAppOptions(argOptions));
+    // configs.push({
+    //     aliases: getAliases(argOptions.alias),
+    //     credentials: getConnectConfig(argOptions),
+    //     operations: getOperations(argOptions.ftp),
+    // });
 
     const rv: AppOptions = mergeConfigs(configs);
 
@@ -53,12 +54,12 @@ function getExternalConfigs(names: string[] = []): AppOptions[] {
             const cnt = fs.readFileSync(name).toString();
             try {
                 const obj = JSON5.parse(cnt) as ArgProcessingOptions;
-
-                return {
-                    aliases: getAliases(obj.alias),
-                    credentials: getConnectConfig(obj),
-                    operations: getOperations(obj.ftp),
-                };
+                return getAppOptions(obj);
+                // return {
+                //     aliases: getAliases(obj.alias),
+                //     credentials: getConnectConfig(obj),
+                //     operations: getOperations(obj.ftp),
+                // };
             } catch (error) {
                 terminate(`${chalk.yellow('Failed to parse config file:')}\n        ${chalk.gray(name)}\n    error: ${(error as any).toString()}`);
             }
