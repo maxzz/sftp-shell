@@ -20,11 +20,12 @@ function resolvePathes(operations: Operation[], sftpWorkingDir: string, aliases:
 }
 
 export async function processSftp(appOptions: AppOptions) {
-    const sftp = new Client();
-    sftp.on('close', printOnConnectionClosed);
+    const sftpClient = new Client();
+    
+    sftpClient.on('close', printOnConnectionClosed);
     try {
-        await sftp.connect(appOptions.credentials);
-        const sftpWorkingDir = await sftp.cwd();
+        await sftpClient.connect(appOptions.credentials);
+        const sftpWorkingDir = await sftpClient.cwd();
 
         printLoopStart(appOptions, sftpWorkingDir);
         const operations = resolvePathes(appOptions.operations, sftpWorkingDir, appOptions.aliases);
@@ -35,16 +36,16 @@ export async function processSftp(appOptions: AppOptions) {
             printLoopCurrentOp(item);
             switch (item.operation) {
                 case OP.upload: {
-                    await sftp.fastPut(item.local, item.remote);
+                    await sftpClient.fastPut(item.local, item.remote);
                     break;
                 }
                 case OP.download: {
                     mkDirSync(path.dirname(item.local));
-                    await sftp.fastGet(item.remote, item.local);
+                    await sftpClient.fastGet(item.remote, item.local);
                     break;
                 }
                 case OP.list: {
-                    const list = await sftp.list(item.remote);
+                    const list = await sftpClient.list(item.remote);
                     mkDirSync(path.dirname(item.local));
                     fs.writeFileSync(item.local, JSON.stringify(list, null, 4));
                     break;
@@ -53,12 +54,12 @@ export async function processSftp(appOptions: AppOptions) {
         }//for async
 
         printLoopEnd(appOptions);
-        await sftp.end();
+        await sftpClient.end();
         printAppDone();
 
     } catch (error) {
         printLoopEndError(error);
-        await sftp.end();
+        await sftpClient.end();
         process.exit(-2);
     }
 }

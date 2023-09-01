@@ -12,7 +12,8 @@ export function getConnectConfig(c: ArgCredentials): SSHConnectConfig {
             terminate(`Cannot read SFTP access key file: '${c.keyfile}'`);
         }
     }
-    const conf: SSHConnectConfig = {
+
+    const rv: SSHConnectConfig = {
         username: c.username,
         host: c.host,
         ...(c.port && { port: +c.port }),
@@ -20,5 +21,6 @@ export function getConnectConfig(c: ArgCredentials): SSHConnectConfig {
         ...(c.keyfile && { privateKey: c.keyfile }),
         ...(c.verbose && { debug: printConnectionVerbose }),
     };
-    return conf;
+
+    return rv;
 }

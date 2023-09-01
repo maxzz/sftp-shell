@@ -84,7 +84,6 @@ export type OptionDefinitionsKeys = (typeof optionDefinitions)[number]['name']
 // helpers
 
 export type Writeable<T> = { -readonly [K in keyof T]: T[K] }; // https://stackoverflow.com/questions/42999983/typescript-removing-readonly-modifier
-
 export type DeepWriteable<T> = { -readonly [K in keyof T]: DeepWriteable<T[K]> };
 
 /*

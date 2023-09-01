@@ -1,5 +1,5 @@
 import { getVerifiedArguments } from './app/arguments';
-import { processSftp } from './app/app';
+import { processSftp } from './app';
 
 function main() {
     const options = getVerifiedArguments();
