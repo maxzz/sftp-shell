@@ -125,7 +125,7 @@ export function fileCopy(src: string, dest: string): void {
     }
 }
 
-export function runScript(scriptFullFilename: string, scriptArgs?: string): boolean {
+export function runScript(scriptFullFilename: string, scriptArgs?: string): boolean | undefined {
     const { tool, script, args } = { tool: 'node', script: scriptFullFilename, args: scriptArgs || '' };
     try {
         const cmd = `${tool} ${script} ${args}`.trim();
@@ -135,11 +135,11 @@ export function runScript(scriptFullFilename: string, scriptArgs?: string): bool
             output && console.log(`${output}`);
         }
         return true;
-    } catch (err) {
-        if (err.stdout) {
-            console.log(`Execution error:\n${err.stdout.toString()}`);
+    } catch (error) {
+        if ((error as any).stdout) {
+            console.log(`Execution error:\n${(error as any).stdout.toString()}`);
         } else {
-            console.log(`Execution error:\n${err}`);
+            console.log(`Execution error:\n${error}`);
         }
     }
 }

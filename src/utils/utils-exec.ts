@@ -31,13 +31,13 @@ export function spawnSync(command: string, args: readonly string[], opts?: Spawn
     const opts2 = Object.assign({}, opts); // 0.12.x mutates
     const child = _spawnSync(command, args, opts2);
 
-    let s: number = child.status;
+    let s: number | null = child.status;
     if (child.signal) { s = null; } // conform old node vers to https://github.com/nodejs/node/pull/11288
 
     if (child.error || s !== expect) {
-        if (opts.stdio[1] === 'pipe' && child.stdout) {
+        if (opts.stdio![1] === 'pipe' && child.stdout) {
             process.stdout.write(child.stdout);
-        } else if (opts.stdio[2] === 'pipe' && child.stderr) {
+        } else if (opts.stdio![2] === 'pipe' && child.stderr) {
             process.stdout.write(child.stderr);
         }
         console.log('> ' + command + ' ' + args.join(' '));
@@ -51,14 +51,14 @@ export function spawnSync(command: string, args: readonly string[], opts?: Spawn
         throw new Error('Status ' + (s === null ? 'null' : s).toString() + ', expected ' + (expect === null ? 'null' : expect).toString());
     }
 
-    if (opts.stdio[1] === 'pipe' && opts.stdio[2] === 'pipe') {
+    if (opts.stdio![1] === 'pipe' && opts.stdio![2] === 'pipe') {
         return {
             stdout: child.stdout.toString(),
             stderr: child.stderr.toString(),
         };
-    } else if (opts.stdio[1] === 'pipe') {
+    } else if (opts.stdio![1] === 'pipe') {
         return child.stdout.toString();
-    } else if (opts.stdio[2] === 'pipe') {
+    } else if (opts.stdio![2] === 'pipe') {
         return child.stderr.toString();
     } else {
         return '';

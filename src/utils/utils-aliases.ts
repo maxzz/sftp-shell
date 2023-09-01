@@ -1,4 +1,4 @@
-export function formatWith(str: string, aliases: Object): string {
+export function formatWith(str: string, aliases: Record<string, string>): string {
     // 0. Replaces string patterns with named parameters: formatWith("A {key}", {key: "B"}) --> "A B"
 
     return str.replace(
@@ -12,13 +12,13 @@ export function formatWith(str: string, aliases: Object): string {
     );
 }
 
-function formatDeepRecursively(str: string, aliases: Object, level: number, maxDepth: number): string {
+function formatDeepRecursively(str: string, aliases: Record<string, string>, level: number, maxDepth: number): string {
     // 0. Replaces nested patterns.
 
     str = formatWith(str, aliases);
 
     if (level < maxDepth) {
-        const more: RegExpExecArray = /{([\w\$_]+)}/.exec(str);
+        const more: RegExpExecArray | null = /{([\w\$_]+)}/.exec(str);
 
         if (more && typeof aliases[more[1]] === 'string') {
             str = formatDeepRecursively(str, aliases, level++, maxDepth);
@@ -28,6 +28,6 @@ function formatDeepRecursively(str: string, aliases: Object, level: number, maxD
     return str;
 }
 
-export function formatDeep(str: string, aliases: Object, maxDepth = 10): string {
-    return formatDeepRecursively(str, aliases, 0, maxDepth);
+export function formatDeep(str: string, aliases: any, maxDepth = 10): string {
+    return formatDeepRecursively(str, aliases as Record<string, string>, 0, maxDepth);
 }
