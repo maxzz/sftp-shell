@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { OP, Operation, Aliases } from '../types';
 import { terminate } from '../utils-app';
-import { formatDeep } from '../../utils';
+import { formatDeep } from '../utils';
 
 export function checkOperationLocalFilesPresence(operations: Operation[], aliases: Aliases): void {
     operations.forEach(

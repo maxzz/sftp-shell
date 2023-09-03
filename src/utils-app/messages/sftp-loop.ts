@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { Operation, AppOptions } from '../../types';
-import { toUnix } from '../../../utils';
+import { toUnix } from '../../utils';
 import { HEADER3, printSftpStart } from './job';
 
 const opName = (s: string) => s === 'u' ? 'Upload to FTP' : s === 'd' ? 'Download from FTP' : s === 'l' ? 'List folder content' : '?';

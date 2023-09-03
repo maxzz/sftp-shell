@@ -1,8 +1,8 @@
-import { getVerifiedArguments } from './app/arguments';
+import { getCLIVerifiedArguments } from './arguments';
 import { processSftp } from './app';
 
 function main() {
-    const options = getVerifiedArguments();
+    const options = getCLIVerifiedArguments();
     processSftp(options);
 }
 

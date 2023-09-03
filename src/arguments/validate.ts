@@ -4,7 +4,7 @@ import chalk from 'chalk';
 import JSON5 from 'json5';
 import { Aliases, AppOptions, ArgProcessingOptions } from '../types';
 import { help, printAppDone, terminate } from '../utils-app';
-import { formatDeep } from '../../utils';
+import { formatDeep } from '../utils';
 import { getConnectConfig } from './options-connect-config';
 import { getAliases } from './options-aliases';
 import { getOperations } from './options-operations';

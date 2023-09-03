@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { ArgCredentials, SSHConnectConfig } from "../types";
 import { printConnectionVerbose, terminate } from "../utils-app";
-import { formatDeep } from '../../utils';
+import { formatDeep } from '../utils';
 
 export function getConnectConfig(c: ArgCredentials): SSHConnectConfig {
     if (c.keyfile) {

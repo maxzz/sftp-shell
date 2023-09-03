@@ -4,7 +4,7 @@ import { validate } from './validate';
 import { printAppVersion, help, helpEx, terminate } from '../utils-app';
 import chalk from 'chalk';
 
-export function getVerifiedArguments(): AppOptions {
+export function getCLIVerifiedArguments(): AppOptions {
     printAppVersion();
 
     console.log(chalk.gray(`Working directory: ${process.cwd()}`));

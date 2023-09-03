@@ -1,8 +1,8 @@
 import path from 'path';
 import fs from 'fs';
 import Client from 'ssh2-sftp-client';
-import { OP, Operation, AppOptions, Aliases } from './types';
-import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionClosed, printAppDone } from './utils-app';
+import { OP, Operation, AppOptions, Aliases } from '../types';
+import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionClosed, printAppDone } from '../utils-app';
 import { formatDeep, mkDirSync } from '../utils';
 
 export async function processSftp(appOptions: AppOptions) {
