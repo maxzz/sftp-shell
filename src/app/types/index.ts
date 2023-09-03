@@ -3,13 +3,6 @@ export type { ConnectConfig as SSHConnectConfig } from 'ssh2'; //https://github.
 
 export * from './app-argument-options';
 
-// Config file options
-
-export type ProcessingOptions = {
-    ftp: string[];
-    alias?: string[];
-};
-
 // App options
 
 export const enum OP {
@@ -43,11 +36,16 @@ export type ArgCredentials = {
     verbose?: boolean;              // Show debug information
 };
 
+export type FtpsAndAliases = {      // Config file options
+    ftp: string[];                  // Theoretically, it can be optional if aliases used.
+    alias?: string[];
+};
+
 export type ArgProcessingOptions =
     & ArgCredentials
-    & ProcessingOptions;
+    & FtpsAndAliases;
 
-export type ArgOptions =
+export type CLIOptions =
     & ArgProcessingOptions
     & {
         help?: boolean;             // Show help and exit

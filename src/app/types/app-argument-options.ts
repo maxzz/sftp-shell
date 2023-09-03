@@ -77,7 +77,7 @@ const cliOptionsDefinitionsConst = [
 export const cliOptionsDefinitions = cliOptionsDefinitionsConst as OptionDefinitions;
 
 export type OptionDefinitions = Writeable<typeof cliOptionsDefinitionsConst>;
-export type OptionDefinitionsKeys = (typeof cliOptionsDefinitions)[number]['name']
+export type OptionDefinitionsKeys = (typeof cliOptionsDefinitions)[number]['name'];
 
 // helpers
 

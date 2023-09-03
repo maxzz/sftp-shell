@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
 import JSON5 from 'json5';
-import { ArgOptions, AppOptions, ArgProcessingOptions } from '../types';
+import { Aliases, AppOptions, ArgProcessingOptions } from '../types';
 import { help, printAppDone, terminate } from '../utils-app';
 import { formatDeep } from '../../utils';
 import { getConnectConfig } from './options-connect-config';
@@ -12,11 +12,11 @@ import { checkCreads } from './check-credentials';
 import { checkOperationLocalFilesPresence } from './check-operation-files';
 import { mergeOptions } from './merge-configs';
 
-export function validate(argOptions: ArgOptions): AppOptions {
+export function validate(argOptions: ArgProcessingOptions, externalConfigs: string[]): AppOptions {
 
     const ourOptions = getAppOptions(argOptions);
-    const allOptions = getExternalConfigs(argOptions.config); // TODO: aliases before everything and update after each config parsed
-    
+    const allOptions = getExternalConfigs({ configfilenames: externalConfigs, aliases: process.env }); // TODO: aliases before everything and update after each config parsed
+
     allOptions.push(ourOptions);
 
     const finalOptions: AppOptions = mergeOptions(allOptions);
@@ -38,27 +38,29 @@ export function validate(argOptions: ArgOptions): AppOptions {
 
 function getAppOptions(opt: ArgProcessingOptions): AppOptions {
     return {
-        aliases: getAliases(opt.alias),
         credentials: getConnectConfig(opt),
         operations: getOperations(opt.ftp),
+        aliases: getAliases(opt.alias),
     };
 }
 
-function getExternalConfigs(names: string[] = []): AppOptions[] {
-    return names.map((name) => getConfigAppOptions(name)).filter(Boolean);
+function getExternalConfigs({ configfilenames, aliases }: { configfilenames: string[]; aliases?: Aliases }): AppOptions[] {
+    return configfilenames.map((name) => loadConfigFile(name)).filter(Boolean);
 
-    function getConfigAppOptions(name: string): AppOptions {
+    function loadConfigFile(filename: string): AppOptions {
         try {
-            name = path.resolve(formatDeep(name, process.env));
-            const cnt = fs.readFileSync(name).toString();
+            filename = path.resolve(formatDeep(filename, aliases || {}));
+            const cnt = fs.readFileSync(filename).toString();
+
             try {
                 const opt = JSON5.parse(cnt) as ArgProcessingOptions;
                 return getAppOptions(opt);
             } catch (error) {
-                terminate(`${chalk.yellow('Failed to parse config file:')}\n        ${chalk.gray(name)}\n    error: ${(error as any).toString()}`);
+                terminate(`${chalk.yellow('Failed to parse config file:')}\n        ${chalk.gray(filename)}\n    error: ${(error as any).toString()}`);
             }
+
         } catch (error) {
-            terminate(`${chalk.yellow('Failed to get config file:')}\n        ${chalk.gray(name)}\n    error: ${(error as any).toString()}`);
+            terminate(`${chalk.yellow('Failed to get config file:')}\n        ${chalk.gray(filename)}\n    error: ${(error as any).toString()}`);
         }
     }
 }

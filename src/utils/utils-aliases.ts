@@ -1,4 +1,4 @@
-export function formatWith(str: string, aliases: Record<string, string>): string {
+export function formatWith(str: string, aliases: Record<string, string | undefined>): string {
     // 0. Replaces string patterns with named parameters: formatWith("A {key}", {key: "B"}) --> "A B"
 
     return str.replace(
@@ -12,7 +12,7 @@ export function formatWith(str: string, aliases: Record<string, string>): string
     );
 }
 
-function formatDeepRecursively(str: string, aliases: Record<string, string>, level: number, maxDepth: number): string {
+function formatDeepRecursively(str: string, aliases: Record<string, string | undefined>, level: number, maxDepth: number): string {
     // 0. Replaces nested patterns.
 
     str = formatWith(str, aliases);
@@ -28,6 +28,6 @@ function formatDeepRecursively(str: string, aliases: Record<string, string>, lev
     return str;
 }
 
-export function formatDeep(str: string, aliases: any, maxDepth = 10): string {
+export function formatDeep(str: string, aliases: Record<string, string | undefined>, maxDepth = 10): string {
     return formatDeepRecursively(str, aliases as Record<string, string>, 0, maxDepth);
 }
