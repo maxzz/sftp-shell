@@ -1,4 +1,4 @@
-const optionDefinitionsConst = [
+const cliOptionsDefinitionsConst = [
     {
         name: 'host',
         type: String,
@@ -74,10 +74,10 @@ const optionDefinitionsConst = [
     }
 ] as const;
 
-export const optionDefinitions = optionDefinitionsConst as OptionDefinitions;
+export const cliOptionsDefinitions = cliOptionsDefinitionsConst as OptionDefinitions;
 
-export type OptionDefinitions = Writeable<typeof optionDefinitionsConst>;
-export type OptionDefinitionsKeys = (typeof optionDefinitions)[number]['name']
+export type OptionDefinitions = Writeable<typeof cliOptionsDefinitionsConst>;
+export type OptionDefinitionsKeys = (typeof cliOptionsDefinitions)[number]['name']
 
 // helpers
 
