@@ -1,33 +1,27 @@
 import { OP, Operation } from "../types";
 import { terminate } from "../utils-app";
 
-export function getOperations(ftp: string | string[] = []): Operation[] {
-    if (typeof ftp === 'string') {
-        ftp = [ftp];
+function mapToOperation(operationStr: string): Operation {
+    const parts = operationStr.split('=').map((part) => part.trim());
+
+    if (parts.length !== 3) {
+        terminate(`Wrong files pair: ${operationStr}`);
     }
 
-    const rv = ftp.map(
-        (cur: string): Operation => {
-            const parts = cur.split('=').map((part) => part.trim());
+    const [local, operation, remote] = parts;
 
-            if (parts.length !== 3) {
-                terminate(`Wrong files pair: ${cur}`);
-            }
+    const notOne = operation.length !== 1 || !~'udl'.indexOf(operation);
+    if (notOne) {
+        terminate(`Invalid operation. It should be one of: 'u' | 'd' | 'l' for:\n    ${operationStr}`);
+    }
 
-            const [local, operation, remote] = parts;
+    return {
+        local,
+        operation: operation as OP,
+        remote,
+    };
+}
 
-            const notOne = operation.length !== 1 || !~'udl'.indexOf(operation);
-            if (notOne) {
-                terminate(`Invalid operation. It should be one of: 'u' | 'd' | 'l' for:\n    ${cur}`);
-            }
-
-            return {
-                local,
-                operation: operation as OP,
-                remote,
-            };
-        }
-    );
-
-    return rv;
+export function getOperations(ftp: string | string[] = []): Operation[] {
+    return (typeof ftp === 'string' ? [ftp] : ftp).map(mapToOperation);
 }
