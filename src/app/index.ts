@@ -5,20 +5,6 @@ import { OP, Operation, AppOptions, Aliases } from './types';
 import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionClosed, printAppDone } from './utils-app';
 import { formatDeep, mkDirSync } from '../utils';
 
-function resolvePathes(operations: Operation[], sftpWorkingDir: string, aliases: Aliases): Operation[] {
-    const resolveEnv = {
-        start: sftpWorkingDir,
-        ...aliases,
-    };
-    return operations.map((op) => {
-        return {
-            operation: op.operation,
-            local: op.local,
-            remote: formatDeep(op.remote, resolveEnv),
-        };
-    });
-}
-
 export async function processSftp(appOptions: AppOptions) {
     const sftpClient = new Client();
     
@@ -28,7 +14,7 @@ export async function processSftp(appOptions: AppOptions) {
         const sftpWorkingDir = await sftpClient.cwd();
 
         printLoopStart(appOptions, sftpWorkingDir);
-        const operations = resolvePathes(appOptions.operations, sftpWorkingDir, appOptions.aliases);
+        const operations = expandPathes(appOptions.operations, sftpWorkingDir, appOptions.aliases);
 
         for (let i = 0; i < operations.length; i++) {
             const item: Operation = operations[i];
@@ -62,4 +48,18 @@ export async function processSftp(appOptions: AppOptions) {
         await sftpClient.end();
         process.exit(-2);
     }
+}
+
+function expandPathes(operations: Operation[], sftpWorkingDir: string, aliases: Aliases): Operation[] {
+    const resolveEnv = {
+        start: sftpWorkingDir,
+        ...aliases,
+    };
+    return operations.map((op) => {
+        return {
+            operation: op.operation,
+            local: op.local,
+            remote: formatDeep(op.remote, resolveEnv),
+        };
+    });
 }
