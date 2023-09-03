@@ -1,6 +1,8 @@
 import type { ConnectConfig } from 'ssh2';
 export type { ConnectConfig as SSHConnectConfig } from 'ssh2'; //https://github.com/theophilusx/ssh2-sftp-client#connectconfig--sftp-object
 
+export * from './app-argument-options'
+
 // Config file options
 
 export type ProcessingOptions = {

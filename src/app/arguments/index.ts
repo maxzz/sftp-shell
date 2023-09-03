@@ -1,9 +1,8 @@
 import commandLineArgs from 'command-line-args';
-import { optionDefinitions } from '../app-argument-options';
-import { ArgOptions, AppOptions } from '../types';
-import chalk from 'chalk';
-import { printAppVersion, help, helpEx, terminate } from '../utils-app';
+import { ArgOptions, AppOptions, optionDefinitions } from '../types';
 import { validate } from './validate';
+import { printAppVersion, help, helpEx, terminate } from '../utils-app';
+import chalk from 'chalk';
 
 export function getVerifiedArguments(): AppOptions {
     printAppVersion();
@@ -13,19 +12,19 @@ export function getVerifiedArguments(): AppOptions {
     const argOptions = commandLineArgs(optionDefinitions, { stopAtFirstUnknown: true }) as ArgOptions;
 
     checkHelpCall(argOptions);
-    const appOptions: AppOptions = validate(argOptions);
 
-    return appOptions;
+    const rv: AppOptions = validate(argOptions);
+    return rv;
+}
 
-    function checkHelpCall(argOptions: ArgOptions) {
-        if (argOptions.help || !Object.keys(argOptions).length) {
-            help();
-            helpEx();
-            process.exit(0);
-        }
+function checkHelpCall(argOptions: ArgOptions) {
+    if (argOptions.help || !Object.keys(argOptions).length) {
+        help();
+        helpEx();
+        process.exit(0);
+    }
 
-        if (argOptions._unknown) {
-            terminate(`Unknown option(s):\n${argOptions._unknown.map(_ => `        '${_}'\n`).join('')}`);
-        }
+    if (argOptions._unknown) {
+        terminate(`Unknown option(s):\n${argOptions._unknown.map(_ => `        '${_}'\n`).join('')}`);
     }
 }

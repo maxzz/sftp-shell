@@ -1,5 +1,3 @@
-import commandLineUsage from "command-line-usage";
-
 const optionDefinitionsConst = [
     {
         name: 'host',
