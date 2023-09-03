@@ -26,7 +26,7 @@ export type Aliases = Record<string, string>;
 
 export type AppOptions = {
     credentials: ConnectConfig;
-    operations: Operation[];        // generated from ArgsOptions.ftp
+    operations: Operation[];        // Generated from ArgsOptions.ftp
     aliases: Aliases;               // alias -> value;  generated from ArgsOptions.alias
 };
 
@@ -37,16 +37,18 @@ export type ArgCredentials = {
     port?: string;
     username: string;
     password?: string;
-    keyfile?: string;               //key?: string; // not used any more, but can be easily added
-    verbose?: boolean;              // show debug information
+    keyfile?: string;               // key?: string; // not used any more, but can be easily added
+    verbose?: boolean;              // Show debug information
 };
 
-export type ArgProcessingOptions = ArgCredentials & ProcessingOptions;
+export type ArgProcessingOptions =
+    & ArgCredentials
+    & ProcessingOptions;
 
 export type ArgOptions =
     & ArgProcessingOptions
     & {
-        help?: boolean;                 // show help and exit
-        config?: string[];              // list of additional config files
-        _unknown: string[];             // any unknown options
+        help?: boolean;             // Show help and exit
+        config?: string[];          // List of json5 files to load additional configs from
+        _unknown: string[];         // Any unknown options the will be complained about
     };
