@@ -5,13 +5,13 @@ function printHandshakeOptions(msg: string, color: typeof ForegroundColor, newGr
     const m = msg.match(/(Handshake: .*: )(.*)/);
     newGroup && console.log(chalk.gray('---------------------------------------'));
 
-    let list: string[] = m?.[2]
+    let list: string[] | undefined | null = m?.[2]
         ? m[2]
             .split(',')
             .map((str) => `    ${chalk[color](str.trim())}`)
         : undefined;
 
-    if (list?.length > 1) {
+    if (list && list?.length > 1) {
         console.log(chalk[color](m![1]));
         list.forEach((str) => console.log(str));
     } else {

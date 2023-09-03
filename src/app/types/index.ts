@@ -17,7 +17,7 @@ export type Operation = {
     remote: string;
 };
 
-export type Aliases = Record<string, string>;
+export type Aliases = Record<string, string | undefined>;
 
 export type AppOptions = {
     credentials: ConnectConfig;

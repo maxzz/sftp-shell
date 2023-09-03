@@ -3,9 +3,9 @@ export function formatWith(str: string, aliases: Record<string, string | undefin
 
     return str.replace(
         /{([\w\$_]+)}/gm,
-        function fmt(all, name) {
+        function fmt(all: string, name: string): string {
             if (typeof aliases[name] !== 'undefined') { // check that obj[name] is undefined to allow '' (i.e. not '' which is also falsy value).
-                return aliases[name];
+                return aliases[name]!;
             }
             return all;
         }
