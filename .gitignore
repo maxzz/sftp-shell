@@ -2,6 +2,7 @@ node_modules
 dist
 build-ts
 build-es
+build-lib
 
 built2
 test3
