@@ -1,6 +1,6 @@
 {
     "name": "sftp-shell",
-    "version": "2.0.6",
+    "version": "2.0.7",
     "description": "Transfer files to/from FTP server over SFTP protocol",
     "license": "MIT",
     "repository": {
@@ -30,8 +30,7 @@
         "ssh2-sftp-client": "9.1.0"
     },
     "files": [
-        "dist/**/*",
-        "!dist/*.exe"
+        "dist"
     ],
     "main": "dist/index.js",
     "module": "dist/index.js",
