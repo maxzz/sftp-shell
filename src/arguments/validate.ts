@@ -12,10 +12,16 @@ import { checkCreads } from './check-credentials';
 import { checkOperationLocalFilesPresence } from './check-operation-files';
 import { mergeOptions } from './merge-configs';
 
-export function validate(argOptions: ArgProcessingOptions, externalConfigs: string[]): AppOptions {
+export type ValidateOptions = {
+    argOptions: ArgProcessingOptions;
+    externalConfigs: string[];
+    aliasesToResolveExternalConfigs?: Aliases; // TODO: do aliasesToResolveExternalConfigs before everything and update after each config parsed
+};
+
+export function validate({ argOptions, externalConfigs, aliasesToResolveExternalConfigs }: ValidateOptions): AppOptions {
 
     const ourOptions = getAppOptions(argOptions);
-    const allOptions = getExternalConfigs({ configfilenames: externalConfigs, aliases: process.env }); // TODO: aliases before everything and update after each config parsed
+    const allOptions = getExternalConfigs({ configfilenames: externalConfigs, aliases: aliasesToResolveExternalConfigs });
 
     allOptions.push(ourOptions);
 

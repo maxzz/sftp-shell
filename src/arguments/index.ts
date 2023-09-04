@@ -1,6 +1,6 @@
 import commandLineArgs from 'command-line-args';
 import { CLIOptions, AppOptions, cliOptionsDefinitions } from '../types';
-import { validate } from './validate';
+import { ValidateOptions, validate } from './validate';
 import { printAppVersion, help, helpEx, terminate } from '../utils-app';
 import chalk from 'chalk';
 
@@ -13,7 +13,13 @@ export function getCLIVerifiedArguments(): AppOptions {
 
     checkHelpCall(argOptions);
 
-    const rv: AppOptions = validate(argOptions, argOptions.config || []);
+    const validateOptions: ValidateOptions = {
+        argOptions,
+        externalConfigs: argOptions.config || [],
+        aliasesToResolveExternalConfigs: process.env,
+    };
+
+    const rv: AppOptions = validate(validateOptions);
     return rv;
 }
 
