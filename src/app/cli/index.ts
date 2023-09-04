@@ -1,12 +1,15 @@
-import { getCLIVerifiedArguments } from '../../arguments';
+import { getCLIVerifiedArguments } from './main-cli';
 import { processSftp } from '..';
 
-function main() {
-    const options = getCLIVerifiedArguments();
-    processSftp(options);
+async function main() {
+    const appOptions = getCLIVerifiedArguments();
+    await processSftp(appOptions);
 }
 
-main();
+main().catch((error) => {
+    console.log(error);
+    process.exit(-1);
+});
 
 //TODO: handle path normalize before loop work - done
 //TODO: new name sshell aka s-sh-sh-ell

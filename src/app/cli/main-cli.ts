@@ -1,7 +1,7 @@
 import commandLineArgs from 'command-line-args';
-import { CLIOptions, AppOptions, cliOptionsDefinitions } from '../types';
-import { ValidateOptions, validate } from './validate';
-import { printAppVersion, help, helpEx, terminate } from '../utils-app';
+import { CLIOptions, AppOptions, cliOptionsDefinitions } from '../../types';
+import { ValidateOptions, validate } from '../../arguments/validate';
+import { printAppVersion, help, helpEx, terminate } from '../../utils-app';
 import chalk from 'chalk';
 
 export function getCLIVerifiedArguments(): AppOptions {
