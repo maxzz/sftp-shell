@@ -1,3 +1,8 @@
-import { validate } from "../../arguments/validate";
+import { processSftp } from "..";
+import { ValidateOptions, validate } from "../../arguments";
+import { AppOptions } from "../../types";
 
-//validate()
+export function execute(validateOptions: ValidateOptions) {
+    const appOptions: AppOptions = validate(validateOptions);
+    processSftp(appOptions);
+}
