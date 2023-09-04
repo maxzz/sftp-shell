@@ -19,6 +19,21 @@
 					"label": ""
 				}
 			]
+		},
+		{
+			"path": "build-lib/index.js",
+			"bookmarks": [
+				{
+					"line": 24,
+					"column": 113,
+					"label": ""
+				},
+				{
+					"line": 4156,
+					"column": 38,
+					"label": ""
+				}
+			]
 		}
 	]
 }
