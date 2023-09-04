@@ -17,7 +17,7 @@ const esbuildOptions = {
 const esbuildLib = {
     entryPoints: ["./src/app/api/index.ts"],
     bundle: true,
-    outdir: "build-lib", //outfile: "sshell.js", // can use only dir or name
+    outdir: "dist",
     plugins: [nativeNodeModulesPlugin],
     external: ['ssh2-sftp-client'],
     platform: 'node',

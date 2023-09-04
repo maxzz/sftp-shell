@@ -24,7 +24,14 @@
         "esbuild": "0.19.2",
         "esbuild-native-node-modules-plugin": "^1.0.3"
     },
-    "main": "index.js",
+    "peerDependencies": {
+        "ssh2-sftp-client": "9.1.0"
+    },
+    "files": [
+        "dist/index.js",
+        "!dist/*.exe"
+    ],
+    "main": "dist/index.js",
     "scripts": {
         "dev": "tsc -w",
         "make-es": "node esbuild.js",

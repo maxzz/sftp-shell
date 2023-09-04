@@ -1,6 +1,6 @@
 import commandLineArgs from 'command-line-args';
 import { CLIOptions, AppOptions, cliOptionsDefinitions } from '../../types';
-import { ValidateOptions, validate } from '../../arguments/validate';
+import { ValidateOptions, validate } from '../../arguments';
 import { printAppVersion, help, helpEx, terminate } from '../../utils-app';
 import chalk from 'chalk';
 
