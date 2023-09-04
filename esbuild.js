@@ -1,7 +1,7 @@
 const { nativeNodeModulesPlugin } = require("esbuild-native-node-modules-plugin");
 
 const esbuildOptions = {
-    entryPoints: ["./src/index.ts"],
+    entryPoints: ["./src/app/cli/index.ts"],
     bundle: true,
     outdir: "build-es", //outfile: "sshell.js", // can use only dir or name
     plugins: [nativeNodeModulesPlugin],

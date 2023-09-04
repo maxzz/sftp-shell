@@ -1,5 +1,5 @@
-import { getCLIVerifiedArguments } from './arguments';
-import { processSftp } from './app';
+import { getCLIVerifiedArguments } from '../../arguments';
+import { processSftp } from '..';
 
 function main() {
     const options = getCLIVerifiedArguments();
