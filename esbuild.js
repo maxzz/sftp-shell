@@ -1,6 +1,6 @@
 const esbuild = require("esbuild");
 const { nativeNodeModulesPlugin } = require("esbuild-native-node-modules-plugin");
-const { dtsPlugin } = require("esbuild-plugin-d.ts");
+//const { dtsPlugin } = require("esbuild-plugin-d.ts");
 
 const esbuildOptions = {
     entryPoints: ["./src/app/cli/index.ts"],
@@ -13,19 +13,19 @@ const esbuildOptions = {
     //minify: true,
 };
 
-//esbuild.build(esbuildOptions).catch(() => process.exit(1));
+esbuild.build(esbuildOptions).catch(() => process.exit(1));
 
-const esbuildLib = {
-    entryPoints: ["./src/app/api/index.ts"],
-    bundle: true,
-    outdir: "dist",
-    plugins: [nativeNodeModulesPlugin, dtsPlugin()],
-    external: ['ssh2-sftp-client'],
-    platform: 'node',
-    format: 'esm',
-    target: 'esnext',
-    treeShaking: true,
-    //minify: true,
-};
+// const esbuildLib = {
+//     entryPoints: ["./src/app/api/index.ts"],
+//     bundle: true,
+//     outdir: "dist",
+//     plugins: [nativeNodeModulesPlugin, dtsPlugin()],
+//     external: ['ssh2-sftp-client'],
+//     platform: 'node',
+//     format: 'esm',
+//     target: 'esnext',
+//     treeShaking: true,
+//     //minify: true,
+// };
 
-esbuild.build(esbuildLib).catch(() => process.exit(1));
+// esbuild.build(esbuildLib).catch(() => process.exit(1)); // TODO: this is really slow, and doesn't build the single d.ts file

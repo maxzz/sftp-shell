@@ -46,14 +46,14 @@
             "type": "node",
             "request": "launch",
             "name": "Run wo/ params",
-            "program": "${workspaceFolder}\\build-ts\\index.js",
+            "program": "${workspaceFolder}/build-ts/app/cli/index.js",
             "console": "externalTerminal",
         },
         {
             "type": "node",
             "request": "launch",
             "name": "Run w/ params",
-            "program": "${workspaceFolder}\\build-ts\\index.js",
+            "program": "${workspaceFolder}/build-ts/app/cli/index.js",
             "console": "externalTerminal",
             "args": [
                 //"--help",
@@ -80,7 +80,7 @@
             "type": "node",
             "request": "launch",
             "name": "Run w/ old config",
-            "program": "${workspaceFolder}\\build-ts\\index.js",
+            "program": "${workspaceFolder}/build-ts/app/cli/index.js",
             "console": "externalTerminal",
             "args": [
                 "--config", "test/config-creds-old-ftp.json", "test/config-a-old.json",
@@ -90,10 +90,10 @@
             "type": "node",
             "request": "launch",
             "name": "Run w/ new config",
-            "program": "${workspaceFolder}\\build-ts\\index.js",
+            "program": "${workspaceFolder}/build-ts/app/cli/index.js",
             "console": "externalTerminal",
             "args": [
-                "--config", "test/config-creds-new-ftp.json", "test/config-a-new.json",
+                "--config", "test/config-creds-new-ftp.json5", "test/config-a-new.json5",
             ]
         }
     ]
