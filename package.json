@@ -1,6 +1,6 @@
 {
     "name": "sftp-shell",
-    "version": "2.0.7",
+    "version": "2.0.8",
     "description": "Transfer files to/from FTP server over SFTP protocol",
     "license": "MIT",
     "repository": {
@@ -45,7 +45,7 @@
     "types": "dist/app/index.d.ts",
     "scripts": {
         "dev": "tsc -w",
-        "make-es": "node esbuild.js",
+        "make-es": "node esbuild.cjs",
         "makebin": "pkg -t host -o dist/sshell build-es/index.js",
         "build": "yarn make-es && yarn makebin",
         "build:r": "rollup -c"
