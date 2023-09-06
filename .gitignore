@@ -1,5 +1,6 @@
 node_modules
 dist
+dist-*
 build-ts
 build-es
 build-lib
