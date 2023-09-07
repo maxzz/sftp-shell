@@ -79,7 +79,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Run w/ old config",
+            "name": "Run w/ very old config",
             "program": "${workspaceFolder}/build-ts/app/cli/index.js",
             "console": "externalTerminal",
             "args": [
@@ -94,6 +94,38 @@
             "console": "externalTerminal",
             "args": [
                 "--config", "test/config-creds-new-ftp.json5", "test/config-a-new.json5",
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Integrated w/ new config",
+            "program": "${workspaceFolder}/build-ts/app/cli/index.js",
+            "console": "externalTerminal",
+            "args": [
+
+                    "--config",
+                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\.bin\\bins\\configs\\config-creds-new-ftp.json5",
+                    "--config",
+                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\.bin\\bins\\configs\\config-a-ftp-path.json5",
+                    "--ftp",
+                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\dist-ro-ts/temp-ftp/history/existing.json = l = {root}/current/",
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "CLI w/ new config",
+            "program": "${workspaceFolder}/dist/index-cli.js",
+            "console": "externalTerminal",
+            "args": [
+
+                    "--config",
+                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\.bin\\bins\\configs\\config-creds-new-ftp.json5",
+                    "--config",
+                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\.bin\\bins\\configs\\config-a-ftp-path.json5",
+                    "--ftp",
+                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\dist-ro-ts/temp-ftp/history/existing.json = l = {root}/current/",
             ]
         }
     ]

@@ -24,13 +24,8 @@ function createConfing({ input, name, output }) {
             indent: true,
             extend: true,
             sourcemap: true,
-            globals: {
-                "ssh2-sftp-client": "Client",
-                //"ssh2": "ssh2",
-            },
         },
         external: ["ssh2-sftp-client"],
-        // external: ["ssh2-sftp-client", "ssh2"],
         plugins: makePluginsList(),
     };
 }
@@ -39,8 +34,8 @@ function makeBuildsList() {
     //console.info('\noptions', JSON.stringify(options, null, 4)); // OK but too verbose to show every time
 
     const rv = [];
-    // rv.push(createConfing({ input: `${extensionSrc}/main-deploy-history.js`, name: 'csdog', output: suffix('main-deploy-history') }));
-    rv.push(createConfing({ input: `src/app/api/index.ts`, name: 'sftpshell', output: `dist-ro/index.ts` }));
+    rv.push(createConfing({ input: `src/app/api/index.ts`, name: 'sftpshell', output: `dist/index.js` }));
+    rv.push(createConfing({ input: `src/app/cli/index.ts`, name: 'sftpshell', output: `dist/index-cli.js` }));
     return rv;
 }
 
