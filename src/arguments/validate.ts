@@ -55,8 +55,8 @@ function getExternalConfigs({ configfilenames, aliases }: { configfilenames: str
 
     function loadConfigFile(filename: string): AppOptions {
         try {
-            filename = path.resolve(formatDeep(filename, aliases || {}));
-            const cnt = fs.readFileSync(filename).toString();
+            const finalFilename = path.resolve(formatDeep(filename, aliases || {}));
+            const cnt = fs.readFileSync(finalFilename).toString();
 
             try {
                 const opt = JSON5.parse(cnt) as ArgProcessingOptions;
