@@ -58,12 +58,16 @@ function printAliases(finalFilename: string, aliases: Aliases) {
     });
 }
 
+function removeQuates(str: string) {
+    return str.replace(/^\s*"\s*([^"]*)\s*"\s*$/, '$1');
+}
+
 function getExternalConfigs({ configfilenames, aliases }: { configfilenames: string[]; aliases?: Aliases }): AppOptions[] {
     return configfilenames.map((name) => loadConfigFile(name)).filter(Boolean);
 
     function loadConfigFile(filename: string): AppOptions {
         try {
-            const finalFilename = path.resolve(formatDeep(filename, aliases || {}));
+            const finalFilename = path.resolve(removeQuates(formatDeep(filename, aliases || {})));
             const cnt = fs.readFileSync(finalFilename).toString();
 
             try {

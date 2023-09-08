@@ -79,7 +79,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Run w/ very old config",
+            "name": "Run w/ very obsolete config",
             "program": "${workspaceFolder}/build-ts/app/cli/index.js",
             "console": "externalTerminal",
             "args": [
