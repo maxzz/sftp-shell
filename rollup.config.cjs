@@ -9,7 +9,7 @@ function makePluginsList() {
     const rv = [];
     rv.push(nodeResolve());
     rv.push(commonjs());
-    rv.push(typescript());
+    rv.push(typescript({ module: 'esnext' }));
     rv.push(json());
     return rv;
 }

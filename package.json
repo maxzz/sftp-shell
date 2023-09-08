@@ -39,6 +39,14 @@
     "files": [
         "dist"
     ],
+    "engines": {
+        "node": ">=12.0.0"
+    },
+    "pkg": {
+        "targets": [
+          "node18"
+        ]
+    },
     "_type": "module",
     "main": "dist/index.js",
     "module": "dist/index.js",
@@ -46,8 +54,8 @@
     "scripts": {
         "dev": "tsc -w",
         "make-es": "node esbuild.cjs",
-        "makebin": "pkg -t host -o dist/sshell build-es/index.js",
+        "makebin": "pkg --targets latest -o dist/sshell build-es/index.js",
         "build": "yarn make-es && yarn makebin",
-        "build:r": "rollup -c"
+        "build:r": "rollup -c --bundleConfigAsCjs"
     }
 }
