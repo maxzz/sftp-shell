@@ -50,6 +50,14 @@ function getAppOptions(opt: ArgProcessingOptions): AppOptions {
     };
 }
 
+function printAliases(finalFilename: string, aliases: Aliases) {
+    console.log(`\nFinal filename: ${finalFilename}`);
+    console.log(`\nAliases:`);
+    Object.entries(aliases).forEach(([key, val]) => {
+        console.log(`    ${chalk.gray(key)}: ${chalk.gray(val)}`);
+    });
+}
+
 function getExternalConfigs({ configfilenames, aliases }: { configfilenames: string[]; aliases?: Aliases }): AppOptions[] {
     return configfilenames.map((name) => loadConfigFile(name)).filter(Boolean);
 
@@ -62,10 +70,12 @@ function getExternalConfigs({ configfilenames, aliases }: { configfilenames: str
                 const opt = JSON5.parse(cnt) as ArgProcessingOptions;
                 return getAppOptions(opt);
             } catch (error) {
+                printAliases(finalFilename, aliases || {});
                 terminate(`${chalk.yellow('Failed to parse config file:')}\n        ${chalk.gray(filename)}\n    error: ${(error as any).toString()}`);
             }
 
         } catch (error) {
+            printAliases(filename, aliases || {});
             terminate(`${chalk.yellow('Failed to get config file:')}\n        ${chalk.gray(filename)}\n    error: ${(error as any).toString()}`);
         }
     }
