@@ -6,5 +6,6 @@ export * from './08-to-window-unix';
 export * from './09-extensions';
 export * from './15-delete';
 export * from './16-fileSize';
+export * from './17-removeQuates';
 export * from './20-runScript';
 export * from './30-aliases';

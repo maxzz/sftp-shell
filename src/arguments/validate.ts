@@ -3,8 +3,8 @@ import path from 'path';
 import chalk from 'chalk';
 import JSON5 from 'json5';
 import { Aliases, AppOptions, ArgProcessingOptions } from '../types';
-import { help, printAppDone, terminate } from '../utils-app';
-import { formatDeep } from '../utils';
+import { help, printAliases, printAppDone, terminate } from '../utils-app';
+import { formatDeep, removeQuates } from '../utils';
 import { getConnectConfig } from './options-connect-config';
 import { getAliases } from './options-aliases';
 import { getOperations } from './options-operations';
@@ -48,18 +48,6 @@ function getAppOptions(opt: ArgProcessingOptions): AppOptions {
         operations: getOperations(opt.ftp),
         aliases: getAliases(opt.alias),
     };
-}
-
-function printAliases(finalFilename: string, aliases: Aliases) {
-    console.log(`\nFinal filename: ${finalFilename}`);
-    console.log(`\nAliases:`);
-    Object.entries(aliases).forEach(([key, val]) => {
-        console.log(`    ${chalk.gray(key)}: ${chalk.gray(val)}`);
-    });
-}
-
-function removeQuates(str: string) {
-    return str.replace(/^\s*"\s*([^"]*)\s*"\s*$/, '$1');
 }
 
 function getExternalConfigs({ configfilenames, aliases }: { configfilenames: string[]; aliases?: Aliases }): AppOptions[] {

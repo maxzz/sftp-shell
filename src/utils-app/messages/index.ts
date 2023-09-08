@@ -7,6 +7,7 @@ const pkg = require('../../../package.json');
 export const { version: appVersion } = pkg;
 
 export * from './job';
+export * from './sftp-options';
 export * from './sftp-loop';
 export * from './ssh-connection';
 
