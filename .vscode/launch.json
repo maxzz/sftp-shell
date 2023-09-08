@@ -99,7 +99,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Integrated w/ new config",
+            "name": "tsc cli w/ new config",
             "program": "${workspaceFolder}/build-ts/app/cli/index.js",
             "console": "externalTerminal",
             "args": [
@@ -117,6 +117,10 @@
             "request": "launch",
             "name": "CLI w/ new config",
             "program": "${workspaceFolder}/dist/index-cli.js",
+            // "resolveSourceMapLocations": [
+            //     "${workspaceFolder}/**",
+            //     "!**/node_modules/**"
+            // ],
             "console": "externalTerminal",
             "args": [
 
