@@ -11,10 +11,10 @@ export async function processSftp(appOptions: AppOptions) {
     sftpClient.on('close', printOnConnectionClosed);
     try {
         await sftpClient.connect(appOptions.credentials);
-        const sftpWorkingDir = await sftpClient.cwd();
+        const sftpRemoteWorkingDir = await sftpClient.cwd();
 
-        printLoopStart(appOptions, sftpWorkingDir);
-        const operations = expandPathes(appOptions.operations, sftpWorkingDir, appOptions.aliases);
+        printLoopStart(appOptions, sftpRemoteWorkingDir);
+        const operations = expandRemotePathes(appOptions.operations, sftpRemoteWorkingDir, appOptions.aliases);
 
         for (let i = 0; i < operations.length; i++) {
             const item: Operation = operations[i];
@@ -50,7 +50,7 @@ export async function processSftp(appOptions: AppOptions) {
     }
 }
 
-function expandPathes(operations: Operation[], sftpWorkingDir: string, aliases: Aliases): Operation[] {
+function expandRemotePathes(operations: Operation[], sftpWorkingDir: string, aliases: Aliases): Operation[] {
     const resolveEnv = {
         start: sftpWorkingDir,
         ...aliases,

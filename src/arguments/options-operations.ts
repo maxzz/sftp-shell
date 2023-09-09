@@ -1,4 +1,5 @@
 import { OP, Operation } from "../types";
+import { exist, removeQuates } from "../utils";
 import { terminate } from "../utils-app";
 
 function mapToOperation(operationStr: string): Operation {
@@ -16,12 +17,21 @@ function mapToOperation(operationStr: string): Operation {
     }
 
     return {
-        local,
+        local: removeQuates(local),
         operation: operation as OP,
-        remote,
+        remote: removeQuates(remote),
     };
 }
 
 export function getOperations(ftp: string | string[] = []): Operation[] {
-    return (typeof ftp === 'string' ? [ftp] : ftp).map(mapToOperation);
+    const rv = (typeof ftp === 'string' ? [ftp] : ftp).map(mapToOperation);
+
+    rv.forEach(({local, operation, remote}) => {
+        const fileExist = exist(local);
+        if (operation === 'u' && !fileExist) {
+            terminate(`Invalid operation. Local file does not exist:\n${JSON.stringify({local, operation, remote}, null, 4)}`);
+        }
+    });
+
+    return rv;
 }
