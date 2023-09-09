@@ -1,4 +1,4 @@
-import { getCLIVerifiedArguments } from './main-cli';
+import { getCLIVerifiedArguments } from './get-cli-arguments';
 import { processSftp } from '..';
 
 async function main() {

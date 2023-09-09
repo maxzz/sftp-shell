@@ -53,9 +53,9 @@
     "types": "dist/app/index.d.ts",
     "scripts": {
         "dev": "tsc -w",
-        "make-es": "node esbuild.cjs",
+        "make:es": "node esbuild.cjs",
         "makebin": "pkg --targets latest -o dist/sshell build-es/index.js",
-        "build": "yarn make-es && yarn makebin",
+        "build": "yarn make:es && yarn makebin",
         "build:r": "rollup -c --bundleConfigAsCjs"
     }
 }
