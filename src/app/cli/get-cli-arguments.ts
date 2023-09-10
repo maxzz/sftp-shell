@@ -11,17 +11,19 @@ export function getCLIVerifiedArguments(): AppOptions {
 
     const argOptions = commandLineArgs(cliOptionsDefinitions, { stopAtFirstUnknown: true }) as CLIOptions;
 
+    checkHelpCall(argOptions);
+
     if (process.argv.length === 3) {
+        printCommandLineArguments();
         terminate(`Too few options. Likely you wrap your options with double quotes (").`);
     }
 
-    console.log(chalk.cyan(`\nCommand line arguments: \n${process.argv.map((str,idx)=>`    ${idx}: ${str}`).join('\n')}`));
-
     removeDoubleQuotes(argOptions);
 
-    console.log(chalk.cyan('\nargOptions = \n'), JSON.stringify(argOptions, null, 4), '\n');
-
-    checkHelpCall(argOptions);
+    if (argOptions.trace) {
+        printCommandLineArguments();
+        printCLIOptions(argOptions);
+    }
 
     const validateOptions: ValidateOptions = {
         argOptions,
@@ -31,6 +33,14 @@ export function getCLIVerifiedArguments(): AppOptions {
 
     const rv: AppOptions = validate(validateOptions);
     return rv;
+}
+
+function printCommandLineArguments() {
+    console.log(chalk.cyan(`\nCommand line arguments: \n${process.argv.map((str,idx)=>`    ${idx}: ${str}`).join('\n')}`));
+}
+
+function printCLIOptions(cliOptions: CLIOptions) {
+    console.log(chalk.cyan('\nargOptions = \n'), JSON.stringify(cliOptions, null, 4), '\n');
 }
 
 function removeDoubleQuotes(argOptions: CLIOptions) {

@@ -50,6 +50,6 @@ export type CLIOptions =
     & {
         help?: boolean;             // Show help and exit
         config?: string[];          // List of json5 files to load additional configs from
-        trace2: boolean;             // Trace program input arguments
+        trace?: boolean;            // Trace program input arguments
         _unknown: string[];         // Any unknown options the will be complained about
     };
