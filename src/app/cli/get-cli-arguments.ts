@@ -11,9 +11,8 @@ export function getCLIVerifiedArguments(): AppOptions {
 
     const argOptions = commandLineArgs(cliOptionsDefinitions, { stopAtFirstUnknown: true }) as CLIOptions;
 
-    if (process.argv.length <= 3) {
-        help();
-        process.exit(1);
+    if (process.argv.length === 3) {
+        terminate(`Too few options. Likely you wrap your options with double quotes (").`);
     }
 
     console.log(chalk.cyan(`\nCommand line arguments: \n${process.argv.map((str,idx)=>`    ${idx}: ${str}`).join('\n')}`));
