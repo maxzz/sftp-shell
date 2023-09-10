@@ -1,6 +1,6 @@
 {
     "name": "sftp-shell",
-    "version": "2.0.8",
+    "version": "2.0.9",
     "description": "Transfer files to/from FTP server over SFTP protocol",
     "license": "MIT",
     "repository": {
