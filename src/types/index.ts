@@ -38,7 +38,7 @@ export type ArgCredentials = {
 
 export type FtpsAndAliases = {      // Config file options
     ftp: string[];                  // Theoretically, it can be optional if aliases used.
-    alias?: string[];
+    alias?: string[];               // List of alias definitions in format: alias=value
 };
 
 export type ArgProcessingOptions =
@@ -50,5 +50,6 @@ export type CLIOptions =
     & {
         help?: boolean;             // Show help and exit
         config?: string[];          // List of json5 files to load additional configs from
+        trace2: boolean;             // Trace program input arguments
         _unknown: string[];         // Any unknown options the will be complained about
     };

@@ -56,8 +56,14 @@ const cliOptionsDefinitionsConst = [
     {
         name: 'verbose',
         type: Boolean,
-        description: `Verbose output of connection information`,
+        description: `Verbose output of connection information.`,
         alias: 'v',
+    },
+    {
+        name: 'trace',
+        type: Boolean,
+        description: `Trace program input arguments.`,
+        alias: 't',
     },
     {
         name: 'config',

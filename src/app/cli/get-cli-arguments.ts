@@ -4,19 +4,19 @@ import { ValidateOptions, validate } from '../../arguments';
 import { printAppVersion, help, helpEx, terminate } from '../../utils-app';
 import chalk from 'chalk';
 
-function removeDoubleQuotes(argOptions: CLIOptions) {
-    argOptions.config = argOptions.config ? argOptions.config.map((_) => _.replace(/^"(.*)"$/, '$1')) : [];
-    argOptions.ftp = argOptions.ftp ? argOptions.ftp.map((_) => _.replace(/^"(.*)"$/, '$1')) : [];  
-}
-
 export function getCLIVerifiedArguments(): AppOptions {
     printAppVersion();
 
     console.log(chalk.gray(`Working directory: ${process.cwd()}`));
 
-    console.log(chalk.cyan(`\nCommand line arguments: \n${process.argv.map((str,idx)=>`    ${idx}: ${str}`).join('\n')}`));
-
     const argOptions = commandLineArgs(cliOptionsDefinitions, { stopAtFirstUnknown: true }) as CLIOptions;
+
+    if (process.argv.length <= 3) {
+        help();
+        process.exit(1);
+    }
+
+    console.log(chalk.cyan(`\nCommand line arguments: \n${process.argv.map((str,idx)=>`    ${idx}: ${str}`).join('\n')}`));
 
     removeDoubleQuotes(argOptions);
 
@@ -32,6 +32,11 @@ export function getCLIVerifiedArguments(): AppOptions {
 
     const rv: AppOptions = validate(validateOptions);
     return rv;
+}
+
+function removeDoubleQuotes(argOptions: CLIOptions) {
+    argOptions.config = argOptions.config ? argOptions.config.map((_) => _.replace(/^"(.*)"$/, '$1')) : [];
+    argOptions.ftp = argOptions.ftp ? argOptions.ftp.map((_) => _.replace(/^"(.*)"$/, '$1')) : [];  
 }
 
 function checkHelpCall(argOptions: CLIOptions) {

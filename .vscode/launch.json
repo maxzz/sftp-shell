@@ -1,9 +1,60 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "tsc cli 09.08.23",
+            "program": "${workspaceFolder}/build-ts/app/cli/index.js",
+            "console": "externalTerminal",
+            "args": [
+
+                    "--config",
+                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\.bin\\bins\\configs\\config-creds-new-ftp.json5",
+                    "--config",
+                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\.bin\\bins\\configs\\config-a-ftp-path.json5",
+                    "--ftp",
+                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\dist-ro-ts/temp-ftp/history/existing.json = l = {root}/current/",
+                    "--trace",
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "rollup cli 09.05.23",
+            "program": "${workspaceFolder}/dist/index-cli.js",
+            // "resolveSourceMapLocations": [
+            //     "${workspaceFolder}/**",
+            //     "!**/node_modules/**"
+            // ],
+            "console": "externalTerminal",
+            "args": [
+
+                    "--config",
+                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\.bin\\bins\\configs\\config-creds-new-ftp.json5",
+                    "--config",
+                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\.bin\\bins\\configs\\config-a-ftp-path.json5",
+                    "--ftp",
+                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\dist-ro-ts/temp-ftp/history/existing.json = l = {root}/current/",
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "tsc cli 01.20.23",
+            "program": "${workspaceFolder}/build-ts/app/cli/index.js",
+            "console": "externalTerminal",
+            "args": [
+                "--config", "test/config-creds-new-ftp.json5", "test/config-a-new.json5",
+            ]
+        },
+    ]
+}
+
+//--host "appserver.live.b82019b8-481a-44c8-88da-be3d2af3cfbb.drush.in" --port "2222" --username "live.b82019b8-481a-44c8-88da-be3d2af3cfbb" --keyfile "{USERPROFILE}/.ssh/id_rsa" --alias "root = {start}/files/crossmatch" --alias "g01 = {root}/AltusAddons/g01" --ftp "C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/test/listC.json = l = {start}/files/crossmatch/AltusAddons/g01" --ftp "C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/test/listD.json = l = {g01}/current"
+//--host "appserver.live.b82019b8-481a-44c8-88da-be3d2af3cfbb.drush.in" --port "2222" --username "live.b82019b8-481a-44c8-88da-be3d2af3cfbb" --keyfile "{USERPROFILE}/.ssh/id_rsa" --ftp "{local1}/test/listC.json = l = {start}/files/crossmatch/AltusAddons/g01" --ftp "{local2}/test/listD.json = l = {g01}/current" --ftp "test3/listE.json = l = {g01}/current" --alias "root = {start}/files/crossmatch" --alias "g01 = {root}/AltusAddons/g01" --alias "local1 = C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1" --alias "local2 = C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/" 
+
+// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
         /*
         {
             "type": "node",
@@ -74,55 +125,3 @@
         //         "--ftp", "test3/listE.json = l = {g01}/current",
         //     ]
         // },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Run w/ new config",
-            "program": "${workspaceFolder}/build-ts/app/cli/index.js",
-            "console": "externalTerminal",
-            "args": [
-                "--config", "test/config-creds-new-ftp.json5", "test/config-a-new.json5",
-            ]
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "tsc cli w/ new config: 09.08.23",
-            "program": "${workspaceFolder}/build-ts/app/cli/index.js",
-            "console": "externalTerminal",
-            "args": [
-
-                    "--config",
-                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\.bin\\bins\\configs\\config-creds-new-ftp.json5",
-                    "--config",
-                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\.bin\\bins\\configs\\config-a-ftp-path.json5",
-                    "--ftp",
-                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\dist-ro-ts/temp-ftp/history/existing.json = l = {root}/current/",
-            ]
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "CLI w/ new config: 09.05.23",
-            "program": "${workspaceFolder}/dist/index-cli.js",
-            // "resolveSourceMapLocations": [
-            //     "${workspaceFolder}/**",
-            //     "!**/node_modules/**"
-            // ],
-            "console": "externalTerminal",
-            "args": [
-
-                    "--config",
-                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\.bin\\bins\\configs\\config-creds-new-ftp.json5",
-                    "--config",
-                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\.bin\\bins\\configs\\config-a-ftp-path.json5",
-                    "--ftp",
-                    "C:\\Y\\c\\dp\\pm\\Browsers\\v4\\tools\\dist-ro-ts/temp-ftp/history/existing.json = l = {root}/current/",
-            ]
-        }
-    ]
-}
-
-//--host "appserver.live.b82019b8-481a-44c8-88da-be3d2af3cfbb.drush.in" --port "2222" --username "live.b82019b8-481a-44c8-88da-be3d2af3cfbb" --keyfile "{USERPROFILE}/.ssh/id_rsa" --alias "root = {start}/files/crossmatch" --alias "g01 = {root}/AltusAddons/g01" --ftp "C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/test/listC.json = l = {start}/files/crossmatch/AltusAddons/g01" --ftp "C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/test/listD.json = l = {g01}/current"
-
-//--host "appserver.live.b82019b8-481a-44c8-88da-be3d2af3cfbb.drush.in" --port "2222" --username "live.b82019b8-481a-44c8-88da-be3d2af3cfbb" --keyfile "{USERPROFILE}/.ssh/id_rsa" --ftp "{local1}/test/listC.json = l = {start}/files/crossmatch/AltusAddons/g01" --ftp "{local2}/test/listD.json = l = {g01}/current" --ftp "test3/listE.json = l = {g01}/current" --alias "root = {start}/files/crossmatch" --alias "g01 = {root}/AltusAddons/g01" --alias "local1 = C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1" --alias "local2 = C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/" 
