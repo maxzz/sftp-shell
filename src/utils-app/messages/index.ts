@@ -3,7 +3,9 @@ import chalk from 'chalk';
 export const appName = 'sftp-shell'; //export const { name: progrmaName } = require('../../package.json');
 
 //export const appVersion = '2.0.5'; //export const { version: progrmaName } = require('../../package.json');
-const pkg = require('../../../package.json');
+//const pkg = require('../../../package.json');
+// @ts-expect-error
+import pkg from '../../../package.json';
 export const { version: appVersion } = pkg;
 
 export * from './arguments';
