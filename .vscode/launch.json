@@ -42,50 +42,38 @@
         },
         */
 
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Run wo/ params",
-            "program": "${workspaceFolder}/build-ts/app/cli/index.js",
-            "console": "externalTerminal",
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Run w/ params",
-            "program": "${workspaceFolder}/build-ts/app/cli/index.js",
-            "console": "externalTerminal",
-            "args": [
-                //"--help",
-                "--host", "appserver.live.b82019b8-481a-44c8-88da-be3d2af3cfbb.drush.in",
-                "--port", "2222",
-                "--username", "live.b82019b8-481a-44c8-88da-be3d2af3cfbb",
-                "--keyfile", "{USERPROFILE}/.ssh/id_rsa",
-
-                // "--alias",
-                //"--alias", "=",
-                // "--alias", "a=",
-                // "--alias", "=b",
-                "--alias", "root = {start}/files/crossmatch",
-                "--alias", "g01 = {root}/AltusAddons/g01",
-                // "--alias", "local1 = C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1",
-                // "--alias", "local2 = C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/",
-
-                // "--ftp", "{local1}/test/listC.json = l = {start}/files/crossmatch/AltusAddons/g01",
-                // "--ftp", "{local2}/test/listD.json = l = {g01}/current",
-                "--ftp", "test3/listE.json = l = {g01}/current",
-            ]
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Run w/ very obsolete config",
-            "program": "${workspaceFolder}/build-ts/app/cli/index.js",
-            "console": "externalTerminal",
-            "args": [
-                "--config", "test/config-creds-old-ftp.json", "test/config-a-old.json",
-            ]
-        },
+        // {
+        //     "type": "node",
+        //     "request": "launch",
+        //     "name": "Run wo/ params",
+        //     "program": "${workspaceFolder}/build-ts/app/cli/index.js",
+        //     "console": "externalTerminal",
+        // },
+        // {
+        //     "type": "node",
+        //     "request": "launch",
+        //     "name": "Run w/ params",
+        //     "program": "${workspaceFolder}/build-ts/app/cli/index.js",
+        //     "console": "externalTerminal",
+        //     "args": [
+        //         "--host", "appserver.live.b82019b8-481a-44c8-88da-be3d2af3cfbb.drush.in",
+        //         "--port", "2222",
+        //         "--username", "live.b82019b8-481a-44c8-88da-be3d2af3cfbb",
+        //         "--keyfile", "{USERPROFILE}/.ssh/id_rsa",
+        //         //"--help",
+        //         // "--alias",
+        //         //"--alias", "=",
+        //         // "--alias", "a=",
+        //         // "--alias", "=b",
+        //         "--alias", "root = {start}/files/crossmatch",
+        //         "--alias", "g01 = {root}/AltusAddons/g01",
+        //         // "--alias", "local1 = C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1",
+        //         // "--alias", "local2 = C:/Y/w/2-web/0-dp/utils/sftp/sftp-shell/built2/1/",
+        //         // "--ftp", "{local1}/test/listC.json = l = {start}/files/crossmatch/AltusAddons/g01",
+        //         // "--ftp", "{local2}/test/listD.json = l = {g01}/current",
+        //         "--ftp", "test3/listE.json = l = {g01}/current",
+        //     ]
+        // },
         {
             "type": "node",
             "request": "launch",

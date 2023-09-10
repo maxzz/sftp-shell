@@ -1,7 +1,0 @@
-{
-    "alias": [
-        "root = {start}/files/crossmatch",
-        "g01 = {root}/AltusAddons/g01"
-    ],
-    "ftp": "test3/listE.json = l = {g01}/current"
-}
