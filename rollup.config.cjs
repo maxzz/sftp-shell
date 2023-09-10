@@ -9,7 +9,7 @@ function makePluginsList() {
     const rv = [];
     rv.push(nodeResolve());
     rv.push(commonjs());
-    rv.push(typescript({ module: 'esnext' }));
+    rv.push(typescript({ module: 'esnext', declaration: true, declarationDir: `dist/types` }));
     rv.push(json());
     return rv;
 }
@@ -35,7 +35,7 @@ function makeBuildsList() {
 
     const rv = [];
     rv.push(createConfing({ input: `src/app/api/index.ts`, name: 'sftpshell', output: `dist/index.js` }));
-    rv.push(createConfing({ input: `src/app/cli/index.ts`, name: 'sftpshell', output: `dist/index-cli.js` }));
+    //rv.push(createConfing({ input: `src/app/cli/index.ts`, name: 'sftpshell', output: `dist/index-cli.mjs` })); // OK, but useless to distribute.
     return rv;
 }
 

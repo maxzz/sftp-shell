@@ -42,7 +42,7 @@
     "_type": "module",
     "main": "dist/index.js",
     "module": "dist/index.js",
-    "types": "dist/app/index.d.ts",
+    "types": "dist/types/app/api/index.d.ts",
     "scripts": {
         "dev": "tsc -w",
         "step:make:es": "node esbuild.cjs",
