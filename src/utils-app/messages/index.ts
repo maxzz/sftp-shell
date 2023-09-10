@@ -6,6 +6,7 @@ export const appName = 'sftp-shell'; //export const { name: progrmaName } = requ
 const pkg = require('../../../package.json');
 export const { version: appVersion } = pkg;
 
+export * from './arguments';
 export * from './job';
 export * from './sftp-options';
 export * from './sftp-loop';

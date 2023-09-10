@@ -1,7 +1,7 @@
 import commandLineArgs from 'command-line-args';
 import { CLIOptions, AppOptions, cliOptionsDefinitions } from '../../types';
 import { ValidateOptions, validate } from '../../arguments';
-import { printAppVersion, help, helpEx, terminate } from '../../utils-app';
+import { printAppVersion, help, helpEx, terminate, printCLIOptions, printCommandLineArguments } from '../../utils-app';
 import chalk from 'chalk';
 
 export function getCLIVerifiedArguments(): AppOptions {
@@ -9,14 +9,14 @@ export function getCLIVerifiedArguments(): AppOptions {
 
     console.log(chalk.gray(`Working directory: ${process.cwd()}`));
 
+    if (process.argv.length === 3) {
+        printCommandLineArguments();
+        terminate(`Too few options. Likely you wrap your arguments with double quotes (").`);
+    }
+
     const argOptions = commandLineArgs(cliOptionsDefinitions, { stopAtFirstUnknown: true }) as CLIOptions;
 
     checkHelpCall(argOptions);
-
-    if (process.argv.length === 3) {
-        printCommandLineArguments();
-        terminate(`Too few options. Likely you wrap your options with double quotes (").`);
-    }
 
     removeDoubleQuotes(argOptions);
 
@@ -33,14 +33,6 @@ export function getCLIVerifiedArguments(): AppOptions {
 
     const rv: AppOptions = validate(validateOptions);
     return rv;
-}
-
-function printCommandLineArguments() {
-    console.log(chalk.cyan(`\nCommand line arguments: \n${process.argv.map((str,idx)=>`    ${idx}: ${str}`).join('\n')}`));
-}
-
-function printCLIOptions(cliOptions: CLIOptions) {
-    console.log(chalk.cyan('\nargOptions = \n'), JSON.stringify(cliOptions, null, 4), '\n');
 }
 
 function removeDoubleQuotes(argOptions: CLIOptions) {
