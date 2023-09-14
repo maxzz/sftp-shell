@@ -25,6 +25,7 @@
         "@types/command-line-args": "^5.2.0",
         "@types/command-line-usage": "^5.0.2",
         "@types/node": "20.5.7",
+        "@types/ssh2": "^1.11.13",
         "@types/ssh2-sftp-client": "^9.0.0",
         "esbuild": "0.19.2",
         "esbuild-native-node-modules-plugin": "^1.0.3",
@@ -47,8 +48,8 @@
         "dev": "tsc -w",
         "step:make:es": "node esbuild.cjs",
         "step:makebin": "pkg --targets latest -o dist/sshell build-es/index.js",
-        "build:exe": "yarn step:make:es && yarn step:makebin",
+        "build:exe": "pnpm step:make:es && pnpm step:makebin",
         "build:lib": "rollup -c --bundleConfigAsCjs",
-        "build": "yarn build:lib && yarn build:exe"
+        "build": "pnpm build:lib && pnpm build:exe"
     }
 }
