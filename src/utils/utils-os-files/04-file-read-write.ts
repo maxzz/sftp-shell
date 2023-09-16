@@ -12,7 +12,7 @@ export function readSyncJson(fname: string): any {
     }
 }
 
-export function writeSyncJson(fname: string, obj: any): void {
+export function writeSyncJson(fname: string, obj: {}): void {
     try {
         makeDirSync(path.dirname(fname));
         fs.writeFileSync(fname, JSON.stringify(obj, null, 4));
