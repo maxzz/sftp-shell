@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import { makeDirSync } from './03-makeDirSync';
 
-export function readSyncJson(fname: string): any {
+export function readJsonSync(fname: string): any {
     try {
         const cnt = fs.readFileSync(fname).toString();
         return JSON.parse(cnt);
@@ -12,7 +12,7 @@ export function readSyncJson(fname: string): any {
     }
 }
 
-export function writeSyncJson(fname: string, obj: {}): void {
+export function writeJsonSync(fname: string, obj: {}): void {
     try {
         makeDirSync(path.dirname(fname));
         fs.writeFileSync(fname, JSON.stringify(obj, null, 4));
