@@ -13,7 +13,7 @@ export function readSyncJson5(fname: string): any {
     }
 }
 
-export function writeSyncJson5(fname: string, obj: any): void {
+export function writeSyncJson5(fname: string, obj: {}): void {
     try {
         makeDirSync(path.dirname(fname));
         fs.writeFileSync(fname, JSON5.stringify(obj, null, 4));
