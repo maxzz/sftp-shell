@@ -1,5 +1,6 @@
 export * from './03-makeDirSync';
 export * from './04-file-read-write';
+export * from './04-file-read-write';
 export * from './05-file-copy';
 export * from './07-exist';
 export * from './08-to-window-unix';
