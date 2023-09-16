@@ -14,7 +14,7 @@ function mkdirRecursively(dist: string): void {
     }
 }
 
-export function mkDirSync(name: string): void {
+export function makeDirSync(name: string): void {
     try {
         mkdirRecursively(name);
     } catch (error) {

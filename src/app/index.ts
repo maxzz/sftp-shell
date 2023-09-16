@@ -3,7 +3,7 @@ import fs from 'fs';
 import Client from 'ssh2-sftp-client';
 import { OP, Operation, AppOptions, Aliases } from '../types';
 import { printLoopCurrentOp, printLoopEnd, printLoopStart, printLoopEndError, printOnConnectionClosed, printAppDone } from '../utils-app';
-import { formatDeep, mkDirSync } from '../utils';
+import { formatDeep, makeDirSync } from '../utils';
 
 export async function processSftp(appOptions: AppOptions) {
     const sftpClient = new Client();
@@ -26,13 +26,13 @@ export async function processSftp(appOptions: AppOptions) {
                     break;
                 }
                 case OP.download: {
-                    mkDirSync(path.dirname(item.local));
+                    makeDirSync(path.dirname(item.local));
                     await sftpClient.fastGet(item.remote, item.local);
                     break;
                 }
                 case OP.list: {
                     const list = await sftpClient.list(item.remote);
-                    mkDirSync(path.dirname(item.local));
+                    makeDirSync(path.dirname(item.local));
                     fs.writeFileSync(item.local, JSON.stringify(list, null, 4));
                     break;
                 }
